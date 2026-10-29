@@ -40,7 +40,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-s
 .btn-edit-gold{background:var(--aya-dorado);color:#fff;border:none}
 .btn-edit-gold:hover{background:#b89b5f}
 
-/* ====== Sync status indicator ====== */
 .sync-status{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;color:#fff;background:rgba(255,255,255,.1);padding:5px 12px;border-radius:20px;border:1px solid rgba(255,255,255,.2);transition:all .2s;cursor:pointer;font-weight:600;letter-spacing:.2px;user-select:none}
 .sync-status:hover{background:rgba(255,255,255,.18)}
 .sync-status .sync-dot{width:8px;height:8px;border-radius:50%;background:#f39c12;display:inline-block;transition:background .2s;flex-shrink:0}
@@ -50,7 +49,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-s
 .sync-status.offline .sync-dot{background:#95a5a6}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
 
-/* ====== Loading overlay ====== */
 .loading-overlay{position:fixed;inset:0;background:rgba(245,246,250,.96);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;transition:opacity .3s}
 .loading-overlay.hidden{display:none}
 .loading-spinner{width:48px;height:48px;border:4px solid #E0E3EB;border-top-color:#1B294E;border-radius:50%;animation:spin 1s linear infinite}
@@ -153,6 +151,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-s
 .view-table tbody td.diff-changed-cell:first-child{border-left:3px solid #e74c3c}
 .diff-legend{font-size:11.5px;background:#fff3f3;border-left:3px solid #e74c3c;padding:8px 12px;border-radius:4px;margin-bottom:12px;color:#721c24;line-height:1.4}
 .diff-legend strong{color:#c0392b}
+
+/* NUEVO: indicadores de terrenos no computables */
+.land-non-computable{background:#fffbf0 !important}
+.land-badge-nc{display:inline-block;font-size:9.5px;font-weight:700;padding:2px 7px;border-radius:8px;background:#f39c12;color:#fff;margin-left:6px;letter-spacing:.4px;vertical-align:middle;white-space:nowrap}
+.land-badge-nc-view{font-size:9px;padding:1px 6px;margin-left:5px}
 
 .tabs{display:flex;background:var(--aya-fondo-claro);border-bottom:1px solid var(--aya-gris);overflow-x:auto}
 .tab{padding:12px 16px;background:none;border:none;cursor:pointer;font-weight:600;color:#666;font-size:13px;border-bottom:3px solid transparent;white-space:nowrap;font-family:inherit}
@@ -279,6 +282,8 @@ td input::placeholder{color:#bbb;font-style:italic}
 .view-table tbody td{padding:7px 8px;border-bottom:1px solid var(--aya-gris);vertical-align:middle}
 .view-table tbody tr:nth-child(even){background:#fafbfc}
 .view-table tbody tr:hover{background:var(--aya-fondo-claro)}
+.view-table tbody tr.land-non-computable{background:#fffbf0}
+.view-table tbody tr.land-non-computable:nth-child(even){background:#fffbf0}
 .view-table tfoot td{padding:9px 8px;border-top:2px solid var(--aya-dorado);background:var(--aya-fondo-claro);font-weight:700}
 .view-table-wrap{overflow-x:auto;margin-top:4px}
 .aggregated-note{font-size:11px;color:#856404;background:#fffbe6;border-left:3px solid var(--aya-amarillo);padding:6px 10px;border-radius:4px;margin-top:8px;font-style:italic}
@@ -472,7 +477,6 @@ const SUPABASE_URL = 'https://jgeprdehntvjykpqycxe.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_KRtl61gHhxOcJjo3fPJpqw_k4oubYWG';
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// Snapshot del último estado sincronizado por id (id -> JSON hash)
 const lastSynced = new Map();
 let syncTimer = null;
 let syncInProgress = false;
@@ -543,7 +547,6 @@ async function syncToSupabase(){
     }
   }
 }
-/* ========================================================= */
 
 const STAGES = {
   preinversion: [
@@ -575,6 +578,9 @@ const FUNDS = [
   { key:'transferidos', label:'Fondos Transferidos' },
   { key:'porAsignar',   label:'Por Asignar' }
 ];
+
+/* Figuras que NO se suman a la programación financiera */
+const FIGURAS_NO_COMPUTABLES = ['Convenio', 'Donación'];
 
 const CR_LOC = {
   "San José": {
@@ -873,9 +879,6 @@ function bindDateInputs(container){
   });
 }
 
-/* =========================================================
-   Carga y guardado (Supabase + caché local)
-========================================================= */
 async function load(){
   updateSyncStatus('saving', 'Cargando datos...');
   try {
@@ -889,7 +892,6 @@ async function load(){
     });
 
     if (remoteProjects.length === 0){
-      // Intentar migrar de localStorage a Supabase la primera vez
       let localProjects = [];
       try { localProjects = JSON.parse(localStorage.getItem('aya_projects') || '[]'); } catch {}
       if (localProjects.length > 0){
@@ -904,7 +906,6 @@ async function load(){
 
     state.projects = remoteProjects;
     state.projects.forEach(migrateProject);
-    // Snapshot: guardamos el hash actual para no reenviar lo que no cambió
     state.projects.forEach(p => lastSynced.set(p.id, projectHash(p)));
     updateSyncStatus('ok');
   } catch (e){
@@ -954,10 +955,8 @@ function migrateProject(p){
 }
 
 function save(){
-  // Caché local (siempre)
   try { localStorage.setItem('aya_projects', JSON.stringify(state.projects)); }
   catch (e){ console.warn('localStorage no disponible o lleno:', e); }
-  // Sincronización a Supabase (debounced)
   scheduleSync();
 }
 
@@ -1003,11 +1002,35 @@ function getCurrentEtapas(p){
   }
   return out;
 }
-function getLandTotal(p){ return (p.lands||[]).reduce((s,l) => s + (Number(l.avaluo)||0), 0); }
-function getLandForYear(p, year){
-  return (p.lands||[]).filter(l => l.fechaEst && l.fechaEst.startsWith(String(year)))
+
+/* =========================================================
+   TERRENOS: solo los computables suman a la programación financiera
+   Convenio y Donación NO se suman, aunque tengan avalúo
+========================================================= */
+function isLandComputable(land){
+  if (!land) return false;
+  return !FIGURAS_NO_COMPUTABLES.includes(land.figure);
+}
+function getLandTotal(p){
+  return (p.lands||[])
+    .filter(isLandComputable)
     .reduce((s,l) => s + (Number(l.avaluo)||0), 0);
 }
+function getLandRawTotal(p){
+  return (p.lands||[]).reduce((s,l) => s + (Number(l.avaluo)||0), 0);
+}
+function getLandNonComputableTotal(p){
+  return (p.lands||[])
+    .filter(l => !isLandComputable(l))
+    .reduce((s,l) => s + (Number(l.avaluo)||0), 0);
+}
+function getLandForYear(p, year){
+  return (p.lands||[])
+    .filter(isLandComputable)
+    .filter(l => l.fechaEst && l.fechaEst.startsWith(String(year)))
+    .reduce((s,l) => s + (Number(l.avaluo)||0), 0);
+}
+
 function getFinancialManualTotals(p){
   const t = { propios:0, especificos:0, transferidos:0, porAsignar:0, total:0 };
   (p.financial||[]).forEach(f => {
@@ -1718,8 +1741,11 @@ function buildEtapasTableHTML(p, diff){
   html += `</tbody></table></div>`;
   return html;
 }
+
 function buildLandsTableHTML(p, diff){
-  const landTotal = getLandTotal(p);
+  const landComputable = getLandTotal(p);
+  const landRaw = getLandRawTotal(p);
+  const landNC = getLandNonComputableTotal(p);
   const ld = (diff && diff.lands) || { rows: {}, wholeSection: false };
   const cell = (idx, field) => {
     if (ld.wholeSection) return ' class="diff-changed-cell"';
@@ -1737,10 +1763,13 @@ function buildLandsTableHTML(p, diff){
     html += `<tr><td colspan="6" style="text-align:center;color:#888;padding:20px">Sin registros</td></tr>`;
   } else {
     p.lands.forEach((l, i) => {
-      html += `<tr>
+      const nc = !isLandComputable(l);
+      const trCls = nc ? 'land-non-computable' : '';
+      const badge = nc ? '<span class="land-badge-nc land-badge-nc-view" title="Esta figura no suma a la programación financiera">NO COMPUTA</span>' : '';
+      html += `<tr${trCls ? ` class="${trCls}"` : ''}>
         <td${cell(i,'type')} style="text-transform:capitalize">${escapeHtml(l.type)}</td>
         <td${cell(i,'finalidad')}>${escapeHtml(l.finalidad) || '—'}</td>
-        <td${cell(i,'figure')}>${escapeHtml(l.figure)}</td>
+        <td${cell(i,'figure')}>${escapeHtml(l.figure)}${badge}</td>
         <td${cell(i,'avaluo')} style="text-align:right;font-weight:600">${fmtCRC(l.avaluo)}</td>
         <td${cell(i,'fechaEst')}>${fmtDate(l.fechaEst)}</td>
         <td${cell(i,'fechaReal')}>${fmtDate(l.fechaReal)}</td>
@@ -1748,10 +1777,13 @@ function buildLandsTableHTML(p, diff){
     });
   }
   html += `</tbody><tfoot>
-    <tr><td colspan="3">Total Terrenos y Servidumbres</td><td style="text-align:right">${fmtCRC(landTotal)}</td><td colspan="2"></td></tr>
+    <tr><td colspan="3">Total Avalúo (todos)</td><td style="text-align:right">${fmtCRC(landRaw)}</td><td colspan="2"></td></tr>
+    <tr><td colspan="3">Excluido (Convenio/Donación)</td><td style="text-align:right;color:#856404">${fmtCRC(landNC)}</td><td colspan="2"></td></tr>
+    <tr><td colspan="3"><strong>Monto Computable (va a financiero)</strong></td><td style="text-align:right"><strong>${fmtCRC(landComputable)}</strong></td><td colspan="2"></td></tr>
   </tfoot></table></div>`;
   return html;
 }
+
 function buildFinancialTableHTML(p, diff){
   const info = getFinancialViewInfo(p);
   const years = info.years;
@@ -1794,7 +1826,7 @@ function buildFinancialTableHTML(p, diff){
     </tr>`;
   });
   html += `<tr>
-    <td style="font-style:italic;color:#856404">Terrenos (auto → Propios)</td>
+    <td style="font-style:italic;color:#856404">Terrenos computables (auto → Propios)</td>
     ${years.map(y => `<td${cellLand(y)} style="text-align:right;font-style:italic;color:#856404">${fmtCell(landForYearView(p, y, info))}</td>`).join('')}
     <td style="text-align:right;font-style:italic;color:#856404">${fmtCRC(landTotal)}</td>
   </tr>`;
@@ -1949,6 +1981,7 @@ function openViewModal(id, versionIndex = 0){
   const loc = locationsToString(p);
   const tot = getFinancialManualTotals(p);
   const landTotal = getLandTotal(p);
+  const landNC = getLandNonComputableTotal(p);
   const global = tot.total + landTotal;
 
   const sortByPriority = (a,b) => { const o={Alta:0,Media:1,Baja:2}; return (o[a.priority]??3)-(o[b.priority]??3); };
@@ -2027,7 +2060,10 @@ function openViewModal(id, versionIndex = 0){
       <div class="kpi-card">
         <div class="kpi-label">Monto Global</div>
         <div class="kpi-value" style="font-size:15px">${fmtCRC(global)}</div>
-        <div style="font-size:11px;color:#666;margin-top:4px">Obras: ${fmtCRC(tot.total)}<br>Terrenos: ${fmtCRC(landTotal)}</div>
+        <div style="font-size:11px;color:#666;margin-top:4px">
+          Obras: ${fmtCRC(tot.total)}<br>
+          Terrenos: ${fmtCRC(landTotal)}${landNC > 0 ? `<br><span style="color:#856404">Excluido Conv./Don.: ${fmtCRC(landNC)}</span>` : ''}
+        </div>
       </div>
     </div>
     <div class="view-main">
@@ -2055,7 +2091,8 @@ function openViewModal(id, versionIndex = 0){
           <h3>Resumen Financiero</h3>
           <table style="font-size:12px"><tbody>
             <tr><td>Monto de Obras</td><td style="text-align:right;font-weight:700">${fmtCRC(tot.total)}</td></tr>
-            <tr><td>Monto de Terrenos</td><td style="text-align:right;font-weight:700">${fmtCRC(landTotal)}</td></tr>
+            <tr><td>Monto de Terrenos (computable)</td><td style="text-align:right;font-weight:700">${fmtCRC(landTotal)}</td></tr>
+            ${landNC > 0 ? `<tr><td style="color:#856404;font-size:11px;font-style:italic">Excluido Convenio/Donación</td><td style="text-align:right;color:#856404;font-size:11px;font-style:italic">${fmtCRC(landNC)}</td></tr>` : ''}
             <tr style="background:var(--aya-fondo-claro)"><td><strong>Monto Global</strong></td><td style="text-align:right;font-weight:700;color:var(--aya-azul)">${fmtCRC(global)}</td></tr>
           </tbody></table>
         </div>
@@ -2272,7 +2309,8 @@ function renderGeneralTab(p){
     </div>
     <div class="summary-box">
       <div class="row-s"><span><strong>Monto Obras (auto):</strong></span><span>${fmtCRC(getMontoObras(p))}</span></div>
-      <div class="row-s"><span><strong>Monto Terrenos (auto):</strong></span><span>${fmtCRC(getLandTotal(p))}</span></div>
+      <div class="row-s"><span><strong>Monto Terrenos (computable):</strong></span><span>${fmtCRC(getLandTotal(p))}</span></div>
+      ${getLandNonComputableTotal(p) > 0 ? `<div class="row-s"><span><em style="color:#856404">Excluido (Convenio/Donación):</em></span><span style="color:#856404">${fmtCRC(getLandNonComputableTotal(p))}</span></div>` : ''}
       <div class="row-s" style="border-top:1px solid #ccc;margin-top:6px;padding-top:6px"><span><strong>Monto Global:</strong></span><span><strong>${fmtCRC(getMontoGlobal(p))}</strong></span></div>
     </div>
     <datalist id="leadersList">
@@ -2730,15 +2768,20 @@ function buildProgrammedList(p, which, body){
 
 function renderTerrenosTab(p){
   const wrap = document.createElement('div');
-  const total = getLandTotal(p);
+  const totalComputable = getLandTotal(p);
+  const totalRaw = getLandRawTotal(p);
+  const totalNC = getLandNonComputableTotal(p);
   wrap.innerHTML = `
     <div class="section-title">Terrenos y Servidumbres</div>
+    <div class="hint" style="margin-bottom:10px">
+      Los registros con figura <strong>Convenio</strong> o <strong>Donación</strong> se marcan como <span class="land-badge-nc">NO COMPUTA</span> y su avalúo <strong>no se suma</strong> a la programación financiera, aunque se registre el monto.
+    </div>
     <table>
       <thead><tr>
         <th style="width:110px">Tipo</th>
         <th style="width:160px">Finalidad</th>
         <th>Figura</th>
-        <th style="width:130px">Monto Avalúo</th>
+        <th style="width:170px">Monto Avalúo</th>
         <th style="width:150px">Fecha Est.</th>
         <th style="width:150px">Fecha Real</th>
         <th style="width:45px"></th>
@@ -2747,8 +2790,10 @@ function renderTerrenosTab(p){
     </table>
     <button class="btn btn-sm add-row-btn" id="addLand">+ Agregar Terreno / Servidumbre</button>
     <div class="summary-box" style="margin-top:16px">
-      <div class="row-s"><span><strong>Total Terrenos y Servidumbres:</strong></span><span><strong>${fmtCRC(total)}</strong></span></div>
-      <div class="hint">El monto se agrega automáticamente como Fondos Propios en el año indicado por la fecha estimada.</div>
+      <div class="row-s"><span>Total Avalúo (todos):</span><span>${fmtCRC(totalRaw)}</span></div>
+      <div class="row-s"><span>Excluido (Convenio/Donación):</span><span style="color:#856404">${fmtCRC(totalNC)}</span></div>
+      <div class="row-s" style="border-top:1px solid #ccc;margin-top:6px;padding-top:6px"><strong>Monto Computable (va a financiero):</strong><strong>${fmtCRC(totalComputable)}</strong></div>
+      <div class="hint">El monto computable se agrega automáticamente como Fondos Propios en el año indicado por la fecha estimada.</div>
     </div>
   `;
   const body = wrap.querySelector('#landBody');
@@ -2756,7 +2801,10 @@ function renderTerrenosTab(p){
     body.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#888">Sin registros.</td></tr>';
   } else {
     p.lands.forEach((l, i) => {
+      const nc = !isLandComputable(l);
       const tr = document.createElement('tr');
+      if (nc) tr.className = 'land-non-computable';
+      const badge = nc ? '<span class="land-badge-nc" title="Esta figura no suma a la programación financiera">NO COMPUTA</span>' : '';
       tr.innerHTML = `
         <td><select data-idx="${i}" data-field="type">
           <option value="terreno" ${l.type==='terreno'?'selected':''}>Terreno</option>
@@ -2765,7 +2813,7 @@ function renderTerrenosTab(p){
         <td><input type="text" data-idx="${i}" data-field="finalidad" value="${escapeHtml(l.finalidad||'')}" placeholder="Ej: Tanque"></td>
         <td><select data-idx="${i}" data-field="figure">
           ${FIGURAS.map(f => `<option ${l.figure===f?'selected':''}>${f}</option>`).join('')}
-        </select></td>
+        </select>${badge}</td>
         <td><div class="money-input"><input type="text" data-idx="${i}" data-field="avaluo" value="${l.avaluo?fmtNumber(l.avaluo):''}"></div></td>
         <td>${dateInputHTML('land-fe-'+i, l.fechaEst||'')}</td>
         <td>${dateInputHTML('land-fr-'+i, l.fechaReal||'')}</td>
@@ -2809,6 +2857,7 @@ function renderFinancieroTab(p){
   const years = getYears(p);
   const autoYears = new Set(getAutoYearsFromEtapas(p));
   const landTotal = getLandTotal(p);
+  const landNC = getLandNonComputableTotal(p);
   const tot = getFinancialManualTotals(p);
   const grandTotal = tot.total + landTotal;
 
@@ -2849,7 +2898,7 @@ function renderFinancieroTab(p){
   `).join('');
 
   const landRowHtml = `<tr>
-    <td class="row-label">Terrenos (auto → Propios)</td>
+    <td class="row-label">Terrenos computables (auto → Propios)</td>
     ${years.map((y, i) => `<td class="auto-cell" style="min-width:${yearColWidths[i]}px">${getLandForYear(p, y) > 0 ? fmtCRC(getLandForYear(p, y)) : '—'}</td>`).join('')}
     <td class="auto-cell">${fmtCRC(landTotal)}</td>
   </tr>`;
@@ -2871,12 +2920,12 @@ function renderFinancieroTab(p){
       <button class="btn btn-sm btn-primary" id="addYearBtn">+ Agregar Columna de Año</button>
       <span class="hint" style="margin-left:auto;margin-top:0">${years.length} año(s)</span>
     </div>
-    <div class="hint" style="margin-bottom:10px">Los años con "auto" provienen automáticamente del cronograma de etapas activas (incluye todos los años intermedios entre inicio y fin). Los años manuales se eliminan con "×" en la celda.</div>
+    <div class="hint" style="margin-bottom:10px">Los años con "auto" provienen automáticamente del cronograma de etapas activas (incluye todos los años intermedios entre inicio y fin). Los años manuales se eliminan con "×" en la celda. Los terrenos con figura Convenio o Donación no se incluyen en el monto computable.</div>
     ${years.length === 0 ? '<p style="text-align:center;color:#888;padding:20px">Aún no hay años. Active etapas con fechas o agregue un año manualmente.</p>' : `
     <div class="fin-scroll" id="finScrollContainer">
       <table class="fin-table">
         <thead><tr>
-          <th style="min-width:180px">Fondo / Año</th>
+          <th style="min-width:220px">Fondo / Año</th>
           ${yearHeaders}
           <th style="min-width:130px">TOTAL</th>
         </tr></thead>
@@ -2892,7 +2941,8 @@ function renderFinancieroTab(p){
       <div class="row-s"><span>Fondos Transferidos:</span><span>${fmtCRC(tot.transferidos)}</span></div>
       <div class="row-s"><span>Por Asignar:</span><span>${fmtCRC(tot.porAsignar)}</span></div>
       <div class="row-s" style="border-top:1px solid #ccc;margin-top:6px;padding-top:6px"><strong>Monto de Obras:</strong><strong>${fmtCRC(tot.total)}</strong></div>
-      <div class="row-s"><strong>Monto de Terrenos:</strong><strong>${fmtCRC(landTotal)}</strong></div>
+      <div class="row-s"><strong>Monto de Terrenos (computable):</strong><strong>${fmtCRC(landTotal)}</strong></div>
+      ${landNC > 0 ? `<div class="row-s"><em style="color:#856404">Excluido Convenio/Donación:</em><em style="color:#856404">${fmtCRC(landNC)}</em></div>` : ''}
       <div class="row-s" style="border-top:2px solid var(--aya-dorado);margin-top:6px;padding-top:6px;font-size:15px"><strong>MONTO GLOBAL:</strong><strong>${fmtCRC(grandTotal)}</strong></div>
     </div>
   `;
@@ -2956,6 +3006,7 @@ function renderProjectHTML(p, forPrint, options = {}){
   const { isDOC = false, imgDims = null } = options;
   const tot = getFinancialManualTotals(p);
   const landTotal = getLandTotal(p);
+  const landNC = getLandNonComputableTotal(p);
   const global = tot.total + landTotal;
   const spi = calcSPI(p);
   const spiTxt = spi === null ? 'N/D' : spi.toFixed(2);
@@ -3110,18 +3161,23 @@ function renderProjectHTML(p, forPrint, options = {}){
   }
 
   html += subtitle('Terrenos y Servidumbres');
+  html += `<p style="font-size:10pt;color:#856404;font-style:italic;margin:3px 0 6px;">
+    Nota: los registros con figura Convenio o Donación no se suman a la programación financiera.
+  </p>`;
   html += `<table style="${styleTable}"><thead><tr>
     <th style="${styleTh}">Tipo</th><th style="${styleTh}">Finalidad</th><th style="${styleTh}">Figura</th><th style="${styleTh}">Avalúo</th>
     <th style="${styleTh}">Fecha Est.</th><th style="${styleTh}">Fecha Real</th></tr></thead><tbody>`;
   if (!p.lands?.length) html += `<tr><td colspan="6" style="${styleTd};text-align:center;color:#888">Sin registros</td></tr>`;
   else p.lands.forEach(l => {
-    html += `<tr><td style="${styleTd}">${l.type}</td><td style="${styleTd}">${escapeHtml(l.finalidad)||'—'}</td><td style="${styleTd}">${l.figure}</td>
+    const nc = !isLandComputable(l);
+    const ncTxt = nc ? ' <em style="color:#856404;font-size:9pt">(no computa)</em>' : '';
+    html += `<tr><td style="${styleTd}">${l.type}</td><td style="${styleTd}">${escapeHtml(l.finalidad)||'—'}</td><td style="${styleTd}">${l.figure}${ncTxt}</td>
       <td style="${styleTd};text-align:right">${fmtCRC(l.avaluo)}</td>
       <td style="${styleTd}">${fmtDate(l.fechaEst)}</td>
       <td style="${styleTd}">${fmtDate(l.fechaReal)}</td></tr>`;
   });
   html += `</tbody></table>`;
-  html += `<p style="text-align:right;font-weight:700;font-size:12pt;margin:8px 0">Total Terrenos: ${fmtCRC(landTotal)}</p>`;
+  html += `<p style="text-align:right;font-weight:700;font-size:12pt;margin:8px 0">Total Terrenos (computable): ${fmtCRC(landTotal)}${landNC > 0 ? ` <span style="color:#856404;font-weight:400;font-size:10pt">— Excluido Conv./Don.: ${fmtCRC(landNC)}</span>` : ''}</p>`;
 
   html += subtitle('Programación Financiera');
   if (years.length === 0){
@@ -3138,7 +3194,7 @@ function renderProjectHTML(p, forPrint, options = {}){
       years.forEach(y => { html += `<td style="${styleTd};text-align:right">${fmtCell(fundForYearView(p, y, f.key, info))}</td>`; });
       html += `<td style="${styleTd};text-align:right;font-weight:700">${fmtCRC(tot[f.key])}</td></tr>`;
     });
-    html += `<tr><td style="${styleTd}"><em>Terrenos (auto → Propios)</em></td>`;
+    html += `<tr><td style="${styleTd}"><em>Terrenos computables (auto → Propios)</em></td>`;
     years.forEach(y => { html += `<td style="${styleTd};text-align:right">${fmtCell(landForYearView(p, y, info))}</td>`; });
     html += `<td style="${styleTd};text-align:right">${fmtCRC(landTotal)}</td></tr>`;
     html += `<tr style="background:#F5F6FA"><td style="${styleTd}"><strong>Total por año</strong></td>`;
@@ -3156,7 +3212,8 @@ function renderProjectHTML(p, forPrint, options = {}){
   html += subtitle('Resumen Financiero');
   html += `<table style="${styleTable}"><tbody>
     <tr><td style="${styleTd}"><strong>Monto de Obras</strong></td><td style="${styleTd};text-align:right">${fmtCRC(tot.total)}</td></tr>
-    <tr><td style="${styleTd}"><strong>Monto de Terrenos</strong></td><td style="${styleTd};text-align:right">${fmtCRC(landTotal)}</td></tr>
+    <tr><td style="${styleTd}"><strong>Monto de Terrenos (computable)</strong></td><td style="${styleTd};text-align:right">${fmtCRC(landTotal)}</td></tr>
+    ${landNC > 0 ? `<tr><td style="${styleTd}"><em style="color:#856404">Excluido Convenio/Donación</em></td><td style="${styleTd};text-align:right;color:#856404"><em>${fmtCRC(landNC)}</em></td></tr>` : ''}
     <tr style="background:#F5F6FA"><td style="${styleTd}"><strong>MONTO GLOBAL DEL PROYECTO</strong></td><td style="${styleTd};text-align:right"><strong>${fmtCRC(global)}</strong></td></tr>
     <tr><td style="${styleTd}"><strong>SPI (al día de hoy)</strong></td><td style="${styleTd};text-align:right">${spiTxt}</td></tr>
   </tbody></table>`;
@@ -3293,6 +3350,7 @@ function safeSheet(s){ return (s||'').replace(/[\\\/\?\*\[\]:]/g,'').slice(0,31)
 function addProjectConsolidatedSheet(wb, project, prefix=''){
   const tot = getFinancialManualTotals(project);
   const landTotal = getLandTotal(project);
+  const landNC = getLandNonComputableTotal(project);
   const spi = calcSPI(project);
   const info = getFinancialViewInfo(project);
   const years = info.years;
@@ -3318,8 +3376,9 @@ function addProjectConsolidatedSheet(wb, project, prefix=''){
   rows.push(['SPI', spi === null ? 'N/D' : spi.toFixed(2)]);
   rows.push(['Avance Global (%)', getAvanceGlobal(project).toFixed(1)]);
   rows.push(['Monto Obras', getMontoObras(project)]);
-  rows.push(['Monto Terrenos', landTotal]);
+  rows.push(['Monto Terrenos (computable)', landTotal]);
   rows.push(['Monto Global', getMontoGlobal(project)]);
+  if (landNC > 0) rows.push(['Excluido Convenio/Donación', landNC]);
   rows.push(['Etapas actuales', currents.map(c => FASE_LABEL[c.fase]+' / '+c.label+' ('+c.progress+'%)').join('; ') || '—']);
   rows.push([]);
 
@@ -3379,10 +3438,12 @@ function addProjectConsolidatedSheet(wb, project, prefix=''){
   rows.push([]);
 
   rows.push(['TERRENOS Y SERVIDUMBRES']);
-  rows.push(['Tipo','Finalidad','Figura','Avalúo','Fecha Est.','Fecha Real']);
-  if (!project.lands?.length) rows.push(['Sin registros','','','','','']);
-  else project.lands.forEach(l => rows.push([l.type, l.finalidad||'—', l.figure, Number(l.avaluo)||0, fmtDate(l.fechaEst), fmtDate(l.fechaReal)]));
-  rows.push(['','','TOTAL', landTotal,'','']);
+  rows.push(['Tipo','Finalidad','Figura','Avalúo','Computa','Fecha Est.','Fecha Real']);
+  if (!project.lands?.length) rows.push(['Sin registros','','','','','','']);
+  else project.lands.forEach(l => rows.push([l.type, l.finalidad||'—', l.figure, Number(l.avaluo)||0, isLandComputable(l) ? 'Sí' : 'No', fmtDate(l.fechaEst), fmtDate(l.fechaReal)]));
+  rows.push(['','','Total Avalúo (todos)', getLandRawTotal(project),'','','']);
+  rows.push(['','','Total Computable', landTotal,'','','']);
+  if (landNC > 0) rows.push(['','','Excluido Conv./Don.', landNC,'','','']);
   rows.push([]);
 
   rows.push(['PROGRAMACIÓN FINANCIERA']);
@@ -3400,7 +3461,7 @@ function addProjectConsolidatedSheet(wb, project, prefix=''){
       row.push(tot[f.key]);
       rows.push(row);
     });
-    const landRow = ['Terrenos (auto → Propios)'];
+    const landRow = ['Terrenos computables (auto → Propios)'];
     years.forEach(y => landRow.push(landForYearView(project, y, info)));
     landRow.push(landTotal);
     rows.push(landRow);
@@ -3430,7 +3491,7 @@ function exportXLS(project){
 
 function exportXLSBulk(projects){
   const wb = XLSX.utils.book_new();
-  const resumen = [['Proyecto','BPIP','Categoría','Código Sistema','Población Beneficiada','Líder','Ubicaciones','Etapa Actual','Avance (%)','SPI','Monto Obras','Monto Terrenos','Monto Global']];
+  const resumen = [['Proyecto','BPIP','Categoría','Código Sistema','Población Beneficiada','Líder','Ubicaciones','Etapa Actual','Avance (%)','SPI','Monto Obras','Monto Terrenos (computable)','Monto Global']];
   projects.forEach(p => {
     const currents = getCurrentEtapas(p);
     const spi = calcSPI(p);
@@ -3525,7 +3586,7 @@ function buildFinancieroTableForPPTX(project, BLUE, WHITE, tot, landTotal, globa
     r.push({ text: fmtCRC(tot[f.key]), options:{align:'right', bold:true} });
     rows.push(r);
   });
-  const landR = [{ text:'Terrenos (auto → Propios)', options:{italic:true} }];
+  const landR = [{ text:'Terrenos computables (auto → Propios)', options:{italic:true} }];
   years.forEach(y => landR.push({ text: fmtCell(landForYearView(project,y,info)), options:{align:'right', italic:true} }));
   landR.push({ text: fmtCRC(landTotal), options:{align:'right', italic:true} });
   rows.push(landR);
@@ -3550,10 +3611,12 @@ function buildTerrenosTableForPPTX(project, BLUE, WHITE, landTotal){
   ]];
   const lands = project.lands || [];
   lands.forEach(l => {
-    rows.push([l.type, l.finalidad||'—', l.figure, fmtCRC(l.avaluo), fmtDate(l.fechaEst), fmtDate(l.fechaReal)]);
+    const nc = !isLandComputable(l);
+    const figTxt = l.figure + (nc ? ' (no computa)' : '');
+    rows.push([l.type, l.finalidad||'—', figTxt, fmtCRC(l.avaluo), fmtDate(l.fechaEst), fmtDate(l.fechaReal)]);
   });
   rows.push([
-    { text:'TOTAL', options:{bold:true} }, '', '',
+    { text:'TOTAL COMPUTABLE', options:{bold:true} }, '', '',
     { text: fmtCRC(landTotal), options:{bold:true, align:'right'} }, '', ''
   ]);
   return rows;
@@ -3571,6 +3634,7 @@ async function addProjectSlidesToPPTX(pptx, project){
   const BLUE = '1B294E', GOLD = 'C9AD6E', WHITE = 'FFFFFF', LIGHT = 'F5F6FA', GRAY = '666666', DARK = '002060';
   const tot = getFinancialManualTotals(project);
   const landTotal = getLandTotal(project);
+  const landNC = getLandNonComputableTotal(project);
   const global = tot.total + landTotal;
   const spi = calcSPI(project);
   const loc = locationsToString(project);
@@ -3603,7 +3667,7 @@ async function addProjectSlidesToPPTX(pptx, project){
   const kpis = [
     { label:'SPI',           value: spi === null ? 'N/D' : spi.toFixed(2), sub: spiLabel(spi), color: spiColor },
     { label:'AVANCE GLOBAL', value: avance.toFixed(1)+'%', sub:'Ponderado por peso de etapa', color: GOLD },
-    { label:'MONTO GLOBAL',  value: fmtCRC(global), sub:`Obras: ${fmtCRC(tot.total)}  |  Terrenos: ${fmtCRC(landTotal)}`, color: GOLD }
+    { label:'MONTO GLOBAL',  value: fmtCRC(global), sub:`Obras: ${fmtCRC(tot.total)}  |  Terr.: ${fmtCRC(landTotal)}${landNC>0?` (exc. ${fmtCRC(landNC)})`:''}`, color: GOLD }
   ];
   kpis.forEach((k,i)=>{
     const x = 0.5 + i*4.15;
@@ -3838,11 +3902,16 @@ async function addProjectSlidesToPPTX(pptx, project){
     const landY = computeCenteredY(landRows.length, 13, 1.25, 7.3);
     s8.addTable(landRows, {
       x: 0.4, y: landY, w: 12.53,
-      colW: [1.7, 2.1, 2.1, 2.3, 2.2, 2.13],
+      colW: [1.7, 2.1, 2.4, 2.3, 2.0, 2.03],
       fontSize: 13,
       border: { pt:1, color:'CCCCCC' },
       valign: 'middle'
     });
+    if (landNC > 0){
+      s8.addText(`Nota: los registros con figura Convenio o Donación no se suman a la programación financiera. Excluido: ${fmtCRC(landNC)}`, {
+        x:0.4, y:7.15, w:12.53, h:0.3, fontSize:10, color:GRAY, italic:true
+      });
+    }
   }
 }
 
@@ -3902,19 +3971,12 @@ async function exportSingle(id, format){
   else if (format === 'pptx') await exportPPTX(p);
 }
 
-/* =========================================================
-   Inicialización (async: espera a Supabase antes de renderizar)
-========================================================= */
 document.addEventListener('DOMContentLoaded', async () => {
-  // 1) Cargar datos desde Supabase (con overlay visible)
   await load();
   const overlay = document.getElementById('loadingOverlay');
   if (overlay) overlay.classList.add('hidden');
 
-  // 2) Precarga del logo (no bloqueante)
   preloadAyaLogo();
-
-  // 3) Render inicial
   renderGrid();
 
   document.getElementById('dashboardDropdown').addEventListener('toggle', (e) => {
@@ -4057,7 +4119,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   });
 
-  // Click en el indicador de sync = reintentar
   const syncEl = document.getElementById('syncStatus');
   if (syncEl){
     syncEl.addEventListener('click', () => {
@@ -4068,7 +4129,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
-  // Reconexión de red
   window.addEventListener('online', () => { updateSyncStatus('ok'); scheduleSync(); });
   window.addEventListener('offline', () => updateSyncStatus('offline'));
 });
