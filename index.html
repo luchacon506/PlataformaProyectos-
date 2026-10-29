@@ -8,6 +8,7 @@
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -129,35 +130,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-s
 .view-version-bar .view-ver-label.historical{background:#fff8e1;color:#856404;border-color:#f39c12}
 .view-version-bar button{font-size:12px;padding:6px 14px;min-width:100px}
 
-/* ====== DIFF: sombreado granular por celda / campo ====== */
-.diff-changed {
-  background-color: #ffd6d6 !important;
-  border-left: 3px solid #e74c3c !important;
-  border-radius: 4px;
-}
+.diff-changed { background-color: #ffd6d6 !important; border-left: 3px solid #e74c3c !important; border-radius: 4px; }
 .diff-changed.view-text { padding: 6px 10px; }
-.view-header-info > div.diff-changed {
-  padding: 4px 8px;
-  border-radius: 4px;
-  border-left: 3px solid #e74c3c !important;
-}
-.view-table tbody td.diff-changed-cell {
-  background-color: #ffd6d6 !important;
-  border-left: 2px solid #e74c3c;
-}
-.view-table tbody td.diff-changed-cell:first-child {
-  border-left: 3px solid #e74c3c;
-}
-.diff-legend {
-  font-size: 11.5px;
-  background: #fff3f3;
-  border-left: 3px solid #e74c3c;
-  padding: 8px 12px;
-  border-radius: 4px;
-  margin-bottom: 12px;
-  color: #721c24;
-  line-height: 1.4;
-}
+.view-header-info > div.diff-changed { padding: 4px 8px; border-radius: 4px; border-left: 3px solid #e74c3c !important; }
+.view-table tbody td.diff-changed-cell { background-color: #ffd6d6 !important; border-left: 2px solid #e74c3c; }
+.view-table tbody td.diff-changed-cell:first-child { border-left: 3px solid #e74c3c; }
+.diff-legend { font-size: 11.5px; background: #fff3f3; border-left: 3px solid #e74c3c; padding: 8px 12px; border-radius: 4px; margin-bottom: 12px; color: #721c24; line-height: 1.4; }
 .diff-legend strong { color: #c0392b; }
 
 .tabs{display:flex;background:var(--aya-fondo-claro);border-bottom:1px solid var(--aya-gris);overflow-x:auto}
@@ -301,6 +279,9 @@ td input::placeholder{color:#bbb;font-style:italic}
 #zoomImageEl{display:inline-block;width:90vw;height:auto;max-width:none;max-height:none;border-radius:4px;box-shadow:0 4px 20px rgba(0,0,0,.5);user-select:none;-webkit-user-drag:none}
 
 .team-empty{text-align:center;color:#888;font-style:italic;padding:12px;font-size:13px}
+
+/* Sync status pill */
+#syncStatus{margin-left:auto;font-size:12px;font-weight:700;color:#888;padding:4px 10px;background:#fff;border:1px solid var(--aya-gris);border-radius:12px}
 </style>
 </head>
 <body>
@@ -329,6 +310,7 @@ td input::placeholder{color:#bbb;font-style:italic}
         <button data-fmt="pptx">PPTX</button>
       </div>
     </div>
+    <div id="syncStatus">🟡 Conectando…</div>
   </div>
 
   <details class="project-list-dropdown" id="projectListDropdown">
@@ -459,6 +441,13 @@ td input::placeholder{color:#bbb;font-style:italic}
 
 <script>
 const MAX_HISTORY = 20;
+
+/* =========================================================
+   SUPABASE — Configuración
+========================================================= */
+const SUPABASE_URL = 'https://jgeprdehntvjykpqycxe.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_KRtl61gHhxOcJjo3fPJpqw_k4oubYWG';
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 const STAGES = {
   preinversion: [
@@ -788,11 +777,104 @@ function bindDateInputs(container){
   });
 }
 
-function load(){
-  try { state.projects = JSON.parse(localStorage.getItem('aya_projects') || '[]'); }
-  catch { state.projects = []; }
-  state.projects.forEach(migrateProject);
+/* =========================================================
+   SYNC STATUS + SUPABASE HELPERS
+========================================================= */
+function setSyncStatus(status){
+  const el = document.getElementById('syncStatus');
+  if (!el) return;
+  if (status === 'idle')   { el.textContent = '🟢 Sincronizado'; el.style.color = '#27ae60'; }
+  if (status === 'saving') { el.textContent = '🟡 Guardando…';   el.style.color = '#f39c12'; }
+  if (status === 'error')  { el.textContent = '🔴 Sin conexión'; el.style.color = '#e74c3c'; }
 }
+
+const pendingSaves = new Map();
+
+async function saveOne(project){
+  try {
+    setSyncStatus('saving');
+    const { error } = await supabase
+      .from('projects')
+      .upsert({
+        id: project.id,
+        data: project,
+        updated_at: new Date().toISOString()
+      }, { onConflict: 'id' });
+    if (error) throw error;
+    setSyncStatus('idle');
+  } catch (e){
+    console.error('Error al guardar en Supabase:', e);
+    setSyncStatus('error');
+  }
+}
+
+function saveOneDebounced(project){
+  clearTimeout(pendingSaves.get(project.id));
+  setSyncStatus('saving');
+  const timer = setTimeout(async () => {
+    pendingSaves.delete(project.id);
+    await saveOne(project);
+  }, 700);
+  pendingSaves.set(project.id, timer);
+}
+
+async function deleteOne(id){
+  clearTimeout(pendingSaves.get(id));
+  pendingSaves.delete(id);
+  try {
+    setSyncStatus('saving');
+    const { error } = await supabase.from('projects').delete().eq('id', id);
+    if (error) throw error;
+    setSyncStatus('idle');
+  } catch (e){
+    console.error('Error al eliminar en Supabase:', e);
+    setSyncStatus('error');
+  }
+}
+
+/* =========================================================
+   CARGA
+========================================================= */
+async function load(){
+  setSyncStatus('saving');
+  try {
+    const { data, error } = await supabase
+      .from('projects')
+      .select('data')
+      .order('created_at', { ascending: true });
+    if (error) throw error;
+
+    if (data.length === 0){
+      // Primer arranque: migrar desde localStorage si hay datos
+      try {
+        state.projects = JSON.parse(localStorage.getItem('aya_projects') || '[]');
+      } catch { state.projects = []; }
+
+      if (state.projects.length > 0){
+        console.log(`Migrando ${state.projects.length} proyecto(s) de localStorage a Supabase…`);
+        const rows = state.projects.map(p => ({
+          id: p.id, data: p, updated_at: new Date().toISOString()
+        }));
+        const { error: upErr } = await supabase
+          .from('projects').upsert(rows, { onConflict: 'id' });
+        if (upErr) console.error('Error migrando:', upErr);
+        else console.log('Migración completada.');
+      }
+    } else {
+      state.projects = data.map(r => r.data);
+    }
+    setSyncStatus('idle');
+  } catch (e){
+    console.warn('Supabase no disponible, usando localStorage:', e);
+    try {
+      state.projects = JSON.parse(localStorage.getItem('aya_projects') || '[]');
+    } catch { state.projects = []; }
+    setSyncStatus('error');
+  }
+  state.projects.forEach(migrateProject);
+  try { localStorage.setItem('aya_projects', JSON.stringify(state.projects)); } catch {}
+}
+
 function migrateProject(p){
   if (!p.locations){
     p.locations = [];
@@ -829,9 +911,10 @@ function migrateProject(p){
   if (!p.createdAt) p.createdAt = todayStr();
   if (!p.updatedAt) p.updatedAt = p.createdAt;
 }
+
 function save(){
-  try { localStorage.setItem('aya_projects', JSON.stringify(state.projects)); }
-  catch { alert('No se pudo guardar. Puede ser por límite de almacenamiento. Considere exportar un backup JSON.'); }
+  // localStorage = caché rápida; la verdad está en Supabase
+  try { localStorage.setItem('aya_projects', JSON.stringify(state.projects)); } catch {}
 }
 
 function createEmptyProject(){
@@ -1102,7 +1185,7 @@ function buildResponsablesListHTML(data){
 }
 
 /* =========================================================
-   DIFF: comparación normalizada y granular por campo/celda
+   DIFF
 ========================================================= */
 function _normStr(s){ return String(s === null || s === undefined ? '' : s).trim(); }
 function _normNum(n){ return Number(n) || 0; }
@@ -1134,7 +1217,6 @@ function computeDiff(viewed, newer) {
     meta: _normStr(viewed.metaAnual) !== _normStr(newer.metaAnual)
   };
 
-  // Etapas: por subcampo
   for (const fase in STAGES) for (const et of STAGES[fase]) {
     const a = viewed.etapas?.[et.key] || {};
     const b = newer.etapas?.[et.key] || {};
@@ -1148,7 +1230,6 @@ function computeDiff(viewed, newer) {
     if (Object.keys(sub).length) diff.etapas[et.key] = sub;
   }
 
-  // Helper: lista ordenada por prioridad (difficulties/activities)
   const sortByPrio = (x, y) => {
     const o = { Alta: 0, Media: 1, Baja: 2 };
     return (o[x.priority] ?? 3) - (o[y.priority] ?? 3);
@@ -1172,7 +1253,6 @@ function computeDiff(viewed, newer) {
   diff.difficulties = diffPriorityList(viewed.difficulties, newer.difficulties);
   diff.activities = diffPriorityList(viewed.activities, newer.activities);
 
-  // Helper: actividades programadas (con o sin estado)
   function diffActList(listA, listB, hasEstado) {
     const res = { rows: {}, wholeSection: false };
     const a = listA || [];
@@ -1191,7 +1271,6 @@ function computeDiff(viewed, newer) {
   diff.programmedCurrent = diffActList(viewed.programmedActivities?.current, newer.programmedActivities?.current, true);
   diff.programmedNext = diffActList(viewed.programmedActivities?.next, newer.programmedActivities?.next, false);
 
-  // Helper: equipo
   function diffTeamList(listA, listB) {
     const res = { rows: {}, wholeSection: false };
     const a = listA || [];
@@ -1210,7 +1289,6 @@ function computeDiff(viewed, newer) {
   diff.teamInternos = diffTeamList(viewed.team?.internos, newer.team?.internos);
   diff.teamExternos = diffTeamList(viewed.team?.externos, newer.team?.externos);
 
-  // Helper: terrenos
   function diffLands(listA, listB) {
     const res = { rows: {}, wholeSection: false };
     const a = listA || [];
@@ -1231,8 +1309,6 @@ function computeDiff(viewed, newer) {
   }
   diff.lands = diffLands(viewed.lands, newer.lands);
 
-  // Financial: usa valores visuales (con agregación) para captar cambios
-  // en años antiguos que se consolidan en la columna del cutoff
   const infoA = getFinancialViewInfo(viewed);
   const infoB = getFinancialViewInfo(newer);
   const yearsToCheck = [...new Set([...infoA.years, ...infoB.years])].sort((a,b) => a - b);
@@ -1570,7 +1646,6 @@ function updateSelButton(){
   btn.disabled = n === 0;
 }
 
-/* CAMBIO: builders aplican diff por celda (clase .diff-changed-cell) */
 function buildEtapasTableHTML(p, diff){
   let html = `<div class="view-table-wrap"><table class="view-table">
     <thead><tr>
@@ -1586,7 +1661,7 @@ function buildEtapasTableHTML(p, diff){
     if (!d?.active) continue;
     has = true;
     const sub = (diff && diff.etapas[et.key]) || {};
-    const whole = !!sub.active; // si cambió "active" es raro en activas, marcamos todo
+    const whole = !!sub.active;
     const cell = (flag) => (whole || flag) ? ' class="diff-changed-cell"' : '';
     html += `<tr>
       <td>${FASE_LABEL[fase]}</td>
@@ -1807,7 +1882,6 @@ function openViewModal(id, versionIndex = 0){
     }
   }
 
-  // Comparar contra la versión posterior (más reciente)
   let diff = null;
   let newerDate = null;
   if (versionIndex > 0){
@@ -1859,7 +1933,6 @@ function openViewModal(id, versionIndex = 0){
     phaseBlocks.push(`<div class="phase-block"><div class="phase-name">${FASE_LABEL[fase]}</div>${rows}</div>`);
   }
 
-  // Alertas con diff granular
   const alertHtml = (items, empty, listDiff) => {
     const whole = listDiff && listDiff.wholeSection;
     if (!items.length){
@@ -1876,7 +1949,6 @@ function openViewModal(id, versionIndex = 0){
     }).join('');
   };
 
-  // Helpers de clase
   const g = diff ? diff.general : {};
   const cls = (cond) => cond ? ' class="diff-changed"' : '';
 
@@ -1885,7 +1957,6 @@ function openViewModal(id, versionIndex = 0){
     diffLegend = `<div class="diff-legend">⚠️ Comparación con la versión posterior (<strong>${fmtDateTime(newerDate)}</strong>). Las celdas resaltadas en <strong>rojo</strong> tienen un valor distinto al de esa versión más reciente.</div>`;
   }
 
-  // Mostrar siempre campos de header relevantes para poder resaltar vacíos/llenos
   const showCategoria = p.categoria || (diff && diff.general.categoria);
   const showCodigoSistema = p.codigoSistema || (diff && diff.general.codigoSistema);
   const showPoblacion = (p.poblacionBeneficiada && p.poblacionBeneficiada > 0) || (diff && diff.general.poblacionBeneficiada);
@@ -2001,7 +2072,6 @@ function openViewModal(id, versionIndex = 0){
     <div class="view-section"><h3>Programación Financiera</h3>${buildFinancialTableHTML(p, diff)}</div>
   `;
 
-  // Header: nombre y BPIP con diff
   const bpipHeaderEl = document.getElementById('viewBpipHeader');
   const bpipClean = (p.bpip || '').trim();
   if (bpipClean){
@@ -2082,7 +2152,12 @@ function closeEditor(){ state.editingId = null; state.dirty = false; state.edito
 function getEditingProject(){ return state.projects.find(p => p.id === state.editingId); }
 function persist(){
   const p = getEditingProject();
-  if (p){ state.dirty = true; save(); renderGrid(); }
+  if (p){
+    state.dirty = true;
+    save();
+    saveOneDebounced(p);
+    renderGrid();
+  }
 }
 function renderTab(){
   const p = getEditingProject();
@@ -2843,6 +2918,9 @@ function resizeImage(file, maxWidth){
   });
 }
 
+/* =========================================================
+   EXPORT HTML
+========================================================= */
 function renderProjectHTML(p, forPrint, options = {}){
   const { isDOC = false, imgDims = null } = options;
   const tot = getFinancialManualTotals(p);
@@ -3126,6 +3204,9 @@ function printWindow(){
   setTimeout(() => { try { w.focus(); w.print(); } catch(e){} }, 500);
 }
 
+/* =========================================================
+   EXPORT DOC
+========================================================= */
 const DOC_STYLE = `
   @page { margin: 12mm 12mm; }
   body { font-family: Arial; font-size: 10pt; line-height: 1.25; margin: 0; color: #1a1a1a; }
@@ -3179,6 +3260,9 @@ async function exportDOCBulk(projects){
   }
 }
 
+/* =========================================================
+   EXPORT XLS
+========================================================= */
 function safeSheet(s){ return (s||'').replace(/[\\\/\?\*\[\]:]/g,'').slice(0,31) || 'Sheet'; }
 
 function addProjectConsolidatedSheet(wb, project, prefix=''){
@@ -3342,6 +3426,9 @@ function exportXLSBulk(projects){
   XLSX.writeFile(wb, 'Portafolio_Proyectos_AYA.xlsx');
 }
 
+/* =========================================================
+   EXPORT PPTX
+========================================================= */
 async function addImageProportional(slide, imgData, x, y, maxW, maxH){
   const dims = await getImageDimensions(imgData);
   const ratio = dims.w / dims.h;
@@ -3793,8 +3880,11 @@ async function exportSingle(id, format){
   else if (format === 'pptx') await exportPPTX(p);
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  load();
+/* =========================================================
+   EVENT BINDINGS
+========================================================= */
+document.addEventListener('DOMContentLoaded', async () => {
+  await load();
   preloadAyaLogo();
   renderGrid();
 
@@ -3804,7 +3894,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   $('#btnNew').addEventListener('click', () => {
     const p = createEmptyProject();
-    state.projects.push(p); save(); renderGrid(); openEditor(p.id);
+    state.projects.push(p);
+    save();
+    saveOne(p);
+    renderGrid();
+    openEditor(p.id);
   });
   $('#modalClose').addEventListener('click', closeEditor);
   $('#btnSaveClose').addEventListener('click', () => {
@@ -3824,6 +3918,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       p.updatedAt = nowDateTimeStr();
       save();
+      saveOne(p);
     }
     closeEditor();
     renderGrid();
@@ -3831,9 +3926,13 @@ document.addEventListener('DOMContentLoaded', () => {
   $('#btnDelete').addEventListener('click', () => {
     if (!state.editingId) return;
     if (!confirm('¿Eliminar este proyecto? Esta acción no se puede deshacer.')) return;
+    const idToDelete = state.editingId;
     state.projects = state.projects.filter(p => p.id !== state.editingId);
     state.selected.delete(state.editingId);
-    save(); closeEditor(); renderGrid();
+    save();
+    deleteOne(idToDelete);
+    closeEditor();
+    renderGrid();
   });
   $$('#tabsNav .tab').forEach(t => {
     t.addEventListener('click', () => { currentTab = t.dataset.tab; renderTab(); });
