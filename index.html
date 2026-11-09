@@ -279,7 +279,7 @@ td input::placeholder{color:#bbb;font-style:italic}
 #zoomImageEl{display:inline-block;width:90vw;height:auto;max-width:none;max-height:none;border-radius:4px;box-shadow:0 4px 20px rgba(0,0,0,.5);user-select:none;-webkit-user-drag:none}
 .team-empty{text-align:center;color:#888;font-style:italic;padding:12px;font-size:13px}
 
-/* ============ NUEVO: Semáforo MIDEPLAN ============ */
+/* ============ Semáforo MIDEPLAN ============ */
 .mideplan-group{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
 .mideplan-group .date-wrap{flex:1;min-width:180px}
 .mideplan-lights{display:flex;gap:6px;padding:7px 12px;background:linear-gradient(180deg,#1a1a1a 0%,#0a0a0a 100%);border-radius:24px;box-shadow:inset 0 2px 6px rgba(0,0,0,.8),inset 0 -1px 2px rgba(255,255,255,.08),0 2px 4px rgba(0,0,0,.25);flex-shrink:0}
@@ -288,15 +288,20 @@ td input::placeholder{color:#bbb;font-style:italic}
 .mideplan-light.orange.active{background:radial-gradient(circle at 32% 28%,#ffeac2 0%,#f39c12 42%,#663a00 100%);box-shadow:0 0 16px #f39c12,0 0 8px #ffd07f,inset 0 0 5px rgba(255,255,255,.85),inset -2px -2px 4px rgba(0,0,0,.35),0 0 0 1px rgba(243,156,18,.4)}
 .mideplan-light.red.active{background:radial-gradient(circle at 32% 28%,#ffd1d1 0%,#e74c3c 42%,#5a0d05 100%);box-shadow:0 0 16px #e74c3c,0 0 8px #ff8f8f,inset 0 0 5px rgba(255,255,255,.85),inset -2px -2px 4px rgba(0,0,0,.35),0 0 0 1px rgba(231,76,60,.4)}
 
-/* ============ NUEVO: Alerta de inactividad en tarjeta ============ */
+/* ============ Alerta de inactividad en tarjeta ============ */
 .card-stale-alert{background:linear-gradient(90deg,#fff7d6 0%,#ffedb0 100%);border-left:4px solid #f39c12;color:#856404;padding:8px 10px;border-radius:6px;font-size:11.5px;font-weight:700;margin-top:6px;line-height:1.4;display:flex;align-items:flex-start;gap:7px}
 .card-stale-alert.critical{background:linear-gradient(90deg,#fde2e2 0%,#f9caca 100%);border-left-color:#e74c3c;color:#721c24}
 .card-stale-alert .alert-icon{font-size:15px;flex-shrink:0;line-height:1}
 
-/* ============ NUEVO: Campos de Ejecución ============ */
+/* ============ Campos de Ejecución ============ */
 .etapa-ejecucion-fields{background:#eef8f0;border:1px solid #b8dfc3;border-radius:7px;padding:12px;margin-top:10px}
 .etapa-ejecucion-fields .row-3{margin-bottom:0}
 .etapa-ejecucion-fields label{font-size:11px;font-weight:700;color:#1B294E;text-transform:uppercase}
+
+/* ============ Coordenadas CRTM 05 ============ */
+.coord-row{display:flex;gap:10px;align-items:center}
+.coord-row .coord-label{font-weight:700;color:var(--aya-azul);font-size:13px;min-width:22px;text-align:center}
+.coord-row input{flex:1}
 </style>
 </head>
 <body>
@@ -458,7 +463,8 @@ td input::placeholder{color:#bbb;font-style:italic}
   </div>
 </div>
 
-<script>const MAX_HISTORY = 20;
+<script>
+  const MAX_HISTORY = 20;
 
 /* =========================================================
    SUPABASE: configuración, cliente y estado de sincronización
@@ -554,6 +560,9 @@ const FUNDS = [
   { key:'porAsignar',   label:'Por Asignar' }
 ];
 const FIGURAS_NO_COMPUTABLES = ['Convenio', 'Donación'];
+
+/* Color dorado para filas "auto" en la programación financiera */
+const AUTO_GOLD_COLOR = '#a8843e';
 
 const CR_LOC = {
   "San José": {
@@ -913,6 +922,9 @@ function migrateProject(p){
   if (p.mideplanDate === undefined) p.mideplanDate = '';
   if (p.lastProgressUpdate === undefined) p.lastProgressUpdate = p.updatedAt || nowDateTimeStr();
   if (p.lastActivitiesUpdate === undefined) p.lastActivitiesUpdate = p.updatedAt || nowDateTimeStr();
+  /* NUEVO: Coordenadas CRTM 05 */
+  if (p.coordX === undefined) p.coordX = '';
+  if (p.coordY === undefined) p.coordY = '';
 }
 
 function save(){
@@ -930,6 +942,7 @@ function createEmptyProject(){
     id: uid(),
     leader:'', bpip:'', name:'', description:'', mapImage:'', components:'',
     categoria: '', codigoSistema: '', poblacionBeneficiada: 0, locations: [],
+    coordX: '', coordY: '',
     fases: { preinversion:true, inversion:true, postinversion:true },
     etapas, difficulties: [], activities: [], lands: [], financial: [],
     programmedActivities: { current: [], next: [] },
@@ -987,7 +1000,7 @@ function getFinancialManualTotals(p){
 }
 
 /* =========================================================
-   NUEVO: Semáforo MIDEPLAN
+   Semáforo MIDEPLAN
 ========================================================= */
 function daysSince(dateStr){
   if (!dateStr) return null;
@@ -1011,9 +1024,16 @@ function getMideplanLabel(status){
   if (status === 'red')    return 'Atrasado (≥6 meses)';
   return 'Sin fecha MIDEPLAN';
 }
+/* NUEVO: color hex para PPTX y badges inline */
+function getMideplanColor(status){
+  if (status === 'green')  return '27ae60';
+  if (status === 'orange') return 'f39c12';
+  if (status === 'red')    return 'e74c3c';
+  return 'bbbbbb';
+}
 
 /* =========================================================
-   NUEVO: Alerta de inactividad
+   Alerta de inactividad
 ========================================================= */
 function getStaleAlert(p){
   const now = Date.now();
@@ -1036,7 +1056,7 @@ function getStaleAlert(p){
 }
 
 /* =========================================================
-   NUEVO: Distribución del monto de Ejecución
+   Distribución del monto de Ejecución
 ========================================================= */
 function calcEjecucionDistribution(ejec){
   if (!ejec) return null;
@@ -1075,6 +1095,14 @@ function getEjecucionFundLabel(p){
   const f = getEjecucionFund(p);
   const found = FUNDS.find(x => x.key === f);
   return found ? found.label : 'Fondos Propios';
+}
+/* NUEVO: etiqueta completa con flecha para filas auto */
+function getEjecucionFundArrowLabel(p){
+  return `${getEjecucionFundLabel(p)} → Ejecución (auto)`;
+}
+/* NUEVO: etiqueta para terrenos (siempre Fondos Propios) */
+function getTerrenosFundArrowLabel(){
+  return 'Fondos Propios → Terrenos (auto)';
 }
 
 function getMontoObras(p){ return getFinancialManualTotals(p).total + getEjecucionTotal(p); }
@@ -1281,7 +1309,9 @@ function computeDiff(viewed, newer) {
       codigoSistema: _normStr(viewed.codigoSistema) !== _normStr(newer.codigoSistema),
       poblacionBeneficiada: _normNum(viewed.poblacionBeneficiada) !== _normNum(newer.poblacionBeneficiada),
       description: _normStr(viewed.description) !== _normStr(newer.description),
-      components: _normStr(viewed.components) !== _normStr(newer.components)
+      components: _normStr(viewed.components) !== _normStr(newer.components),
+      coordX: _normStr(viewed.coordX) !== _normStr(newer.coordX),
+      coordY: _normStr(viewed.coordY) !== _normStr(newer.coordY)
     },
     locations: JSON.stringify(viewed.locations || []) !== JSON.stringify(newer.locations || []),
     etapas: {},
@@ -1411,7 +1441,7 @@ function applyFilters(){
   const spiF = $('#filterSPI').value;
   return state.projects.filter(p => {
     if (q){
-      const hay = [p.name, p.bpip, p.categoria, p.codigoSistema, p.leader, p.description, locationsToString(p)].join(' ').toLowerCase();
+      const hay = [p.name, p.bpip, p.categoria, p.codigoSistema, p.leader, p.description, locationsToString(p), p.coordX, p.coordY].join(' ').toLowerCase();
       if (!hay.includes(q)) return false;
     }
     if (categoria && p.categoria !== categoria) return false;
@@ -1683,7 +1713,8 @@ function updateSelButton(){
   const n = state.selected.size;
   btn.textContent = `Exportar Seleccionados (${n})`;
   btn.disabled = n === 0;
-}function buildEtapasTableHTML(p, diff){
+}
+  function buildEtapasTableHTML(p, diff){
   let html = `<div class="view-table-wrap"><table class="view-table"><thead><tr>
       <th>Fase</th><th>Etapa</th><th>Peso</th><th>Inicio Prog.</th><th>Fin Prog.</th><th>Inicio Real</th><th>Fin Real</th><th style="text-align:right">% Avance</th>
     </tr></thead><tbody>`;
@@ -1751,6 +1782,7 @@ function buildLandsTableHTML(p, diff){
   return html;
 }
 
+/* ============ ACTUALIZADO: filas auto en dorado, nombres con flecha ============ */
 function buildFinancialTableHTML(p, diff){
   const info = getFinancialViewInfo(p);
   const years = info.years;
@@ -1771,6 +1803,7 @@ function buildFinancialTableHTML(p, diff){
       ${years.map(y => { const isAgg = info.hasAggregation && y === info.cutoff; const title = isAgg ? `Incluye años: ${info.aggregated.join(', ')}` : ''; return `<th style="text-align:right" title="${title}">${y}${isAgg ? ' *' : ''}</th>`; }).join('')}
       <th style="text-align:right">TOTAL</th>
     </tr></thead><tbody>`;
+  /* Fondos manuales (azul, sin cambios) */
   FUNDS.forEach(f => {
     html += `<tr>
       <td style="font-weight:700;color:var(--aya-azul)">${f.label}</td>
@@ -1778,17 +1811,19 @@ function buildFinancialTableHTML(p, diff){
       <td style="text-align:right;font-weight:700">${fmtCRC(tot[f.key])}</td>
     </tr>`;
   });
+  /* Ejecución (auto) - DORADO: nombre bold, valores normal, total bold */
   if (ejecTotal > 0){
     html += `<tr>
-      <td style="font-weight:700;color:#1b5e20">Ejecución (auto → ${getEjecucionFundLabel(p)})</td>
-      ${years.map(y => `<td${cellEjec(y)} style="text-align:right;color:#1b5e20">${fmtCell(getEjecucionForYearView(p, y, info))}</td>`).join('')}
-      <td style="text-align:right;font-weight:700;color:#1b5e20">${fmtCRC(ejecTotal)}</td>
+      <td style="font-weight:700;color:${AUTO_GOLD_COLOR}">${getEjecucionFundArrowLabel(p)}</td>
+      ${years.map(y => `<td${cellEjec(y)} style="text-align:right;color:${AUTO_GOLD_COLOR}">${fmtCell(getEjecucionForYearView(p, y, info))}</td>`).join('')}
+      <td style="text-align:right;font-weight:700;color:${AUTO_GOLD_COLOR}">${fmtCRC(ejecTotal)}</td>
     </tr>`;
   }
+  /* Terrenos (auto) - DORADO: nombre bold, valores normal, total bold */
   html += `<tr>
-    <td style="font-style:italic;color:#856404">Terrenos computables (auto → Propios)</td>
-    ${years.map(y => `<td${cellLand(y)} style="text-align:right;font-style:italic;color:#856404">${fmtCell(landForYearView(p, y, info))}</td>`).join('')}
-    <td style="text-align:right;font-style:italic;color:#856404">${fmtCRC(landTotal)}</td>
+    <td style="font-weight:700;color:${AUTO_GOLD_COLOR}">${getTerrenosFundArrowLabel()}</td>
+    ${years.map(y => `<td${cellLand(y)} style="text-align:right;color:${AUTO_GOLD_COLOR}">${fmtCell(landForYearView(p, y, info))}</td>`).join('')}
+    <td style="text-align:right;font-weight:700;color:${AUTO_GOLD_COLOR}">${fmtCRC(landTotal)}</td>
   </tr>`;
   html += `<tr style="background:#f0f1f5">
     <td style="font-weight:700">Total por año</td>
@@ -1801,6 +1836,7 @@ function buildFinancialTableHTML(p, diff){
   }
   return html;
 }
+
 function buildProgrammedTablesViewHTML(p, diff){
   const pa = p.programmedActivities || { current: [], next: [] };
   const cur = pa.current || [];
@@ -1942,6 +1978,7 @@ function openViewModal(id, versionIndex = 0){
   const showCodigoSistema = p.codigoSistema || (diff && diff.general.codigoSistema);
   const showPoblacion = (p.poblacionBeneficiada && p.poblacionBeneficiada > 0) || (diff && diff.general.poblacionBeneficiada);
   const showLoc = loc || (diff && diff.locations);
+  const showCoords = (p.coordX || p.coordY) || (diff && (diff.general.coordX || diff.general.coordY));
 
   const body = document.getElementById('viewBody');
   body.innerHTML = `
@@ -1957,6 +1994,7 @@ function openViewModal(id, versionIndex = 0){
       ${showCategoria ? `<div${cls(diff && diff.general.categoria)}>Categoría: <strong>${escapeHtml(p.categoria) || '—'}</strong></div>` : ''}
       <div${cls(diff && diff.general.leader)}>Líder: <strong>${escapeHtml(p.leader) || '—'}</strong></div>
       ${showLoc ? `<div${cls(diff && diff.locations)}>📍 <strong>${escapeHtml(loc) || '—'}</strong></div>` : ''}
+      ${showCoords ? `<div${cls(diff && (diff.general.coordX || diff.general.coordY))}>Coordenadas CRTM 05: <strong>X: ${escapeHtml(p.coordX)||'—'} / Y: ${escapeHtml(p.coordY)||'—'}</strong></div>` : ''}
       ${showCodigoSistema ? `<div${cls(diff && diff.general.codigoSistema)}>Código del Sistema: <strong>${escapeHtml(p.codigoSistema) || '—'}</strong></div>` : ''}
       ${showPoblacion ? `<div${cls(diff && diff.general.poblacionBeneficiada)}>Población Beneficiada: <strong>${p.poblacionBeneficiada ? fmtInt(p.poblacionBeneficiada) : '—'}</strong></div>` : ''}
       ${p.mideplanDate ? `<div${cls(diff && diff.mideplan)}>Última aprobación MIDEPLAN: <strong>${fmtDate(p.mideplanDate)}</strong> <span style="display:inline-block;width:10px;height:10px;border-radius:50%;margin-left:6px;vertical-align:middle;background:${midStatus==='green'?'#27ae60':midStatus==='orange'?'#f39c12':midStatus==='red'?'#e74c3c':'#bbb'};box-shadow:0 0 6px ${midStatus==='green'?'#27ae60':midStatus==='orange'?'#f39c12':midStatus==='red'?'#e74c3c':'transparent'}"></span></div>` : ''}
@@ -2004,9 +2042,9 @@ function openViewModal(id, versionIndex = 0){
           <h3>Resumen Financiero</h3>
           <table style="font-size:12px"><tbody>
             <tr><td>Fondos (manual)</td><td style="text-align:right;font-weight:700">${fmtCRC(tot.total)}</td></tr>
-            ${ejecTotal > 0 ? `<tr><td style="color:#1b5e20">Ejecución auto → ${getEjecucionFundLabel(p)}</td><td style="text-align:right;color:#1b5e20;font-weight:700">${fmtCRC(ejecTotal)}</td></tr>` : ''}
+            ${ejecTotal > 0 ? `<tr><td style="color:${AUTO_GOLD_COLOR};font-weight:700">${getEjecucionFundArrowLabel(p)}</td><td style="text-align:right;color:${AUTO_GOLD_COLOR};font-weight:700">${fmtCRC(ejecTotal)}</td></tr>` : ''}
             <tr><td><strong>Monto de Obras</strong></td><td style="text-align:right;font-weight:700">${fmtCRC(obrasTotal)}</td></tr>
-            <tr><td>Monto de Terrenos (computable)</td><td style="text-align:right;font-weight:700">${fmtCRC(landTotal)}</td></tr>
+            <tr><td style="color:${AUTO_GOLD_COLOR};font-weight:700">${getTerrenosFundArrowLabel()}</td><td style="text-align:right;color:${AUTO_GOLD_COLOR};font-weight:700">${fmtCRC(landTotal)}</td></tr>
             ${landNC > 0 ? `<tr><td style="color:#856404;font-size:11px;font-style:italic">Excluido Convenio/Donación</td><td style="text-align:right;color:#856404;font-size:11px;font-style:italic">${fmtCRC(landNC)}</td></tr>` : ''}
             <tr style="background:var(--aya-fondo-claro)"><td><strong>Monto Global</strong></td><td style="text-align:right;font-weight:700;color:var(--aya-azul)">${fmtCRC(global)}</td></tr>
           </tbody></table>
@@ -2138,6 +2176,7 @@ function renderTab(){
   bindDateInputs(c);
 }
 
+/* ============ ACTUALIZADO: MIDEPLAN bajo Categoría, "ÚLTIMA ACTUALIZACIÓN DE PROYECTO", coords CRTM 05 ============ */
 function renderGeneralTab(p){
   const wrap = document.createElement('div');
   const allLeaders = getAllLeaders();
@@ -2162,32 +2201,47 @@ function renderGeneralTab(p){
         </select>
       </div>
       <div class="form-group">
-        <label>Última Actualización</label>
+        <label>ÚLTIMA ACTUALIZACIÓN DE PROYECTO</label>
         <input class="form-control" value="${fmtDateTime(p.updatedAt)}" disabled title="Se actualiza al presionar 'Guardar y Cerrar' con cambios realizados">
       </div>
     </div>
-    <div class="form-group">
-      <label>Última aprobación de MIDEPLAN</label>
-      <div class="mideplan-group">
-        <span class="date-wrap">
-          <input type="text" class="form-control date-text" id="f-mideplan"
-            placeholder="dd/mm/aaaa" maxlength="10" value="${isoToDisplay(p.mideplanDate||'')}" data-iso="${p.mideplanDate||''}" autocomplete="off">
-          <span class="date-pick-btn" title="Abrir calendario">
-            <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>
-            <input type="date" class="date-native" tabindex="-1" value="${p.mideplanDate||''}">
+    <div class="row">
+      <div class="form-group">
+        <label>Última aprobación de MIDEPLAN</label>
+        <div class="mideplan-group">
+          <span class="date-wrap">
+            <input type="text" class="form-control date-text" id="f-mideplan"
+              placeholder="dd/mm/aaaa" maxlength="10" value="${isoToDisplay(p.mideplanDate||'')}" data-iso="${p.mideplanDate||''}" autocomplete="off">
+            <span class="date-pick-btn" title="Abrir calendario">
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>
+              <input type="date" class="date-native" tabindex="-1" value="${p.mideplanDate||''}">
+            </span>
           </span>
-        </span>
-        <div class="mideplan-lights" title="Semáforo MIDEPLAN: Verde ≤3 meses · Naranja 3-6 meses · Rojo >6 meses">
-          <span class="mideplan-light red ${midStatus==='red'?'active':''}" data-light="red"></span>
-          <span class="mideplan-light orange ${midStatus==='orange'?'active':''}" data-light="orange"></span>
-          <span class="mideplan-light green ${midStatus==='green'?'active':''}" data-light="green"></span>
+          <div class="mideplan-lights" title="Semáforo MIDEPLAN: Verde ≤3 meses · Naranja 3-6 meses · Rojo >6 meses">
+            <span class="mideplan-light red ${midStatus==='red'?'active':''}" data-light="red"></span>
+            <span class="mideplan-light orange ${midStatus==='orange'?'active':''}" data-light="orange"></span>
+            <span class="mideplan-light green ${midStatus==='green'?'active':''}" data-light="green"></span>
+          </div>
         </div>
+        <div class="hint">Verde: al día (≤3 meses) · Naranja: 3-6 meses (seguimiento) · Rojo: ≥6 meses sin actualización.</div>
       </div>
-      <div class="hint">Verde: al día (≤3 meses) · Naranja: 3-6 meses (seguimiento) · Rojo: ≥6 meses sin actualización.</div>
+      <div class="form-group" style="visibility:hidden" aria-hidden="true">
+        <label>&nbsp;</label>
+        <input class="form-control" disabled tabindex="-1">
+      </div>
     </div>
     <div class="section-title" style="font-size:13px;margin-top:8px">Ubicación Geográfica (múltiples)</div>
     <div class="locations-list" id="locationsList"></div>
     <button class="btn btn-sm btn-primary" id="addLocation">+ Agregar Ubicación</button>
+    <div class="form-group" style="margin-top:14px">
+      <label>Coordenadas CRTM 05</label>
+      <div class="coord-row">
+        <span class="coord-label">X</span>
+        <input type="text" class="form-control" id="f-coordX" value="${escapeHtml(p.coordX||'')}" placeholder="Ej: 123456.78">
+        <span class="coord-label" style="margin-left:8px">Y</span>
+        <input type="text" class="form-control" id="f-coordY" value="${escapeHtml(p.coordY||'')}" placeholder="Ej: 234567.89">
+      </div>
+    </div>
     <div class="row" style="margin-top:14px">
       <div class="form-group">
         <label>Código del Sistema</label>
@@ -2208,9 +2262,9 @@ function renderGeneralTab(p){
     </div>
     <div class="summary-box">
       <div class="row-s"><span><strong>Fondos (manual):</strong></span><span>${fmtCRC(getFinancialManualTotals(p).total)}</span></div>
-      ${getEjecucionTotal(p) > 0 ? `<div class="row-s"><span><strong style="color:#1b5e20">Ejecución auto → ${getEjecucionFundLabel(p)}:</strong></span><span style="color:#1b5e20">${fmtCRC(getEjecucionTotal(p))}</span></div>` : ''}
+      ${getEjecucionTotal(p) > 0 ? `<div class="row-s"><span><strong style="color:${AUTO_GOLD_COLOR}">${getEjecucionFundArrowLabel(p)}:</strong></span><span style="color:${AUTO_GOLD_COLOR}">${fmtCRC(getEjecucionTotal(p))}</span></div>` : ''}
       <div class="row-s"><span><strong>Monto Obras:</strong></span><span>${fmtCRC(getMontoObras(p))}</span></div>
-      <div class="row-s"><span><strong>Monto Terrenos (computable):</strong></span><span>${fmtCRC(getLandTotal(p))}</span></div>
+      <div class="row-s"><span><strong style="color:${AUTO_GOLD_COLOR}">${getTerrenosFundArrowLabel()}:</strong></span><span style="color:${AUTO_GOLD_COLOR}">${fmtCRC(getLandTotal(p))}</span></div>
       ${getLandNonComputableTotal(p) > 0 ? `<div class="row-s"><span><em style="color:#856404">Excluido (Convenio/Donación):</em></span><span style="color:#856404">${fmtCRC(getLandNonComputableTotal(p))}</span></div>` : ''}
       <div class="row-s" style="border-top:1px solid #ccc;margin-top:6px;padding-top:6px"><span><strong>Monto Global:</strong></span><span><strong>${fmtCRC(getMontoGlobal(p))}</strong></span></div>
     </div>
@@ -2274,6 +2328,8 @@ function renderGeneralTab(p){
   wrap.querySelector('#f-bpip').addEventListener('input', e => { p.bpip = e.target.value; persist(); });
   wrap.querySelector('#f-categoria').addEventListener('change', e => { p.categoria = e.target.value; persist(); });
   wrap.querySelector('#f-codigo-sistema').addEventListener('input', e => { p.codigoSistema = e.target.value; persist(); });
+  wrap.querySelector('#f-coordX').addEventListener('input', e => { p.coordX = e.target.value; persist(); });
+  wrap.querySelector('#f-coordY').addEventListener('input', e => { p.coordY = e.target.value; persist(); });
   wrap.querySelector('#f-poblacion').addEventListener('input', e => {
     const raw = e.target.value;
     if (raw === ''){ p.poblacionBeneficiada = 0; }
@@ -2680,6 +2736,7 @@ function renderTerrenosTab(p){
   return wrap;
 }
 
+/* ============ ACTUALIZADO: filas auto en dorado, nombres con flecha ============ */
 function renderFinancieroTab(p){
   const wrap = document.createElement('div');
   const years = getYears(p);
@@ -2720,16 +2777,18 @@ function renderFinancieroTab(p){
     </tr>
   `).join('');
 
+  /* Ejecución (auto) - DORADO */
   const ejecRowHtml = ejecTotal > 0 ? `<tr>
-    <td class="row-label" style="color:#1b5e20">Ejecución (auto → ${getEjecucionFundLabel(p)})</td>
-    ${years.map((y, i) => `<td class="auto-cell" style="min-width:${yearColWidths[i]}px;color:#1b5e20">${getEjecucionForYear(p, y) > 0 ? fmtCRC(getEjecucionForYear(p, y)) : '—'}</td>`).join('')}
-    <td class="auto-cell" style="color:#1b5e20">${fmtCRC(ejecTotal)}</td>
+    <td class="row-label" style="color:${AUTO_GOLD_COLOR}">${getEjecucionFundArrowLabel(p)}</td>
+    ${years.map((y, i) => `<td class="auto-cell" style="min-width:${yearColWidths[i]}px;color:${AUTO_GOLD_COLOR};font-weight:normal">${getEjecucionForYear(p, y) > 0 ? fmtCRC(getEjecucionForYear(p, y)) : '—'}</td>`).join('')}
+    <td class="auto-cell" style="color:${AUTO_GOLD_COLOR};font-weight:700">${fmtCRC(ejecTotal)}</td>
   </tr>` : '';
 
+  /* Terrenos (auto) - DORADO */
   const landRowHtml = `<tr>
-    <td class="row-label">Terrenos computables (auto → Propios)</td>
-    ${years.map((y, i) => `<td class="auto-cell" style="min-width:${yearColWidths[i]}px">${getLandForYear(p, y) > 0 ? fmtCRC(getLandForYear(p, y)) : '—'}</td>`).join('')}
-    <td class="auto-cell">${fmtCRC(landTotal)}</td>
+    <td class="row-label" style="color:${AUTO_GOLD_COLOR}">${getTerrenosFundArrowLabel()}</td>
+    ${years.map((y, i) => `<td class="auto-cell" style="min-width:${yearColWidths[i]}px;color:${AUTO_GOLD_COLOR};font-weight:normal">${getLandForYear(p, y) > 0 ? fmtCRC(getLandForYear(p, y)) : '—'}</td>`).join('')}
+    <td class="auto-cell" style="color:${AUTO_GOLD_COLOR};font-weight:700">${fmtCRC(landTotal)}</td>
   </tr>`;
 
   const totalsRowHtml = `<tr style="background:#f0f1f5">
@@ -2765,9 +2824,9 @@ function renderFinancieroTab(p){
       <div class="row-s"><span>Fondos Específicos:</span><span>${fmtCRC(tot.especificos)}</span></div>
       <div class="row-s"><span>Fondos Transferidos:</span><span>${fmtCRC(tot.transferidos)}</span></div>
       <div class="row-s"><span>Por Asignar:</span><span>${fmtCRC(tot.porAsignar)}</span></div>
-      ${ejecTotal > 0 ? `<div class="row-s"><span style="color:#1b5e20">Ejecución (auto → ${getEjecucionFundLabel(p)}):</span><span style="color:#1b5e20">${fmtCRC(ejecTotal)}</span></div>` : ''}
+      ${ejecTotal > 0 ? `<div class="row-s"><span style="color:${AUTO_GOLD_COLOR};font-weight:700">${getEjecucionFundArrowLabel(p)}:</span><span style="color:${AUTO_GOLD_COLOR};font-weight:700">${fmtCRC(ejecTotal)}</span></div>` : ''}
       <div class="row-s" style="border-top:1px solid #ccc;margin-top:6px;padding-top:6px"><strong>Monto de Obras:</strong><strong>${fmtCRC(obrasTotal)}</strong></div>
-      <div class="row-s"><strong>Monto de Terrenos (computable):</strong><strong>${fmtCRC(landTotal)}</strong></div>
+      <div class="row-s"><strong style="color:${AUTO_GOLD_COLOR}">${getTerrenosFundArrowLabel()}:</strong><strong style="color:${AUTO_GOLD_COLOR}">${fmtCRC(landTotal)}</strong></div>
       ${landNC > 0 ? `<div class="row-s"><em style="color:#856404">Excluido Convenio/Donación:</em><em style="color:#856404">${fmtCRC(landNC)}</em></div>` : ''}
       <div class="row-s" style="border-top:2px solid var(--aya-dorado);margin-top:6px;padding-top:6px;font-size:15px"><strong>MONTO GLOBAL:</strong><strong>${fmtCRC(grandTotal)}</strong></div>
     </div>
@@ -2828,6 +2887,7 @@ function resizeImage(file, maxWidth){
   });
 }
 
+/* ============ ACTUALIZADO: nuevas etiquetas auto + gold ============ */
 function renderProjectHTML(p, forPrint, options = {}){
   const { isDOC = false, imgDims = null } = options;
   const tot = getFinancialManualTotals(p);
@@ -2867,6 +2927,7 @@ function renderProjectHTML(p, forPrint, options = {}){
   if (p.categoria) html += `<p style="margin:4px 0;font-size:11pt"><strong>Categoría:</strong> ${escapeHtml(p.categoria)}</p>`;
   if (p.mideplanDate) html += `<p style="margin:4px 0;font-size:11pt"><strong>Última aprobación MIDEPLAN:</strong> ${fmtDate(p.mideplanDate)}</p>`;
   if (loc) html += `<p style="margin:4px 0;font-size:11pt"><strong>Ubicación:</strong> ${escapeHtml(loc)}</p>`;
+  if (p.coordX || p.coordY) html += `<p style="margin:4px 0;font-size:11pt"><strong>Coordenadas CRTM 05:</strong> X: ${escapeHtml(p.coordX)||'—'} / Y: ${escapeHtml(p.coordY)||'—'}</p>`;
   if (p.codigoSistema) html += `<p style="margin:4px 0;font-size:11pt"><strong>Código del Sistema:</strong> ${escapeHtml(p.codigoSistema)}</p>`;
   if (p.poblacionBeneficiada) html += `<p style="margin:4px 0;font-size:11pt"><strong>Población Beneficiada:</strong> ${fmtInt(p.poblacionBeneficiada)}</p>`;
   html += `<p style="margin:4px 0;font-size:11pt"><strong>Fecha de registro:</strong> ${fmtDate(p.createdAt)} &nbsp;&nbsp; <strong>Última actualización:</strong> ${fmtDateTime(p.updatedAt)}</p>`;
@@ -2962,7 +3023,7 @@ function renderProjectHTML(p, forPrint, options = {}){
     html += `<tr><td style="${styleTd}">${l.type}</td><td style="${styleTd}">${escapeHtml(l.finalidad)||'—'}</td><td style="${styleTd}">${l.figure}${ncTxt}</td><td style="${styleTd};text-align:right">${fmtCRC(l.avaluo)}</td><td style="${styleTd}">${fmtDate(l.fechaEst)}</td><td style="${styleTd}">${fmtDate(l.fechaReal)}</td></tr>`;
   });
   html += `</tbody></table>`;
-  html += `<p style="text-align:right;font-weight:700;font-size:12pt;margin:8px 0">Total Terrenos (computable): ${fmtCRC(landTotal)}${landNC > 0 ? ` <span style="color:#856404;font-weight:400;font-size:10pt">— Excluido Conv./Don.: ${fmtCRC(landNC)}</span>` : ''}</p>`;
+  html += `<p style="text-align:right;font-weight:700;font-size:12pt;margin:8px 0;color:#a8843e">Total Terrenos (computable): ${fmtCRC(landTotal)}${landNC > 0 ? ` <span style="color:#856404;font-weight:400;font-size:10pt">— Excluido Conv./Don.: ${fmtCRC(landNC)}</span>` : ''}</p>`;
 
   html += subtitle('Programación Financiera');
   if (years.length === 0){
@@ -2977,13 +3038,13 @@ function renderProjectHTML(p, forPrint, options = {}){
       html += `<td style="${styleTd};text-align:right;font-weight:700">${fmtCRC(tot[f.key])}</td></tr>`;
     });
     if (ejecTotal > 0){
-      html += `<tr><td style="${styleTd}"><em style="color:#1b5e20">Ejecución (auto → ${getEjecucionFundLabel(p)})</em></td>`;
-      years.forEach(y => { html += `<td style="${styleTd};text-align:right;color:#1b5e20">${fmtCell(getEjecucionForYearView(p, y, info))}</td>`; });
-      html += `<td style="${styleTd};text-align:right;color:#1b5e20">${fmtCRC(ejecTotal)}</td></tr>`;
+      html += `<tr><td style="${styleTd};font-weight:700;color:${AUTO_GOLD_COLOR}">${getEjecucionFundArrowLabel(p)}</td>`;
+      years.forEach(y => { html += `<td style="${styleTd};text-align:right;color:${AUTO_GOLD_COLOR}">${fmtCell(getEjecucionForYearView(p, y, info))}</td>`; });
+      html += `<td style="${styleTd};text-align:right;color:${AUTO_GOLD_COLOR};font-weight:700">${fmtCRC(ejecTotal)}</td></tr>`;
     }
-    html += `<tr><td style="${styleTd}"><em>Terrenos computables (auto → Propios)</em></td>`;
-    years.forEach(y => { html += `<td style="${styleTd};text-align:right">${fmtCell(landForYearView(p, y, info))}</td>`; });
-    html += `<td style="${styleTd};text-align:right">${fmtCRC(landTotal)}</td></tr>`;
+    html += `<tr><td style="${styleTd};font-weight:700;color:${AUTO_GOLD_COLOR}">${getTerrenosFundArrowLabel()}</td>`;
+    years.forEach(y => { html += `<td style="${styleTd};text-align:right;color:${AUTO_GOLD_COLOR}">${fmtCell(landForYearView(p, y, info))}</td>`; });
+    html += `<td style="${styleTd};text-align:right;color:${AUTO_GOLD_COLOR};font-weight:700">${fmtCRC(landTotal)}</td></tr>`;
     html += `<tr style="background:#F5F6FA"><td style="${styleTd}"><strong>Total por año</strong></td>`;
     years.forEach(y => {
       const manual = FUNDS.reduce((s,f) => s + fundForYearView(p, y, f.key, info), 0);
@@ -3114,6 +3175,7 @@ async function exportDOCBulk(projects){
 
 function safeSheet(s){ return (s||'').replace(/[\\\/\?\*\[\]:]/g,'').slice(0,31) || 'Sheet'; }
 
+/* ============ ACTUALIZADO: nuevas etiquetas auto ============ */
 function addProjectConsolidatedSheet(wb, project, prefix=''){
   const tot = getFinancialManualTotals(project);
   const ejecTotal = getEjecucionTotal(project);
@@ -3132,6 +3194,7 @@ function addProjectConsolidatedSheet(wb, project, prefix=''){
   rows.push(['Última aprobación MIDEPLAN', project.mideplanDate ? fmtDate(project.mideplanDate) : '—']);
   rows.push(['Líder', project.leader || '—']);
   rows.push(['Ubicaciones', loc || '—']);
+  rows.push(['Coordenadas CRTM 05', `X: ${project.coordX || '—'} / Y: ${project.coordY || '—'}`]);
   rows.push(['Código del Sistema', project.codigoSistema || '—']);
   rows.push(['Población Beneficiada', Number(project.poblacionBeneficiada)||0]);
   rows.push(['Fecha de registro', project.createdAt || '—']);
@@ -3198,12 +3261,12 @@ function addProjectConsolidatedSheet(wb, project, prefix=''){
     rows.push(headerRow);
     FUNDS.forEach(f => { const row = [f.label]; years.forEach(y => row.push(fundForYearView(project, y, f.key, info))); row.push(tot[f.key]); rows.push(row); });
     if (ejecTotal > 0){
-      const ejecRowXls = [`Ejecución (auto → ${getEjecucionFundLabel(project)})`];
+      const ejecRowXls = [getEjecucionFundArrowLabel(project)];
       years.forEach(y => ejecRowXls.push(getEjecucionForYearView(project, y, info)));
       ejecRowXls.push(ejecTotal);
       rows.push(ejecRowXls);
     }
-    const landRow = ['Terrenos computables (auto → Propios)'];
+    const landRow = [getTerrenosFundArrowLabel()];
     years.forEach(y => landRow.push(landForYearView(project, y, info)));
     landRow.push(landTotal);
     rows.push(landRow);
@@ -3214,7 +3277,7 @@ function addProjectConsolidatedSheet(wb, project, prefix=''){
     if (info.hasAggregation){ rows.push([`* El año ${info.cutoff} incluye montos de años anteriores: ${info.aggregated.join(', ')}`]); }
   }
   const ws = XLSX.utils.aoa_to_sheet(rows);
-  ws['!cols'] = [{wch:24},{wch:24},{wch:14},{wch:14},{wch:14},{wch:14},{wch:14},{wch:12}];
+  ws['!cols'] = [{wch:28},{wch:24},{wch:14},{wch:14},{wch:14},{wch:14},{wch:14},{wch:12}];
   const base = (prefix ? prefix + ' - ' : '') + (project.name || 'Proyecto');
   XLSX.utils.book_append_sheet(wb, ws, safeSheet(base));
 }
@@ -3290,8 +3353,11 @@ function buildEtapasTableForPPTX(project, BLUE, WHITE){
   if (!has) rows.push([{text:'Sin etapas activas', options:{colspan:8, align:'center', italic:true, color:'888888'}},{},{},{},{},{},{},{}]);
   return rows;
 }
+
+/* ============ ACTUALIZADO: gold + new labels ============ */
 function buildFinancieroTableForPPTX(project, BLUE, WHITE, tot, landTotal, global, info){
   const years = info.years;
+  const GOLD_HEX = 'A8843E';
   const headerRow = [
     { text:'Fondo / Año', options:{bold:true, fill:BLUE, color:WHITE} },
     ...years.map(y => { const isAgg = info.hasAggregation && y === info.cutoff; return { text: String(y) + (isAgg ? ' *' : ''), options:{bold:true, fill:BLUE, color:WHITE, align:'right'} }; }),
@@ -3306,14 +3372,14 @@ function buildFinancieroTableForPPTX(project, BLUE, WHITE, tot, landTotal, globa
   });
   const ejecTotal = getEjecucionTotal(project);
   if (ejecTotal > 0){
-    const ejecR = [{ text:'Ejecución (auto → ' + getEjecucionFundLabel(project) + ')', options:{italic:true, color:'1b5e20'} }];
-    years.forEach(y => ejecR.push({ text: fmtCell(getEjecucionForYearView(project, y, info)), options:{align:'right', italic:true, color:'1b5e20'} }));
-    ejecR.push({ text: fmtCRC(ejecTotal), options:{align:'right', italic:true, color:'1b5e20'} });
+    const ejecR = [{ text:getEjecucionFundArrowLabel(project), options:{bold:true, color:GOLD_HEX} }];
+    years.forEach(y => ejecR.push({ text: fmtCell(getEjecucionForYearView(project, y, info)), options:{align:'right', color:GOLD_HEX} }));
+    ejecR.push({ text: fmtCRC(ejecTotal), options:{align:'right', bold:true, color:GOLD_HEX} });
     rows.push(ejecR);
   }
-  const landR = [{ text:'Terrenos computables (auto → Propios)', options:{italic:true} }];
-  years.forEach(y => landR.push({ text: fmtCell(landForYearView(project,y,info)), options:{align:'right', italic:true} }));
-  landR.push({ text: fmtCRC(landTotal), options:{align:'right', italic:true} });
+  const landR = [{ text:getTerrenosFundArrowLabel(), options:{bold:true, color:GOLD_HEX} }];
+  years.forEach(y => landR.push({ text: fmtCell(landForYearView(project,y,info)), options:{align:'right', color:GOLD_HEX} }));
+  landR.push({ text: fmtCRC(landTotal), options:{align:'right', bold:true, color:GOLD_HEX} });
   rows.push(landR);
   const totR = [{ text:'TOTAL POR AÑO', options:{bold:true} }];
   years.forEach(y => {
@@ -3350,6 +3416,34 @@ function computeCenteredY(numRows, fontSize, availableTop, availableBottom){
   return availableTop + (availH - tableH) / 2;
 }
 
+/* ============ NUEVO: cabecera estándar para todas las diapositivas ============ */
+function addPPTXStandardHeader(slide, project, pptx, BLUE, GOLD, WHITE){
+  slide.addShape(pptx.ShapeType.rect, { x:0, y:0, w:13.333, h:0.75, fill:{color:BLUE}, line:{color:BLUE} });
+  slide.addShape(pptx.ShapeType.rect, { x:0, y:0.75, w:13.333, h:0.05, fill:{color:GOLD}, line:{color:GOLD} });
+  const bpip = (project.bpip || '').trim();
+  slide.addText(`BPIP: ${bpip || 'Sin BPIP'}`, {
+    x:0.4, y:0.08, w:6, h:0.28, fontSize:11, color:GOLD, bold:true, align:'left', valign:'middle'
+  });
+  slide.addText(project.name || 'Sin nombre', {
+    x:0.4, y:0.4, w:8.5, h:0.3, fontSize:14, color:WHITE, bold:false, align:'left', valign:'middle'
+  });
+  const midStatus = getMideplanStatus(project);
+  slide.addShape(pptx.ShapeType.rect, { x:10.3, y:0.12, w:2.8, h:0.52, fill:{color:'0a0a0a'}, line:{color:'1a1a1a'} });
+  slide.addText('MIDEPLAN', {
+    x:10.35, y:0.2, w:1.0, h:0.35, fontSize:7, color:'cccccc', bold:true, align:'center', valign:'middle'
+  });
+  const lightColors = { red:'e74c3c', orange:'f39c12', green:'27ae60' };
+  ['red','orange','green'].forEach((key, i) => {
+    const active = midStatus === key;
+    slide.addShape(pptx.ShapeType.ellipse, {
+      x: 11.35 + i*0.55, y: 0.21, w: 0.34, h: 0.34,
+      fill: { color: active ? lightColors[key] : '252525' },
+      line: { color: active ? lightColors[key] : '1a1a1a', width: 0.5 }
+    });
+  });
+}
+
+/* ============ ACTUALIZADO: cabecera en cada slide + contenido desplazado ============ */
 async function addProjectSlidesToPPTX(pptx, project){
   const BLUE = '1B294E', GOLD = 'C9AD6E', WHITE = 'FFFFFF', LIGHT = 'F5F6FA', GRAY = '666666', DARK = '002060';
   const tot = getFinancialManualTotals(project);
@@ -3372,22 +3466,24 @@ async function addProjectSlidesToPPTX(pptx, project){
     catch(e){ console.warn('Logo no agregado:', e); }
   };
 
+  /* ---- Portada (s1) ---- */
   let s1 = pptx.addSlide();
   s1.background = { color: BLUE };
-  addLogo(s1, 11.33, 0.15, 1.6, 0.55);
-  s1.addText('UEN PROGRAMACIÓN Y CONTROL', { x:0.5, y:0.55, w:12.33, h:0.35, fontSize:14, color:GOLD, bold:true, align:'center', charSpacing:2 });
-  s1.addShape(pptx.ShapeType.rect, { x:4.67, y:1.0, w:4, h:0.06, fill:{color:GOLD}, line:{color:GOLD} });
-  s1.addText(project.name || 'Proyecto sin nombre', { x:0.5, y:1.25, w:12.33, h:1.2, fontSize:32, color:WHITE, bold:true, align:'center', valign:'middle' });
-  s1.addText(`BPIP: ${project.bpip||'—'}   |   Líder: ${project.leader||'—'}`, { x:0.5, y:2.55, w:12.33, h:0.4, fontSize:18, color:GOLD, align:'center' });
+  addPPTXStandardHeader(s1, project, pptx, BLUE, GOLD, WHITE);
+  addLogo(s1, 11.9, 0.9, 1.0, 0.4);
+  s1.addText('UEN PROGRAMACIÓN Y CONTROL', { x:0.5, y:1.05, w:12.33, h:0.35, fontSize:14, color:GOLD, bold:true, align:'center', charSpacing:2 });
+  s1.addShape(pptx.ShapeType.rect, { x:4.67, y:1.45, w:4, h:0.06, fill:{color:GOLD}, line:{color:GOLD} });
+  s1.addText(project.name || 'Proyecto sin nombre', { x:0.5, y:1.7, w:12.33, h:1.0, fontSize:28, color:WHITE, bold:true, align:'center', valign:'middle' });
+  s1.addText(`Líder: ${project.leader||'—'}`, { x:0.5, y:2.8, w:12.33, h:0.4, fontSize:16, color:GOLD, align:'center' });
   const extraInfo = [];
   if (project.categoria) extraInfo.push(`Categoría: ${project.categoria}`);
   if (project.codigoSistema) extraInfo.push(`Código Sistema: ${project.codigoSistema}`);
   if (project.poblacionBeneficiada) extraInfo.push(`Población Beneficiada: ${fmtInt(project.poblacionBeneficiada)}`);
   if (project.mideplanDate) extraInfo.push(`MIDEPLAN: ${fmtDate(project.mideplanDate)}`);
-  if (loc) s1.addText(loc, { x:0.5, y:3.0, w:12.33, h:0.5, fontSize:14, color:'CCCCCC', align:'center' });
-  if (extraInfo.length) s1.addText(extraInfo.join('   |   '), { x:0.5, y:3.5, w:12.33, h:0.35, fontSize:13, color:'CCCCCC', align:'center' });
+  if (loc) s1.addText(loc, { x:0.5, y:3.2, w:12.33, h:0.5, fontSize:13, color:'CCCCCC', align:'center' });
+  if (extraInfo.length) s1.addText(extraInfo.join('   |   '), { x:0.5, y:3.6, w:12.33, h:0.35, fontSize:12, color:'CCCCCC', align:'center' });
   const now = new Date();
-  s1.addText(`${getSpanishMonth(now)} ${now.getFullYear()}`, { x:0.5, y:3.9, w:12.33, h:0.4, fontSize:18, color:WHITE, align:'center' });
+  s1.addText(`${getSpanishMonth(now)} ${now.getFullYear()}`, { x:0.5, y:4.0, w:12.33, h:0.4, fontSize:16, color:WHITE, align:'center' });
   const kpis = [
     { label:'SPI', value: spi === null ? 'N/D' : spi.toFixed(2), sub: spiLabel(spi), color: spiColor },
     { label:'AVANCE GLOBAL', value: avance.toFixed(1)+'%', sub:'Ponderado por peso de etapa', color: GOLD },
@@ -3395,77 +3491,86 @@ async function addProjectSlidesToPPTX(pptx, project){
   ];
   kpis.forEach((k,i)=>{
     const x = 0.5 + i*4.15;
-    s1.addShape(pptx.ShapeType.rect, { x, y:4.45, w:3.9, h:2.4, fill:{color:'243A68'}, line:{color:'243A68'} });
-    s1.addShape(pptx.ShapeType.rect, { x, y:4.45, w:3.9, h:0.12, fill:{color:k.color}, line:{color:k.color} });
-    s1.addText(k.label, { x:x+0.2, y:4.7, w:3.5, h:0.35, fontSize:14, color:GOLD, bold:true, align:'center' });
-    s1.addText(k.value, { x:x+0.2, y:5.1, w:3.5, h:0.75, fontSize:28, color:WHITE, bold:true, align:'center', valign:'middle' });
-    s1.addText(k.sub, { x:x+0.2, y:5.95, w:3.5, h:0.7, fontSize:14, color:'CCCCCC', align:'center' });
+    s1.addShape(pptx.ShapeType.rect, { x, y:4.5, w:3.9, h:2.3, fill:{color:'243A68'}, line:{color:'243A68'} });
+    s1.addShape(pptx.ShapeType.rect, { x, y:4.5, w:3.9, h:0.12, fill:{color:k.color}, line:{color:k.color} });
+    s1.addText(k.label, { x:x+0.2, y:4.75, w:3.5, h:0.35, fontSize:14, color:GOLD, bold:true, align:'center' });
+    s1.addText(k.value, { x:x+0.2, y:5.15, w:3.5, h:0.75, fontSize:26, color:WHITE, bold:true, align:'center', valign:'middle' });
+    s1.addText(k.sub, { x:x+0.2, y:6.0, w:3.5, h:0.65, fontSize:13, color:'CCCCCC', align:'center' });
   });
 
-  /* NUEVA DIAPOSITIVA DE ALERTA DE INACTIVIDAD */
+  /* ---- Alerta de inactividad ---- */
   if (stale.show){
     let sAlert = pptx.addSlide();
     sAlert.background = { color: 'FFF7D6' };
-    sAlert.addShape(pptx.ShapeType.rect, { x:0, y:0, w:13.333, h:0.5, fill:{color:'F39C12'}, line:{color:'F39C12'} });
-    sAlert.addText('⚠️  ALERTA DE ACTUALIZACIÓN', { x:0.5, y:0.55, w:12.33, h:0.8, fontSize:32, color:'856404', bold:true, align:'center' });
-    sAlert.addShape(pptx.ShapeType.rect, { x:0.5, y:1.55, w:12.33, h:0.06, fill:{color:'F39C12'}, line:{color:'F39C12'} });
-    sAlert.addText('Este proyecto requiere actualización de datos por parte del equipo responsable:', { x:0.5, y:1.8, w:12.33, h:0.5, fontSize:18, color:'333333', align:'center' });
+    addPPTXStandardHeader(sAlert, project, pptx, BLUE, GOLD, WHITE);
+    sAlert.addShape(pptx.ShapeType.rect, { x:0, y:0.8, w:13.333, h:0.35, fill:{color:'F39C12'}, line:{color:'F39C12'} });
+    sAlert.addText('⚠️  ALERTA DE ACTUALIZACIÓN', { x:0.5, y:1.25, w:12.33, h:0.8, fontSize:28, color:'856404', bold:true, align:'center' });
+    sAlert.addShape(pptx.ShapeType.rect, { x:0.5, y:2.15, w:12.33, h:0.06, fill:{color:'F39C12'}, line:{color:'F39C12'} });
+    sAlert.addText('Este proyecto requiere actualización de datos por parte del equipo responsable:', { x:0.5, y:2.35, w:12.33, h:0.5, fontSize:16, color:'333333', align:'center' });
     const lines = [];
     if (stale.progressStale) lines.push({ text:`• Porcentaje de avance sin actualizar${stale.daysSinceProgress!==null?` (${stale.daysSinceProgress} días)`:''}`, options:{ bullet:false } });
     if (stale.activitiesStale) lines.push({ text:`• Actividades programadas sin actualizar${stale.daysSinceActivities!==null?` (${stale.daysSinceActivities} días)`:''}`, options:{ bullet:false } });
-    sAlert.addText(lines, { x:1.0, y:2.5, w:11.33, h:1.8, fontSize:20, color:'721C24', bold:true });
-    sAlert.addText(`Última actualización de avance: ${fmtDateTime(project.lastProgressUpdate)}`, { x:0.5, y:4.6, w:12.33, h:0.4, fontSize:14, color:'666666', italic:true, align:'center' });
-    sAlert.addText(`Última actualización de actividades: ${fmtDateTime(project.lastActivitiesUpdate)}`, { x:0.5, y:5.05, w:12.33, h:0.4, fontSize:14, color:'666666', italic:true, align:'center' });
-    sAlert.addText('Se recomienda revisar y actualizar la información a la brevedad.', { x:0.5, y:6.0, w:12.33, h:0.5, fontSize:16, color:'1B294E', bold:true, align:'center' });
+    sAlert.addText(lines, { x:1.0, y:2.95, w:11.33, h:1.8, fontSize:18, color:'721C24', bold:true });
+    sAlert.addText(`Última actualización de avance: ${fmtDateTime(project.lastProgressUpdate)}`, { x:0.5, y:4.9, w:12.33, h:0.35, fontSize:13, color:'666666', italic:true, align:'center' });
+    sAlert.addText(`Última actualización de actividades: ${fmtDateTime(project.lastActivitiesUpdate)}`, { x:0.5, y:5.3, w:12.33, h:0.35, fontSize:13, color:'666666', italic:true, align:'center' });
+    sAlert.addText('Se recomienda revisar y actualizar la información a la brevedad.', { x:0.5, y:6.1, w:12.33, h:0.5, fontSize:15, color:'1B294E', bold:true, align:'center' });
   }
 
+  /* ---- Mapa + Descripción + Componentes ---- */
   let s2 = pptx.addSlide();
   s2.background = { color: WHITE };
-  s2.addText('Mapa, Descripción y Componentes', { x:0.5, y:0.3, w:12.33, h:0.6, fontSize:28, color:DARK, bold:true });
-  s2.addShape(pptx.ShapeType.rect, { x:0.5, y:0.95, w:3, h:0.06, fill:{color:GOLD}, line:{color:GOLD} });
+  addPPTXStandardHeader(s2, project, pptx, BLUE, GOLD, WHITE);
+  s2.addText('Mapa, Descripción y Componentes', { x:0.5, y:0.95, w:12.33, h:0.55, fontSize:24, color:DARK, bold:true });
+  s2.addShape(pptx.ShapeType.rect, { x:0.5, y:1.55, w:3, h:0.06, fill:{color:GOLD}, line:{color:GOLD} });
   const hasMap = !!project.mapImage;
   const hasDesc = !!(project.description && project.description.trim());
   const hasComp = !!(project.components && project.components.trim());
   if (hasMap && (hasDesc || hasComp)){
-    s2.addText('MAPA', { x:0.5, y:1.15, w:6, h:0.35, fontSize:16, color:DARK, bold:true });
-    s2.addShape(pptx.ShapeType.rect, { x:0.5, y:1.55, w:6, h:5.5, fill:{color:LIGHT}, line:{color:'E0E3EB'} });
-    await addImageProportional(s2, project.mapImage, 0.5, 1.55, 6, 5.5);
-    let cy = 1.15;
-    if (hasDesc){ s2.addText('DESCRIPCIÓN', { x:6.8, y:cy, w:6, h:0.35, fontSize:16, color:DARK, bold:true }); s2.addText(project.description, { x:6.8, y:cy+0.42, w:6, h:2.4, fontSize:14, color:'333333', valign:'top' }); cy += 3.1; }
-    if (hasComp){ s2.addText('COMPONENTES', { x:6.8, y:cy, w:6, h:0.35, fontSize:16, color:DARK, bold:true }); s2.addText(project.components, { x:6.8, y:cy+0.42, w:6, h:2.4, fontSize:14, color:'333333', valign:'top' }); }
+    s2.addText('MAPA', { x:0.5, y:1.75, w:6, h:0.35, fontSize:14, color:DARK, bold:true });
+    s2.addShape(pptx.ShapeType.rect, { x:0.5, y:2.15, w:6, h:4.9, fill:{color:LIGHT}, line:{color:'E0E3EB'} });
+    await addImageProportional(s2, project.mapImage, 0.5, 2.15, 6, 4.9);
+    let cy = 1.75;
+    if (hasDesc){ s2.addText('DESCRIPCIÓN', { x:6.8, y:cy, w:6, h:0.35, fontSize:14, color:DARK, bold:true }); s2.addText(project.description, { x:6.8, y:cy+0.4, w:6, h:2.1, fontSize:12, color:'333333', valign:'top' }); cy += 2.65; }
+    if (hasComp){ s2.addText('COMPONENTES', { x:6.8, y:cy, w:6, h:0.35, fontSize:14, color:DARK, bold:true }); s2.addText(project.components, { x:6.8, y:cy+0.4, w:6, h:2.1, fontSize:12, color:'333333', valign:'top' }); }
   } else if (hasMap){
-    await addImageAt50PercentArea(s2, project.mapImage, 0.5, 1.3, 12.33, 5.8);
+    await addImageAt50PercentArea(s2, project.mapImage, 0.5, 1.9, 12.33, 5.2);
   } else if (hasDesc || hasComp){
-    let cy = 1.15;
-    if (hasDesc){ s2.addText('DESCRIPCIÓN', { x:0.5, y:cy, w:12.33, h:0.35, fontSize:16, color:DARK, bold:true }); s2.addText(project.description, { x:0.5, y:cy+0.42, w:12.33, h:2.7, fontSize:14, color:'333333', valign:'top' }); cy += 3.3; }
-    if (hasComp){ s2.addText('COMPONENTES', { x:0.5, y:cy, w:12.33, h:0.35, fontSize:16, color:DARK, bold:true }); s2.addText(project.components, { x:0.5, y:cy+0.42, w:12.33, h:2.7, fontSize:14, color:'333333', valign:'top' }); }
+    let cy = 1.75;
+    if (hasDesc){ s2.addText('DESCRIPCIÓN', { x:0.5, y:cy, w:12.33, h:0.35, fontSize:14, color:DARK, bold:true }); s2.addText(project.description, { x:0.5, y:cy+0.4, w:12.33, h:2.4, fontSize:12, color:'333333', valign:'top' }); cy += 2.95; }
+    if (hasComp){ s2.addText('COMPONENTES', { x:0.5, y:cy, w:12.33, h:0.35, fontSize:14, color:DARK, bold:true }); s2.addText(project.components, { x:0.5, y:cy+0.4, w:12.33, h:2.4, fontSize:12, color:'333333', valign:'top' }); }
   } else {
-    s2.addText('Sin información de mapa, descripción o componentes registrada', { x:0.5, y:3.3, w:12.33, h:0.5, fontSize:16, color:GRAY, italic:true, align:'center' });
+    s2.addText('Sin información de mapa, descripción o componentes registrada', { x:0.5, y:3.6, w:12.33, h:0.5, fontSize:15, color:GRAY, italic:true, align:'center' });
   }
 
+  /* ---- Estado + Meta ---- */
   let s3 = pptx.addSlide();
   s3.background = { color: WHITE };
-  s3.addText('Estado del Proyecto y Meta Anual', { x:0.5, y:0.3, w:12.33, h:0.6, fontSize:28, color:DARK, bold:true });
-  s3.addShape(pptx.ShapeType.rect, { x:0.5, y:0.95, w:3, h:0.06, fill:{color:GOLD}, line:{color:GOLD} });
-  s3.addText('ESTADO DEL PROYECTO', { x:0.5, y:1.15, w:12.33, h:0.35, fontSize:16, color:DARK, bold:true });
-  s3.addShape(pptx.ShapeType.rect, { x:0.5, y:1.55, w:12.33, h:2.6, fill:{color:LIGHT}, line:{color:'E0E3EB'} });
-  s3.addText(project.estadoProyecto || 'Sin estado registrado', { x:0.7, y:1.65, w:11.93, h:2.4, fontSize:14, color: project.estadoProyecto ? '333333' : '888888', valign:'top', italic: !project.estadoProyecto });
-  s3.addText('META ANUAL', { x:0.5, y:4.35, w:12.33, h:0.35, fontSize:16, color:DARK, bold:true });
-  s3.addShape(pptx.ShapeType.rect, { x:0.5, y:4.75, w:12.33, h:2.45, fill:{color:LIGHT}, line:{color:'E0E3EB'} });
-  s3.addText(project.metaAnual || 'Sin meta registrada', { x:0.7, y:4.85, w:11.93, h:2.25, fontSize:14, color: project.metaAnual ? '333333' : '888888', valign:'top', italic: !project.metaAnual });
+  addPPTXStandardHeader(s3, project, pptx, BLUE, GOLD, WHITE);
+  s3.addText('Estado del Proyecto y Meta Anual', { x:0.5, y:0.95, w:12.33, h:0.55, fontSize:24, color:DARK, bold:true });
+  s3.addShape(pptx.ShapeType.rect, { x:0.5, y:1.55, w:3, h:0.06, fill:{color:GOLD}, line:{color:GOLD} });
+  s3.addText('ESTADO DEL PROYECTO', { x:0.5, y:1.75, w:12.33, h:0.35, fontSize:14, color:DARK, bold:true });
+  s3.addShape(pptx.ShapeType.rect, { x:0.5, y:2.15, w:12.33, h:2.1, fill:{color:LIGHT}, line:{color:'E0E3EB'} });
+  s3.addText(project.estadoProyecto || 'Sin estado registrado', { x:0.7, y:2.25, w:11.93, h:1.9, fontSize:12, color: project.estadoProyecto ? '333333' : '888888', valign:'top', italic: !project.estadoProyecto });
+  s3.addText('META ANUAL', { x:0.5, y:4.4, w:12.33, h:0.35, fontSize:14, color:DARK, bold:true });
+  s3.addShape(pptx.ShapeType.rect, { x:0.5, y:4.8, w:12.33, h:2.3, fill:{color:LIGHT}, line:{color:'E0E3EB'} });
+  s3.addText(project.metaAnual || 'Sin meta registrada', { x:0.7, y:4.9, w:11.93, h:2.1, fontSize:12, color: project.metaAnual ? '333333' : '888888', valign:'top', italic: !project.metaAnual });
 
+  /* ---- Etapas y Cronograma ---- */
   let s4 = pptx.addSlide();
   s4.background = { color: WHITE };
-  s4.addText('Etapas y Cronograma', { x:0.5, y:0.3, w:12.33, h:0.6, fontSize:28, color:DARK, bold:true });
-  s4.addShape(pptx.ShapeType.rect, { x:0.5, y:0.95, w:3, h:0.06, fill:{color:GOLD}, line:{color:GOLD} });
+  addPPTXStandardHeader(s4, project, pptx, BLUE, GOLD, WHITE);
+  s4.addText('Etapas y Cronograma', { x:0.5, y:0.95, w:12.33, h:0.55, fontSize:24, color:DARK, bold:true });
+  s4.addShape(pptx.ShapeType.rect, { x:0.5, y:1.55, w:3, h:0.06, fill:{color:GOLD}, line:{color:GOLD} });
   const etRows = buildEtapasTableForPPTX(project, BLUE, WHITE);
-  const etY = computeCenteredY(etRows.length, 14, 1.25, 7.3);
-  s4.addTable(etRows, { x: 0.4, y: etY, w: 12.53, colW: [1.7, 2.3, 0.9, 1.5, 1.5, 1.5, 1.5, 1.63], fontSize: 14, border: { pt:1, color:'CCCCCC' }, valign: 'middle' });
+  const etY = computeCenteredY(etRows.length, 12, 1.85, 7.3);
+  s4.addTable(etRows, { x: 0.4, y: etY, w: 12.53, colW: [1.7, 2.3, 0.9, 1.5, 1.5, 1.5, 1.5, 1.63], fontSize: 12, border: { pt:1, color:'CCCCCC' }, valign: 'middle' });
 
+  /* ---- Dificultades + Actividades Críticas ---- */
   let s5 = pptx.addSlide();
   s5.background = { color: WHITE };
-  s5.addText('Actividades Críticas y Dificultades', { x:0.5, y:0.3, w:12.33, h:0.6, fontSize:28, color:DARK, bold:true });
-  s5.addShape(pptx.ShapeType.rect, { x:0.5, y:0.95, w:3, h:0.06, fill:{color:GOLD}, line:{color:GOLD} });
+  addPPTXStandardHeader(s5, project, pptx, BLUE, GOLD, WHITE);
+  s5.addText('Actividades Críticas y Dificultades', { x:0.5, y:0.95, w:12.33, h:0.55, fontSize:24, color:DARK, bold:true });
+  s5.addShape(pptx.ShapeType.rect, { x:0.5, y:1.55, w:3, h:0.06, fill:{color:GOLD}, line:{color:GOLD} });
   const sortP = (a,b) => { const o={Alta:0,Media:1,Baja:2}; return (o[a.priority]??3)-(o[b.priority]??3); };
   const difSorted = [...(project.difficulties||[])].sort(sortP);
   const actSorted = [...(project.activities||[])].sort(sortP);
@@ -3480,13 +3585,15 @@ async function addProjectSlidesToPPTX(pptx, project){
     difSorted.forEach(d => combRows.push([{ text:'Dificultad', options:{bold:true, color:'B71C1C'} },{ text:d.desc||'—', options:{} },{ text:d.priority||'—', options:{align:'center', bold:true} }]));
     actSorted.forEach(a => combRows.push([{ text:'Actividad', options:{bold:true, color:'1B5E20'} },{ text:a.desc||'—', options:{} },{ text:a.priority||'—', options:{align:'center', bold:true} }]));
   }
-  const combY = computeCenteredY(combRows.length, 14, 1.25, 7.3);
-  s5.addTable(combRows, { x: 0.4, y: combY, w: 12.53, colW: [2.2, 8.2, 2.13], fontSize: 14, border: { pt:1, color:'CCCCCC' }, valign: 'middle' });
+  const combY = computeCenteredY(combRows.length, 12, 1.85, 7.3);
+  s5.addTable(combRows, { x: 0.4, y: combY, w: 12.53, colW: [2.2, 8.2, 2.13], fontSize: 12, border: { pt:1, color:'CCCCCC' }, valign: 'middle' });
 
+  /* ---- Actividades Programadas ---- */
   let s6 = pptx.addSlide();
   s6.background = { color: WHITE };
-  s6.addText('Actividades Programadas', { x:0.5, y:0.3, w:12.33, h:0.6, fontSize:28, color:DARK, bold:true });
-  s6.addShape(pptx.ShapeType.rect, { x:0.5, y:0.95, w:3, h:0.06, fill:{color:GOLD}, line:{color:GOLD} });
+  addPPTXStandardHeader(s6, project, pptx, BLUE, GOLD, WHITE);
+  s6.addText('Actividades Programadas', { x:0.5, y:0.95, w:12.33, h:0.55, fontSize:24, color:DARK, bold:true });
+  s6.addShape(pptx.ShapeType.rect, { x:0.5, y:1.55, w:3, h:0.06, fill:{color:GOLD}, line:{color:GOLD} });
   const progActs = project.programmedActivities || { current: [], next: [] };
   const curActs = progActs.current || [], nextActs = progActs.next || [];
   const actProgRows = [[
@@ -3501,13 +3608,15 @@ async function addProjectSlidesToPPTX(pptx, project){
     curActs.forEach(a => actProgRows.push([{ text:'Del Mes', options:{bold:true, color:'1B294E'} },{ text:a.desc||'—', options:{} },{ text:a.responsable||'—', options:{} },{ text:a.estado||'—', options:{align:'center', bold:true} }]));
     nextActs.forEach(a => actProgRows.push([{ text:'Próximo Mes', options:{bold:true, color:'856404'} },{ text:a.desc||'—', options:{} },{ text:a.responsable||'—', options:{} },{ text:'—', options:{align:'center'} }]));
   }
-  const actProgY = computeCenteredY(actProgRows.length, 14, 1.25, 7.3);
-  s6.addTable(actProgRows, { x: 0.4, y: actProgY, w: 12.53, colW: [1.9, 6.3, 2.4, 1.93], fontSize: 14, border: { pt:1, color:'CCCCCC' }, valign: 'middle' });
+  const actProgY = computeCenteredY(actProgRows.length, 12, 1.85, 7.3);
+  s6.addTable(actProgRows, { x: 0.4, y: actProgY, w: 12.53, colW: [1.9, 6.3, 2.4, 1.93], fontSize: 12, border: { pt:1, color:'CCCCCC' }, valign: 'middle' });
 
+  /* ---- Equipo ---- */
   let s6b = pptx.addSlide();
   s6b.background = { color: WHITE };
-  s6b.addText('Equipo del Proyecto', { x:0.5, y:0.3, w:12.33, h:0.6, fontSize:28, color:DARK, bold:true });
-  s6b.addShape(pptx.ShapeType.rect, { x:0.5, y:0.95, w:3, h:0.06, fill:{color:GOLD}, line:{color:GOLD} });
+  addPPTXStandardHeader(s6b, project, pptx, BLUE, GOLD, WHITE);
+  s6b.addText('Equipo del Proyecto', { x:0.5, y:0.95, w:12.33, h:0.55, fontSize:24, color:DARK, bold:true });
+  s6b.addShape(pptx.ShapeType.rect, { x:0.5, y:1.55, w:3, h:0.06, fill:{color:GOLD}, line:{color:GOLD} });
   const team = project.team || { internos: [], externos: [] };
   const teamRows = [[
     { text:'Tipo', options:{bold:true, fill:BLUE, color:WHITE, align:'center'} },
@@ -3521,37 +3630,41 @@ async function addProjectSlidesToPPTX(pptx, project){
     (team.internos || []).forEach(r => teamRows.push([{ text:'Interno', options:{bold:true, color:'1B294E'} },{ text:r.nombre||'—', options:{} },{ text:r.responsabilidad||'—', options:{} },{ text:r.email||'—', options:{} }]));
     (team.externos || []).forEach(r => teamRows.push([{ text:'Externo', options:{bold:true, color:'856404'} },{ text:r.nombre||'—', options:{} },{ text:r.responsabilidad||'—', options:{} },{ text:r.email||'—', options:{} }]));
   }
-  const teamY = computeCenteredY(teamRows.length, 14, 1.25, 7.3);
-  s6b.addTable(teamRows, { x: 0.4, y: teamY, w: 12.53, colW: [1.8, 3.4, 3.6, 3.73], fontSize: 14, border: { pt:1, color:'CCCCCC' }, valign: 'middle' });
+  const teamY = computeCenteredY(teamRows.length, 12, 1.85, 7.3);
+  s6b.addTable(teamRows, { x: 0.4, y: teamY, w: 12.53, colW: [1.8, 3.4, 3.6, 3.73], fontSize: 12, border: { pt:1, color:'CCCCCC' }, valign: 'middle' });
 
+  /* ---- Programación Financiera ---- */
   let s7 = pptx.addSlide();
   s7.background = { color: WHITE };
-  s7.addText('Programación Financiera', { x:0.5, y:0.3, w:12.33, h:0.6, fontSize:28, color:DARK, bold:true });
-  s7.addShape(pptx.ShapeType.rect, { x:0.5, y:0.95, w:3, h:0.06, fill:{color:GOLD}, line:{color:GOLD} });
+  addPPTXStandardHeader(s7, project, pptx, BLUE, GOLD, WHITE);
+  s7.addText('Programación Financiera', { x:0.5, y:0.95, w:12.33, h:0.55, fontSize:24, color:DARK, bold:true });
+  s7.addShape(pptx.ShapeType.rect, { x:0.5, y:1.55, w:3, h:0.06, fill:{color:GOLD}, line:{color:GOLD} });
   if (years.length === 0){
-    s7.addText('Sin programación financiera registrada', { x:0.5, y:3.3, w:12.33, h:0.5, fontSize:16, color:GRAY, italic:true, align:'center' });
+    s7.addText('Sin programación financiera registrada', { x:0.5, y:3.6, w:12.33, h:0.5, fontSize:15, color:GRAY, italic:true, align:'center' });
   } else {
     const finRows = buildFinancieroTableForPPTX(project, BLUE, WHITE, tot, landTotal, global, info);
-    const finFontSize = years.length <= 4 ? 16 : years.length <= 8 ? 14 : years.length <= 15 ? 12 : 10;
-    const finY = computeCenteredY(finRows.length, finFontSize, 1.25, info.hasAggregation ? 6.9 : 7.3);
+    const finFontSize = years.length <= 4 ? 14 : years.length <= 8 ? 12 : years.length <= 15 ? 11 : 9;
+    const finY = computeCenteredY(finRows.length, finFontSize, 1.85, info.hasAggregation ? 6.9 : 7.3);
     s7.addTable(finRows, { x: 0.4, y: finY, w: 12.53, fontSize: finFontSize, border: { pt:1, color:'CCCCCC' }, valign: 'middle' });
     if (info.hasAggregation){
-      s7.addText(`* El año ${info.cutoff} incluye montos de años anteriores: ${info.aggregated.join(', ')}`, { x:0.4, y:7.15, w:12.53, h:0.3, fontSize:10, color:GRAY, italic:true });
+      s7.addText(`* El año ${info.cutoff} incluye montos de años anteriores: ${info.aggregated.join(', ')}`, { x:0.4, y:7.15, w:12.53, h:0.3, fontSize:9, color:GRAY, italic:true });
     }
   }
 
+  /* ---- Terrenos y Servidumbres ---- */
   let s8 = pptx.addSlide();
   s8.background = { color: WHITE };
-  s8.addText('Terrenos y Servidumbres', { x:0.5, y:0.3, w:12.33, h:0.6, fontSize:28, color:DARK, bold:true });
-  s8.addShape(pptx.ShapeType.rect, { x:0.5, y:0.95, w:3, h:0.06, fill:{color:GOLD}, line:{color:GOLD} });
+  addPPTXStandardHeader(s8, project, pptx, BLUE, GOLD, WHITE);
+  s8.addText('Terrenos y Servidumbres', { x:0.5, y:0.95, w:12.33, h:0.55, fontSize:24, color:DARK, bold:true });
+  s8.addShape(pptx.ShapeType.rect, { x:0.5, y:1.55, w:3, h:0.06, fill:{color:GOLD}, line:{color:GOLD} });
   if (!project.lands || project.lands.length === 0){
-    s8.addText('Sin terrenos o servidumbres registrados', { x:0.5, y:3.3, w:12.33, h:0.5, fontSize:16, color:GRAY, italic:true, align:'center' });
+    s8.addText('Sin terrenos o servidumbres registrados', { x:0.5, y:3.6, w:12.33, h:0.5, fontSize:15, color:GRAY, italic:true, align:'center' });
   } else {
     const landRows = buildTerrenosTableForPPTX(project, BLUE, WHITE, landTotal);
-    const landY = computeCenteredY(landRows.length, 13, 1.25, 7.3);
-    s8.addTable(landRows, { x: 0.4, y: landY, w: 12.53, colW: [1.7, 2.1, 2.4, 2.3, 2.0, 2.03], fontSize: 13, border: { pt:1, color:'CCCCCC' }, valign: 'middle' });
+    const landY = computeCenteredY(landRows.length, 12, 1.85, 7.3);
+    s8.addTable(landRows, { x: 0.4, y: landY, w: 12.53, colW: [1.7, 2.1, 2.4, 2.3, 2.0, 2.03], fontSize: 12, border: { pt:1, color:'CCCCCC' }, valign: 'middle' });
     if (landNC > 0){
-      s8.addText(`Nota: los registros con figura Convenio o Donación no se suman a la programación financiera. Excluido: ${fmtCRC(landNC)}`, { x:0.4, y:7.15, w:12.53, h:0.3, fontSize:10, color:GRAY, italic:true });
+      s8.addText(`Nota: los registros con figura Convenio o Donación no se suman a la programación financiera. Excluido: ${fmtCRC(landNC)}`, { x:0.4, y:7.15, w:12.53, h:0.3, fontSize:9, color:GRAY, italic:true });
     }
   }
 }
