@@ -39,7 +39,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-s
 .btn-view:hover{background:#2a3d6b}
 .btn-edit-gold{background:var(--aya-dorado);color:#fff;border:none}
 .btn-edit-gold:hover{background:#b89b5f}
-
 .sync-status{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;color:#fff;background:rgba(255,255,255,.1);padding:5px 12px;border-radius:20px;border:1px solid rgba(255,255,255,.2);transition:all .2s;cursor:pointer;font-weight:600;letter-spacing:.2px;user-select:none}
 .sync-status:hover{background:rgba(255,255,255,.18)}
 .sync-status .sync-dot{width:8px;height:8px;border-radius:50%;background:#f39c12;display:inline-block;transition:background .2s;flex-shrink:0}
@@ -48,18 +47,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-s
 .sync-status.saving .sync-dot{background:#f39c12;animation:pulse 1s infinite}
 .sync-status.offline .sync-dot{background:#95a5a6}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
-
 .loading-overlay{position:fixed;inset:0;background:rgba(245,246,250,.96);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;transition:opacity .3s}
 .loading-overlay.hidden{display:none}
 .loading-spinner{width:48px;height:48px;border:4px solid #E0E3EB;border-top-color:#1B294E;border-radius:50%;animation:spin 1s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-
 .filters{background:var(--aya-blanco);padding:12px 16px;border-radius:8px;margin-bottom:16px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;box-shadow:0 2px 6px rgba(0,0,0,.04);border:1px solid var(--aya-gris)}
 .filters .search-wrap{flex:1;min-width:220px;position:relative}
 .filters input[type=text]{width:100%;padding:8px 12px 8px 34px;border:1px solid var(--aya-gris);border-radius:6px;font-size:13px;font-family:inherit}
 .filters .search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#999;font-size:15px}
 .filters select{padding:8px 12px;border:1px solid var(--aya-gris);border-radius:6px;font-size:13px;background:white;font-family:inherit;color:var(--aya-azul);font-weight:600}
-
 .project-list-dropdown,.dashboard-dropdown{background:white;border-radius:8px;margin-bottom:14px;box-shadow:0 2px 6px rgba(0,0,0,.04);border:1px solid var(--aya-gris);overflow:hidden}
 .project-list-dropdown summary,.dashboard-dropdown summary{padding:11px 16px;cursor:pointer;font-weight:700;color:var(--aya-azul);font-size:14px;display:flex;align-items:center;gap:10px;list-style:none;background:var(--aya-fondo-claro);user-select:none;transition:background .15s}
 .project-list-dropdown[open] summary,.dashboard-dropdown[open] summary{border-bottom:1px solid var(--aya-gris)}
@@ -81,7 +77,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-s
   .project-list-header-row,.project-list-item{grid-template-columns:90px 1fr 60px}
   .project-list-header-row .leader-col,.project-list-item .leader-col{display:none}
 }
-
 .dashboard-body{padding:16px}
 .dashboard-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:14px}
 .dash-stat{background:var(--aya-fondo-claro);border-radius:8px;padding:12px;text-align:center;border-left:4px solid var(--aya-dorado)}
@@ -92,7 +87,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-s
 .chart-card{background:white;border:1px solid var(--aya-gris);border-radius:8px;padding:12px}
 .chart-card h4{font-size:11px;color:var(--aya-azul);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid var(--aya-dorado);font-weight:700}
 .chart-canvas{position:relative;width:100%;height:220px}
-
 .leaders-table-wrap{max-height:300px;overflow-y:auto}
 .leaders-table{width:100%;border-collapse:collapse;font-size:12px}
 .leaders-table thead th{background:var(--aya-azul);color:#fff;padding:8px 10px;text-align:left;font-size:10.5px;text-transform:uppercase;letter-spacing:.4px;font-weight:700;position:sticky;top:0;z-index:1}
@@ -100,7 +94,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-s
 .leaders-table tbody tr:hover{background:var(--aya-fondo-claro)}
 .leaders-table tfoot td{padding:8px 10px;background:var(--aya-fondo-claro);font-weight:700;border-top:2px solid var(--aya-dorado)}
 .leaders-table .count-badge{display:inline-block;background:var(--aya-dorado);color:#fff;padding:2px 10px;border-radius:10px;font-weight:700;min-width:28px;text-align:center}
-
 .projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
 .empty{text-align:center;padding:80px 20px;color:#888;font-size:15px;grid-column:1/-1}
 .card{background:var(--aya-blanco);border-radius:10px;padding:16px;border-top:4px solid var(--aya-azul);box-shadow:0 2px 8px rgba(0,0,0,.06);display:flex;flex-direction:column;gap:8px;position:relative}
@@ -125,7 +118,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-s
 .export-menu.open .export-dropdown{display:block}
 .export-dropdown button{display:block;width:100%;padding:9px 14px;text-align:left;background:none;border:none;cursor:pointer;font-size:12.5px;font-family:inherit;color:#333}
 .export-dropdown button:hover{background:var(--aya-fondo-claro)}
-
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;z-index:200;overflow-y:auto;padding:20px}
 .modal.open{display:block}
 .modal-content{background:var(--aya-blanco);max-width:1150px;margin:0 auto;border-radius:10px;overflow:hidden;box-shadow:0 10px 40px rgba(0,0,0,.3)}
@@ -138,12 +130,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-s
 .view-bpip-header.diff-changed,
 .view-title-block h2.diff-changed{background-color:#ff8a80;padding:2px 8px;border-radius:4px;border-left:3px solid #e74c3c}
 .view-title-block h2{font-size:17px;line-height:1.2;overflow:hidden;text-overflow:ellipsis}
-
 .view-version-bar{background:#eef2f9;padding:10px 20px;display:flex;gap:14px;align-items:center;justify-content:center;border-bottom:1px solid var(--aya-gris);flex-wrap:wrap}
 .view-version-bar .view-ver-label{font-size:12.5px;font-weight:600;color:var(--aya-azul);min-width:280px;text-align:center;padding:4px 10px;background:#fff;border-radius:6px;border:1px solid var(--aya-gris)}
 .view-version-bar .view-ver-label.historical{background:#fff8e1;color:#856404;border-color:#f39c12}
 .view-version-bar button{font-size:12px;padding:6px 14px;min-width:100px}
-
 .diff-changed{background-color:#ffd6d6 !important;border-left:3px solid #e74c3c !important;border-radius:4px}
 .diff-changed.view-text{padding:6px 10px}
 .view-header-info > div.diff-changed{padding:4px 8px;border-radius:4px;border-left:3px solid #e74c3c !important}
@@ -151,12 +141,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-s
 .view-table tbody td.diff-changed-cell:first-child{border-left:3px solid #e74c3c}
 .diff-legend{font-size:11.5px;background:#fff3f3;border-left:3px solid #e74c3c;padding:8px 12px;border-radius:4px;margin-bottom:12px;color:#721c24;line-height:1.4}
 .diff-legend strong{color:#c0392b}
-
-/* NUEVO: indicadores de terrenos no computables */
 .land-non-computable{background:#fffbf0 !important}
 .land-badge-nc{display:inline-block;font-size:9.5px;font-weight:700;padding:2px 7px;border-radius:8px;background:#f39c12;color:#fff;margin-left:6px;letter-spacing:.4px;vertical-align:middle;white-space:nowrap}
 .land-badge-nc-view{font-size:9px;padding:1px 6px;margin-left:5px}
-
 .tabs{display:flex;background:var(--aya-fondo-claro);border-bottom:1px solid var(--aya-gris);overflow-x:auto}
 .tab{padding:12px 16px;background:none;border:none;cursor:pointer;font-weight:600;color:#666;font-size:13px;border-bottom:3px solid transparent;white-space:nowrap;font-family:inherit}
 .tab.active{color:var(--aya-azul);border-bottom-color:var(--aya-dorado)}
@@ -182,13 +169,11 @@ td input::placeholder{color:#bbb;font-style:italic}
 .money-input input{padding-left:20px}
 .section-title{font-size:14px;font-weight:700;color:var(--aya-azul);margin:20px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--aya-dorado);text-transform:uppercase;letter-spacing:.5px}
 .section-title:first-child{margin-top:0}
-
 .date-wrap{position:relative;display:block;width:100%}
 .date-text{padding-right:32px !important}
 .date-pick-btn{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:24px;height:24px;display:flex;align-items:center;justify-content:center;color:var(--aya-azul);cursor:pointer;border-radius:4px;z-index:2}
 .date-pick-btn:hover{background:var(--aya-fondo-claro)}
 .date-native{position:absolute;inset:0;opacity:0;cursor:pointer;border:0;padding:0;margin:0;width:100%;height:100%;z-index:3}
-
 .etapa-card{border:1px solid var(--aya-gris);border-radius:8px;padding:12px;margin-bottom:10px;background:var(--aya-blanco)}
 .etapa-card.active{border-left:4px solid var(--aya-dorado);background:#fafbf5}
 .etapa-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
@@ -207,19 +192,16 @@ td input::placeholder{color:#bbb;font-style:italic}
 .sub-section{background:#fff;border:1px solid var(--aya-gris);border-radius:8px;padding:14px;margin-bottom:16px}
 .sub-section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px}
 .sub-section-title{font-size:14px;font-weight:700;color:var(--aya-azul);text-transform:uppercase;letter-spacing:.4px}
-
 .locations-list{display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
 .location-row{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:8px;align-items:center;background:var(--aya-fondo-claro);padding:8px;border-radius:6px;border:1px solid var(--aya-gris)}
 .location-row select{padding:6px 8px;font-size:12.5px}
 @media(max-width:700px){.location-row{grid-template-columns:1fr 1fr}}
 @media(max-width:450px){.location-row{grid-template-columns:1fr}}
-
 .print-controls{background:var(--aya-fondo-claro);padding:12px 20px;display:flex;gap:16px;flex-wrap:wrap;align-items:center;border-bottom:1px solid var(--aya-gris)}
 .print-controls label{font-size:12px;font-weight:700;color:var(--aya-azul);display:flex;align-items:center;gap:6px;text-transform:uppercase;letter-spacing:.3px}
 .print-controls select{padding:6px 10px;border:1px solid var(--aya-gris);border-radius:5px;font-size:13px;font-family:inherit}
 .print-preview{height:62vh;overflow:auto;background:#d5d8df;padding:20px}
 #printPreviewFrame{width:100%;height:100%;border:0;background:white;box-shadow:0 2px 10px rgba(0,0,0,.2);border-radius:3px}
-
 .fin-table{table-layout:auto;min-width:100%}
 .fin-table th,.fin-table td{white-space:nowrap}
 .fin-table td input{width:auto;text-align:right;padding-left:20px}
@@ -232,7 +214,6 @@ td input::placeholder{color:#bbb;font-style:italic}
 .fin-table tr.grand-total td{background:var(--aya-azul);color:#fff;font-weight:700;font-size:14px}
 .fin-table td input{text-align:right}
 .fin-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--aya-gris);border-radius:6px}
-
 .view-body{padding:20px;max-height:calc(100vh - 180px);overflow-y:auto;background:var(--aya-fondo-claro)}
 .view-header-info{background:white;padding:14px 18px;border-radius:8px;margin-bottom:16px;display:flex;gap:24px;flex-wrap:wrap;border-left:4px solid var(--aya-dorado);box-shadow:0 2px 6px rgba(0,0,0,.05)}
 .view-header-info > div{font-size:13px;color:#666}
@@ -276,7 +257,6 @@ td input::placeholder{color:#bbb;font-style:italic}
 .etapa-progress-row .etapa-bar{flex:2;height:6px;background:#e9ecef;border-radius:3px;overflow:hidden}
 .etapa-progress-row .etapa-bar > div{height:100%;background:var(--aya-dorado)}
 .etapa-progress-row .etapa-pct{width:40px;text-align:right;color:#666;font-weight:600}
-
 .view-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:6px}
 .view-table thead th{background:var(--aya-azul);color:#fff;padding:9px 8px;text-align:left;font-size:10.5px;text-transform:uppercase;letter-spacing:.4px;font-weight:700;white-space:nowrap}
 .view-table tbody td{padding:7px 8px;border-bottom:1px solid var(--aya-gris);vertical-align:middle}
@@ -287,7 +267,6 @@ td input::placeholder{color:#bbb;font-style:italic}
 .view-table tfoot td{padding:9px 8px;border-top:2px solid var(--aya-dorado);background:var(--aya-fondo-claro);font-weight:700}
 .view-table-wrap{overflow-x:auto;margin-top:4px}
 .aggregated-note{font-size:11px;color:#856404;background:#fffbe6;border-left:3px solid var(--aya-amarillo);padding:6px 10px;border-radius:4px;margin-top:8px;font-style:italic}
-
 .image-zoom-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:400;flex-direction:column}
 .image-zoom-overlay.open{display:flex}
 .image-zoom-controls{position:sticky;top:0;display:flex;justify-content:center;align-items:center;gap:8px;padding:12px;background:rgba(0,0,0,.6);z-index:1;flex-wrap:wrap}
@@ -298,8 +277,26 @@ td input::placeholder{color:#bbb;font-style:italic}
 .image-zoom-container{flex:1;overflow:auto;padding:20px;text-align:center;cursor:grab}
 .image-zoom-container:active{cursor:grabbing}
 #zoomImageEl{display:inline-block;width:90vw;height:auto;max-width:none;max-height:none;border-radius:4px;box-shadow:0 4px 20px rgba(0,0,0,.5);user-select:none;-webkit-user-drag:none}
-
 .team-empty{text-align:center;color:#888;font-style:italic;padding:12px;font-size:13px}
+
+/* ============ NUEVO: Semáforo MIDEPLAN ============ */
+.mideplan-group{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.mideplan-group .date-wrap{flex:1;min-width:180px}
+.mideplan-lights{display:flex;gap:6px;padding:7px 12px;background:linear-gradient(180deg,#1a1a1a 0%,#0a0a0a 100%);border-radius:24px;box-shadow:inset 0 2px 6px rgba(0,0,0,.8),inset 0 -1px 2px rgba(255,255,255,.08),0 2px 4px rgba(0,0,0,.25);flex-shrink:0}
+.mideplan-light{width:20px;height:20px;border-radius:50%;background:radial-gradient(circle at 32% 28%,#3a3a3a,#141414 72%);box-shadow:inset 0 0 4px rgba(0,0,0,.8);transition:all .35s ease;position:relative;border:1px solid rgba(0,0,0,.4)}
+.mideplan-light.green.active{background:radial-gradient(circle at 32% 28%,#d6ffd6 0%,#27ae60 42%,#0b4a24 100%);box-shadow:0 0 16px #27ae60,0 0 8px #7fff7f,inset 0 0 5px rgba(255,255,255,.85),inset -2px -2px 4px rgba(0,0,0,.35),0 0 0 1px rgba(39,174,96,.4)}
+.mideplan-light.orange.active{background:radial-gradient(circle at 32% 28%,#ffeac2 0%,#f39c12 42%,#663a00 100%);box-shadow:0 0 16px #f39c12,0 0 8px #ffd07f,inset 0 0 5px rgba(255,255,255,.85),inset -2px -2px 4px rgba(0,0,0,.35),0 0 0 1px rgba(243,156,18,.4)}
+.mideplan-light.red.active{background:radial-gradient(circle at 32% 28%,#ffd1d1 0%,#e74c3c 42%,#5a0d05 100%);box-shadow:0 0 16px #e74c3c,0 0 8px #ff8f8f,inset 0 0 5px rgba(255,255,255,.85),inset -2px -2px 4px rgba(0,0,0,.35),0 0 0 1px rgba(231,76,60,.4)}
+
+/* ============ NUEVO: Alerta de inactividad en tarjeta ============ */
+.card-stale-alert{background:linear-gradient(90deg,#fff7d6 0%,#ffedb0 100%);border-left:4px solid #f39c12;color:#856404;padding:8px 10px;border-radius:6px;font-size:11.5px;font-weight:700;margin-top:6px;line-height:1.4;display:flex;align-items:flex-start;gap:7px}
+.card-stale-alert.critical{background:linear-gradient(90deg,#fde2e2 0%,#f9caca 100%);border-left-color:#e74c3c;color:#721c24}
+.card-stale-alert .alert-icon{font-size:15px;flex-shrink:0;line-height:1}
+
+/* ============ NUEVO: Campos de Ejecución ============ */
+.etapa-ejecucion-fields{background:#eef8f0;border:1px solid #b8dfc3;border-radius:7px;padding:12px;margin-top:10px}
+.etapa-ejecucion-fields .row-3{margin-bottom:0}
+.etapa-ejecucion-fields label{font-size:11px;font-weight:700;color:#1B294E;text-transform:uppercase}
 </style>
 </head>
 <body>
@@ -342,18 +339,12 @@ td input::placeholder{color:#bbb;font-style:italic}
   </div>
 
   <details class="project-list-dropdown" id="projectListDropdown">
-    <summary>
-      <span>Lista de Proyectos</span>
-      <span class="summary-count" id="projectListCount">0</span>
-    </summary>
+    <summary><span>Lista de Proyectos</span><span class="summary-count" id="projectListCount">0</span></summary>
     <div class="project-list-body" id="projectListBody"></div>
   </details>
 
   <details class="dashboard-dropdown" id="dashboardDropdown">
-    <summary>
-      <span>Dashboard — Estado Global de Proyectos</span>
-      <span class="summary-count" id="dashboardCount">0</span>
-    </summary>
+    <summary><span>Dashboard — Estado Global de Proyectos</span><span class="summary-count" id="dashboardCount">0</span></summary>
     <div class="dashboard-body" id="dashboardBody"></div>
   </details>
 
@@ -467,8 +458,7 @@ td input::placeholder{color:#bbb;font-style:italic}
   </div>
 </div>
 
-<script>
-const MAX_HISTORY = 20;
+<script>const MAX_HISTORY = 20;
 
 /* =========================================================
    SUPABASE: configuración, cliente y estado de sincronización
@@ -504,28 +494,16 @@ function scheduleSync(){
 }
 
 async function syncToSupabase(){
-  if (syncInProgress){
-    syncPendingAfterCurrent = true;
-    return;
-  }
+  if (syncInProgress){ syncPendingAfterCurrent = true; return; }
   syncInProgress = true;
   try {
     const currentIds = new Set(state.projects.map(p => p.id));
     const toUpsert = [];
-    state.projects.forEach(p => {
-      if (lastSynced.get(p.id) !== projectHash(p)) toUpsert.push(p);
-    });
+    state.projects.forEach(p => { if (lastSynced.get(p.id) !== projectHash(p)) toUpsert.push(p); });
     const toDelete = [];
-    for (const id of lastSynced.keys()){
-      if (!currentIds.has(id)) toDelete.push(id);
-    }
-
+    for (const id of lastSynced.keys()){ if (!currentIds.has(id)) toDelete.push(id); }
     if (toUpsert.length > 0){
-      const rows = toUpsert.map(p => ({
-        id: p.id,
-        data: p,
-        updated_at: new Date().toISOString()
-      }));
+      const rows = toUpsert.map(p => ({ id: p.id, data: p, updated_at: new Date().toISOString() }));
       const { error } = await supabaseClient.from('projects').upsert(rows, { onConflict:'id' });
       if (error) throw error;
       toUpsert.forEach(p => lastSynced.set(p.id, projectHash(p)));
@@ -541,10 +519,7 @@ async function syncToSupabase(){
     updateSyncStatus('error', e.message || String(e));
   } finally {
     syncInProgress = false;
-    if (syncPendingAfterCurrent){
-      syncPendingAfterCurrent = false;
-      scheduleSync();
-    }
+    if (syncPendingAfterCurrent){ syncPendingAfterCurrent = false; scheduleSync(); }
   }
 }
 
@@ -578,8 +553,6 @@ const FUNDS = [
   { key:'transferidos', label:'Fondos Transferidos' },
   { key:'porAsignar',   label:'Por Asignar' }
 ];
-
-/* Figuras que NO se suman a la programación financiera */
 const FIGURAS_NO_COMPUTABLES = ['Convenio', 'Donación'];
 
 const CR_LOC = {
@@ -683,14 +656,8 @@ const CR_LOC = {
   }
 };
 
-const state = { 
-  projects: [], 
-  editingId: null, 
-  selected: new Set(), 
-  printTarget: [], 
-  dirty: false, 
-  editorSnapshot: null, 
-  viewVersion: 0 
+const state = {
+  projects: [], editingId: null, selected: new Set(), printTarget: [], dirty: false, editorSnapshot: null, viewVersion: 0
 };
 let currentZoom = 1;
 let dashboardCharts = {};
@@ -710,16 +677,11 @@ async function preloadAyaLogo(){
       if (!resp.ok) throw new Error('HTTP ' + resp.status);
       const blob = await resp.blob();
       const b64 = await new Promise((res, rej) => {
-        const r = new FileReader();
-        r.onload = () => res(r.result);
-        r.onerror = rej;
-        r.readAsDataURL(blob);
+        const r = new FileReader(); r.onload = () => res(r.result); r.onerror = rej; r.readAsDataURL(blob);
       });
       return b64;
-    } catch(e){
-      console.warn('Logo AYA no disponible:', e.message || e);
-      return null;
-    } finally { clearTimeout(timer); }
+    } catch(e){ console.warn('Logo AYA no disponible:', e.message || e); return null; }
+    finally { clearTimeout(timer); }
   })();
   AYA_LOGO_BASE64 = await AYA_LOGO_PROMISE;
   AYA_LOGO_PROMISE = null;
@@ -737,8 +699,7 @@ function getImageDimensions(dataUrl){
 }
 
 function getSpanishMonth(date){
-  return ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
-          'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'][date.getMonth()];
+  return ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'][date.getMonth()];
 }
 
 const uid = () => 'p_' + Date.now().toString(36) + Math.random().toString(36).slice(2,7);
@@ -764,8 +725,7 @@ function parseNum(s){
 }
 function isoToDisplay(iso){
   if (!iso || !/^\d{4}-\d{2}-\d{2}$/.test(iso)) return '';
-  const [y,m,d] = iso.split('-');
-  return `${d}/${m}/${y}`;
+  const [y,m,d] = iso.split('-'); return `${d}/${m}/${y}`;
 }
 function displayToIso(disp){
   if (!disp || !/^\d{2}\/\d{2}\/\d{4}$/.test(disp)) return '';
@@ -884,13 +844,7 @@ async function load(){
   try {
     const { data, error } = await supabaseClient.from('projects').select('id, data, updated_at');
     if (error) throw error;
-
-    const remoteProjects = (data || []).map(row => {
-      const proj = row.data || {};
-      proj.id = row.id;
-      return proj;
-    });
-
+    const remoteProjects = (data || []).map(row => { const proj = row.data || {}; proj.id = row.id; return proj; });
     if (remoteProjects.length === 0){
       let localProjects = [];
       try { localProjects = JSON.parse(localStorage.getItem('aya_projects') || '[]'); } catch {}
@@ -903,7 +857,6 @@ async function load(){
         return;
       }
     }
-
     state.projects = remoteProjects;
     state.projects.forEach(migrateProject);
     state.projects.forEach(p => lastSynced.set(p.id, projectHash(p)));
@@ -931,7 +884,12 @@ function migrateProject(p){
   if (!p.fases) p.fases = { preinversion:true, inversion:true, postinversion:true };
   if (!p.etapas) p.etapas = {};
   for (const fase in STAGES) for (const et of STAGES[fase]){
-    if (!p.etapas[et.key]) p.etapas[et.key] = { active:false, inicioProg:'', finProg:'', inicioReal:'', finReal:'', progress:0, montoEtapa:0 };
+    if (!p.etapas[et.key]) {
+      p.etapas[et.key] = { active:false, inicioProg:'', finProg:'', inicioReal:'', finReal:'', progress:0, montoEtapa:0, montoEjecucion:0, fondoEjecucion:'propios' };
+    } else {
+      if (p.etapas[et.key].montoEjecucion === undefined) p.etapas[et.key].montoEjecucion = 0;
+      if (p.etapas[et.key].fondoEjecucion === undefined) p.etapas[et.key].fondoEjecucion = 'propios';
+    }
   }
   if (!p.difficulties) p.difficulties = [];
   if (!p.lands) p.lands = [];
@@ -952,6 +910,9 @@ function migrateProject(p){
   if (!Array.isArray(p.team.externos)) p.team.externos = [];
   if (!p.createdAt) p.createdAt = todayStr();
   if (!p.updatedAt) p.updatedAt = p.createdAt;
+  if (p.mideplanDate === undefined) p.mideplanDate = '';
+  if (p.lastProgressUpdate === undefined) p.lastProgressUpdate = p.updatedAt || nowDateTimeStr();
+  if (p.lastActivitiesUpdate === undefined) p.lastActivitiesUpdate = p.updatedAt || nowDateTimeStr();
 }
 
 function save(){
@@ -963,22 +924,21 @@ function save(){
 function createEmptyProject(){
   const etapas = {};
   for (const fase in STAGES) for (const et of STAGES[fase]){
-    etapas[et.key] = { active:false, inicioProg:'', finProg:'', inicioReal:'', finReal:'', progress:0, montoEtapa:0 };
+    etapas[et.key] = { active:false, inicioProg:'', finProg:'', inicioReal:'', finReal:'', progress:0, montoEtapa:0, montoEjecucion:0, fondoEjecucion:'propios' };
   }
   return {
     id: uid(),
     leader:'', bpip:'', name:'', description:'', mapImage:'', components:'',
-    categoria: '',
-    codigoSistema: '',
-    poblacionBeneficiada: 0,
-    locations: [],
+    categoria: '', codigoSistema: '', poblacionBeneficiada: 0, locations: [],
     fases: { preinversion:true, inversion:true, postinversion:true },
     etapas, difficulties: [], activities: [], lands: [], financial: [],
     programmedActivities: { current: [], next: [] },
-    estadoProyecto: '',
-    metaAnual: '',
+    estadoProyecto: '', metaAnual: '',
     team: { internos: [], externos: [] },
     history: [],
+    mideplanDate: '',
+    lastProgressUpdate: nowDateTimeStr(),
+    lastActivitiesUpdate: nowDateTimeStr(),
     createdAt: todayStr(), updatedAt: nowDateTimeStr()
   };
 }
@@ -1003,32 +963,15 @@ function getCurrentEtapas(p){
   return out;
 }
 
-/* =========================================================
-   TERRENOS: solo los computables suman a la programación financiera
-   Convenio y Donación NO se suman, aunque tengan avalúo
-========================================================= */
 function isLandComputable(land){
   if (!land) return false;
   return !FIGURAS_NO_COMPUTABLES.includes(land.figure);
 }
-function getLandTotal(p){
-  return (p.lands||[])
-    .filter(isLandComputable)
-    .reduce((s,l) => s + (Number(l.avaluo)||0), 0);
-}
-function getLandRawTotal(p){
-  return (p.lands||[]).reduce((s,l) => s + (Number(l.avaluo)||0), 0);
-}
-function getLandNonComputableTotal(p){
-  return (p.lands||[])
-    .filter(l => !isLandComputable(l))
-    .reduce((s,l) => s + (Number(l.avaluo)||0), 0);
-}
+function getLandTotal(p){ return (p.lands||[]).filter(isLandComputable).reduce((s,l) => s + (Number(l.avaluo)||0), 0); }
+function getLandRawTotal(p){ return (p.lands||[]).reduce((s,l) => s + (Number(l.avaluo)||0), 0); }
+function getLandNonComputableTotal(p){ return (p.lands||[]).filter(l => !isLandComputable(l)).reduce((s,l) => s + (Number(l.avaluo)||0), 0); }
 function getLandForYear(p, year){
-  return (p.lands||[])
-    .filter(isLandComputable)
-    .filter(l => l.fechaEst && l.fechaEst.startsWith(String(year)))
-    .reduce((s,l) => s + (Number(l.avaluo)||0), 0);
+  return (p.lands||[]).filter(isLandComputable).filter(l => l.fechaEst && l.fechaEst.startsWith(String(year))).reduce((s,l) => s + (Number(l.avaluo)||0), 0);
 }
 
 function getFinancialManualTotals(p){
@@ -1042,7 +985,99 @@ function getFinancialManualTotals(p){
   t.total = t.propios + t.especificos + t.transferidos + t.porAsignar;
   return t;
 }
-function getMontoObras(p){ return getFinancialManualTotals(p).total; }
+
+/* =========================================================
+   NUEVO: Semáforo MIDEPLAN
+========================================================= */
+function daysSince(dateStr){
+  if (!dateStr) return null;
+  const d = new Date(String(dateStr).replace(' ', 'T'));
+  if (isNaN(d)) return null;
+  const today = new Date(); today.setHours(0,0,0,0); d.setHours(0,0,0,0);
+  return Math.floor((today - d) / 86400000);
+}
+function getMideplanStatus(p){
+  if (!p || !p.mideplanDate) return null;
+  const days = daysSince(p.mideplanDate);
+  if (days === null) return null;
+  const months = days / 30.44;
+  if (months <= 3) return 'green';
+  if (months <= 6) return 'orange';
+  return 'red';
+}
+function getMideplanLabel(status){
+  if (status === 'green')  return 'Al día (≤3 meses)';
+  if (status === 'orange') return 'Requiere seguimiento (3-6 meses)';
+  if (status === 'red')    return 'Atrasado (≥6 meses)';
+  return 'Sin fecha MIDEPLAN';
+}
+
+/* =========================================================
+   NUEVO: Alerta de inactividad
+========================================================= */
+function getStaleAlert(p){
+  const now = Date.now();
+  const ONE_MONTH_MS = 30 * 24 * 60 * 60 * 1000;
+  function parseDT(s){
+    if (!s) return null;
+    const d = new Date(String(s).replace(' ', 'T'));
+    return isNaN(d) ? null : d.getTime();
+  }
+  const progTime = parseDT(p.lastProgressUpdate);
+  const actTime  = parseDT(p.lastActivitiesUpdate);
+  const progStale = !progTime || (now - progTime) > ONE_MONTH_MS;
+  const actStale  = !actTime  || (now - actTime)  > ONE_MONTH_MS;
+  if (!progStale && !actStale) return { show: false };
+  return {
+    show: true, progressStale: progStale, activitiesStale: actStale,
+    daysSinceProgress:   progTime ? Math.floor((now - progTime) / 86400000) : null,
+    daysSinceActivities: actTime  ? Math.floor((now - actTime)  / 86400000) : null
+  };
+}
+
+/* =========================================================
+   NUEVO: Distribución del monto de Ejecución
+========================================================= */
+function calcEjecucionDistribution(ejec){
+  if (!ejec) return null;
+  const monto = Number(ejec.montoEjecucion) || 0;
+  if (monto <= 0) return null;
+  const inicio = ejec.inicioProg;
+  const fin = ejec.finProg;
+  if (!inicio || !fin) return null;
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(inicio) || !/^\d{4}-\d{2}-\d{2}$/.test(fin)) return null;
+  const startD = new Date(inicio + 'T00:00:00');
+  const endD   = new Date(fin + 'T00:00:00');
+  if (isNaN(startD) || isNaN(endD) || endD < startD) return null;
+  const months = (endD.getFullYear() - startD.getFullYear()) * 12 + (endD.getMonth() - startD.getMonth()) + 1;
+  if (months <= 0) return null;
+  const monthly = monto / months;
+  const perYear = {};
+  for (let i = 0; i < months; i++){
+    const d = new Date(startD.getFullYear(), startD.getMonth() + i, 1);
+    const y = d.getFullYear();
+    perYear[y] = (perYear[y] || 0) + monthly;
+  }
+  return { monthly, perYear, months, monto, fund: ejec.fondoEjecucion || 'propios', inicio, fin };
+}
+function getEjecucionDistribution(p){ return calcEjecucionDistribution(p.etapas?.ejecucion); }
+function getEjecucionForYear(p, year){ const d = getEjecucionDistribution(p); return d ? (d.perYear[year] || 0) : 0; }
+function getEjecucionForYearView(p, year, info){
+  let v = getEjecucionForYear(p, year);
+  if (info && info.hasAggregation && year === info.cutoff){
+    info.aggregated.forEach(y => { v += getEjecucionForYear(p, y); });
+  }
+  return v;
+}
+function getEjecucionTotal(p){ return Number(p.etapas?.ejecucion?.montoEjecucion) || 0; }
+function getEjecucionFund(p){ return p.etapas?.ejecucion?.fondoEjecucion || 'propios'; }
+function getEjecucionFundLabel(p){
+  const f = getEjecucionFund(p);
+  const found = FUNDS.find(x => x.key === f);
+  return found ? found.label : 'Fondos Propios';
+}
+
+function getMontoObras(p){ return getFinancialManualTotals(p).total + getEjecucionTotal(p); }
 function getMontoGlobal(p){ return getMontoObras(p) + getLandTotal(p); }
 function getAutoYearsFromEtapas(p){
   const set = new Set();
@@ -1054,15 +1089,12 @@ function getAutoYearsFromEtapas(p){
     if (d.inicioProg && /^\d{4}/.test(d.inicioProg)) startY = Number(d.inicioProg.slice(0,4));
     if (d.finProg && /^\d{4}/.test(d.finProg)) endY = Number(d.finProg.slice(0,4));
     if (startY && endY){
-      const lo = Math.min(startY, endY);
-      const hi = Math.max(startY, endY);
+      const lo = Math.min(startY, endY), hi = Math.max(startY, endY);
       for (let y = lo; y <= hi; y++) set.add(y);
-    } else if (startY){
-      set.add(startY);
-    } else if (endY){
-      set.add(endY);
-    }
+    } else if (startY){ set.add(startY); } else if (endY){ set.add(endY); }
   }
+  const ejec = getEjecucionDistribution(p);
+  if (ejec){ Object.keys(ejec.perYear).forEach(y => set.add(Number(y))); }
   return [...set].filter(y => y > 0).sort((a,b) => a-b);
 }
 function getYears(p){
@@ -1137,13 +1169,9 @@ function calcSPI(p){
     if (d.inicioProg && d.finProg){
       const s = new Date(d.inicioProg + 'T00:00:00');
       const e = new Date(d.finProg + 'T00:00:00');
-      if (isNaN(s) || isNaN(e) || e <= s){
-        planned = (!isNaN(s) && today >= s) ? 1 : 0;
-      } else if (today >= e){
-        planned = 1;
-      } else if (today > s){
-        planned = (today - s) / (e - s);
-      }
+      if (isNaN(s) || isNaN(e) || e <= s){ planned = (!isNaN(s) && today >= s) ? 1 : 0; }
+      else if (today >= e){ planned = 1; }
+      else if (today > s){ planned = (today - s) / (e - s); }
     }
     pv += et.weight * planned;
   }
@@ -1176,10 +1204,7 @@ function getAvanceGlobal(p){
 
 function getAllLeaders(){
   const set = new Set();
-  state.projects.forEach(p => {
-    const l = (p.leader || '').trim();
-    if (l) set.add(l);
-  });
+  state.projects.forEach(p => { const l = (p.leader || '').trim(); if (l) set.add(l); });
   return [...set].sort((a,b) => a.localeCompare(b, 'es'));
 }
 function getAllTeamNames(){
@@ -1215,15 +1240,11 @@ function countProjectsByResponsable(projects){
     if (!p.team || !p.team.internos) return;
     const seenInProject = new Set();
     p.team.internos.forEach(r => {
-      const name = (r.nombre || '').trim();
-      if (!name) return;
+      const name = (r.nombre || '').trim(); if (!name) return;
       if (!data[name]) data[name] = { count: 0, responsabilidades: new Set() };
       const resp = (r.responsabilidad || '').trim();
       if (resp) data[name].responsabilidades.add(resp);
-      if (!seenInProject.has(name)) {
-        seenInProject.add(name);
-        data[name].count += 1;
-      }
+      if (!seenInProject.has(name)){ seenInProject.add(name); data[name].count += 1; }
     });
   });
   const out = {};
@@ -1240,11 +1261,7 @@ function buildResponsablesListHTML(data){
   entries.forEach(([name, d]) => {
     total += d.count;
     const respTxt = d.responsabilidades.length > 0 ? d.responsabilidades.join(', ') : '—';
-    html += `<tr>
-      <td>${escapeHtml(name)}</td>
-      <td style="font-size:11px;color:#555">${escapeHtml(respTxt)}</td>
-      <td style="text-align:right"><span class="count-badge">${d.count}</span></td>
-    </tr>`;
+    html += `<tr><td>${escapeHtml(name)}</td><td style="font-size:11px;color:#555">${escapeHtml(respTxt)}</td><td style="text-align:right"><span class="count-badge">${d.count}</span></td></tr>`;
   });
   html += `</tbody><tfoot><tr><td colspan="2">TOTAL ASIGNACIONES</td><td style="text-align:right">${total}</td></tr></tfoot></table></div>`;
   return html;
@@ -1277,9 +1294,9 @@ function computeDiff(viewed, newer) {
     lands: { rows: {}, wholeSection: false },
     financial: {},
     estado: _normStr(viewed.estadoProyecto) !== _normStr(newer.estadoProyecto),
-    meta: _normStr(viewed.metaAnual) !== _normStr(newer.metaAnual)
+    meta: _normStr(viewed.metaAnual) !== _normStr(newer.metaAnual),
+    mideplan: _normStr(viewed.mideplanDate) !== _normStr(newer.mideplanDate)
   };
-
   for (const fase in STAGES) for (const et of STAGES[fase]) {
     const a = viewed.etapas?.[et.key] || {};
     const b = newer.etapas?.[et.key] || {};
@@ -1290,23 +1307,18 @@ function computeDiff(viewed, newer) {
     if (_normDate(a.inicioReal) !== _normDate(b.inicioReal)) sub.inicioReal = true;
     if (_normDate(a.finReal) !== _normDate(b.finReal)) sub.finReal = true;
     if (_normNum(a.progress) !== _normNum(b.progress)) sub.progress = true;
+    if (_normNum(a.montoEjecucion) !== _normNum(b.montoEjecucion)) sub.montoEjecucion = true;
+    if (_normStr(a.fondoEjecucion) !== _normStr(b.fondoEjecucion)) sub.fondoEjecucion = true;
     if (Object.keys(sub).length) diff.etapas[et.key] = sub;
   }
-
-  const sortByPrio = (x, y) => {
-    const o = { Alta: 0, Media: 1, Baja: 2 };
-    return (o[x.priority] ?? 3) - (o[y.priority] ?? 3);
-  };
+  const sortByPrio = (x, y) => { const o = { Alta: 0, Media: 1, Baja: 2 }; return (o[x.priority] ?? 3) - (o[y.priority] ?? 3); };
   function diffPriorityList(listA, listB) {
     const res = { rows: {}, wholeSection: false };
-    const a = listA || [];
-    const b = listB || [];
+    const a = listA || [], b = listB || [];
     if (a.length !== b.length) { res.wholeSection = true; return res; }
-    const aS = [...a].sort(sortByPrio);
-    const bS = [...b].sort(sortByPrio);
+    const aS = [...a].sort(sortByPrio), bS = [...b].sort(sortByPrio);
     aS.forEach((item, i) => {
-      const other = bS[i];
-      const fields = {};
+      const other = bS[i]; const fields = {};
       if (_normStr(item.desc) !== _normStr(other.desc)) fields.desc = true;
       if (_normStr(item.priority) !== _normStr(other.priority)) fields.priority = true;
       if (Object.keys(fields).length) res.rows[i] = fields;
@@ -1315,15 +1327,12 @@ function computeDiff(viewed, newer) {
   }
   diff.difficulties = diffPriorityList(viewed.difficulties, newer.difficulties);
   diff.activities = diffPriorityList(viewed.activities, newer.activities);
-
   function diffActList(listA, listB, hasEstado) {
     const res = { rows: {}, wholeSection: false };
-    const a = listA || [];
-    const b = listB || [];
+    const a = listA || [], b = listB || [];
     if (a.length !== b.length) { res.wholeSection = true; return res; }
     a.forEach((item, i) => {
-      const other = b[i];
-      const fields = {};
+      const other = b[i]; const fields = {};
       if (_normStr(item.desc) !== _normStr(other.desc)) fields.desc = true;
       if (_normStr(item.responsable) !== _normStr(other.responsable)) fields.responsable = true;
       if (hasEstado && _normStr(item.estado) !== _normStr(other.estado)) fields.estado = true;
@@ -1333,15 +1342,12 @@ function computeDiff(viewed, newer) {
   }
   diff.programmedCurrent = diffActList(viewed.programmedActivities?.current, newer.programmedActivities?.current, true);
   diff.programmedNext = diffActList(viewed.programmedActivities?.next, newer.programmedActivities?.next, false);
-
   function diffTeamList(listA, listB) {
     const res = { rows: {}, wholeSection: false };
-    const a = listA || [];
-    const b = listB || [];
+    const a = listA || [], b = listB || [];
     if (a.length !== b.length) { res.wholeSection = true; return res; }
     a.forEach((item, i) => {
-      const other = b[i];
-      const fields = {};
+      const other = b[i]; const fields = {};
       if (_normStr(item.nombre) !== _normStr(other.nombre)) fields.nombre = true;
       if (_normStr(item.responsabilidad) !== _normStr(other.responsabilidad)) fields.responsabilidad = true;
       if (_normStr(item.email) !== _normStr(other.email)) fields.email = true;
@@ -1351,15 +1357,12 @@ function computeDiff(viewed, newer) {
   }
   diff.teamInternos = diffTeamList(viewed.team?.internos, newer.team?.internos);
   diff.teamExternos = diffTeamList(viewed.team?.externos, newer.team?.externos);
-
   function diffLands(listA, listB) {
     const res = { rows: {}, wholeSection: false };
-    const a = listA || [];
-    const b = listB || [];
+    const a = listA || [], b = listB || [];
     if (a.length !== b.length) { res.wholeSection = true; return res; }
     a.forEach((item, i) => {
-      const other = b[i];
-      const fields = {};
+      const other = b[i]; const fields = {};
       if (_normStr(item.type) !== _normStr(other.type)) fields.type = true;
       if (_normStr(item.finalidad) !== _normStr(other.finalidad)) fields.finalidad = true;
       if (_normStr(item.figure) !== _normStr(other.figure)) fields.figure = true;
@@ -1371,7 +1374,6 @@ function computeDiff(viewed, newer) {
     return res;
   }
   diff.lands = diffLands(viewed.lands, newer.lands);
-
   const infoA = getFinancialViewInfo(viewed);
   const infoB = getFinancialViewInfo(newer);
   const yearsToCheck = [...new Set([...infoA.years, ...infoB.years])].sort((a,b) => a - b);
@@ -1386,9 +1388,11 @@ function computeDiff(viewed, newer) {
     const lA = landForYearView(viewed, y, infoA);
     const lB = landForYearView(newer, y, infoB);
     if (_normNum(lA) !== _normNum(lB)) { fundDiff.__land = true; any = true; }
+    const eA = getEjecucionForYear(viewed, y);
+    const eB = getEjecucionForYear(newer, y);
+    if (_normNum(eA) !== _normNum(eB)) { fundDiff.__ejecucion = true; any = true; }
     if (any) diff.financial[y] = fundDiff;
   });
-
   return diff;
 }
 
@@ -1433,11 +1437,9 @@ function populateFilterOptions(){
   }
   etapaSel.value = curE;
   const leaders = [...new Set(state.projects.map(p => p.leader).filter(Boolean))].sort();
-  leaderSel.innerHTML = '<option value="">Todos los líderes</option>' +
-    leaders.map(l => `<option value="${escapeHtml(l)}">${escapeHtml(l)}</option>`).join('');
+  leaderSel.innerHTML = '<option value="">Todos los líderes</option>' + leaders.map(l => `<option value="${escapeHtml(l)}">${escapeHtml(l)}</option>`).join('');
   leaderSel.value = curL;
 }
-
 function countProjectsByLeader(projects){
   const counts = {};
   projects.forEach(p => {
@@ -1454,19 +1456,10 @@ function buildLeadersListHTML(counts){
   let totalProjects = 0, totalAmount = 0;
   let html = '<div class="leaders-table-wrap"><table class="leaders-table"><thead><tr><th>Líder de Proyecto</th><th style="text-align:right">Proyectos</th><th style="text-align:right">Monto</th></tr></thead><tbody>';
   entries.forEach(([name, data]) => {
-    totalProjects += data.count;
-    totalAmount += data.total;
-    html += `<tr>
-      <td>${escapeHtml(name)}</td>
-      <td style="text-align:right"><span class="count-badge">${data.count}</span></td>
-      <td style="text-align:right;font-weight:600;color:var(--aya-azul)">${fmtCRC(data.total)}</td>
-    </tr>`;
+    totalProjects += data.count; totalAmount += data.total;
+    html += `<tr><td>${escapeHtml(name)}</td><td style="text-align:right"><span class="count-badge">${data.count}</span></td><td style="text-align:right;font-weight:600;color:var(--aya-azul)">${fmtCRC(data.total)}</td></tr>`;
   });
-  html += `</tbody><tfoot><tr>
-    <td>TOTAL</td>
-    <td style="text-align:right">${totalProjects}</td>
-    <td style="text-align:right;color:var(--aya-azul)">${fmtCRC(totalAmount)}</td>
-  </tr></tfoot></table></div>`;
+  html += `</tbody><tfoot><tr><td>TOTAL</td><td style="text-align:right">${totalProjects}</td><td style="text-align:right;color:var(--aya-azul)">${fmtCRC(totalAmount)}</td></tr></tfoot></table></div>`;
   return html;
 }
 
@@ -1480,9 +1473,7 @@ function renderProjectList(){
     body.innerHTML = '<div style="text-align:center;padding:20px;color:#888;font-size:13px">No hay proyectos registrados</div>';
     return;
   }
-  let html = `<div class="project-list-header-row">
-    <span>BPIP</span><span>Nombre del Proyecto</span><span>Líder</span><span style="text-align:center">SPI</span>
-  </div>`;
+  let html = `<div class="project-list-header-row"><span>BPIP</span><span>Nombre del Proyecto</span><span>Líder</span><span style="text-align:center">SPI</span></div>`;
   html += sorted.map(p => {
     const spi = calcSPI(p);
     const cls = spiClass(spi);
@@ -1521,7 +1512,6 @@ function renderDashboard(){
   const avgSpi = spiValues.length > 0 ? spiValues.reduce((s,v) => s+v, 0) / spiValues.length : null;
   const leaderCounts = countProjectsByLeader(filtered);
   const respData = countProjectsByResponsable(filtered);
-
   body.innerHTML = `
     <div class="dashboard-summary">
       <div class="dash-stat"><div class="num">${filtered.length}</div><div class="lbl">Proyectos</div></div>
@@ -1535,20 +1525,12 @@ function renderDashboard(){
       <div class="chart-card"><h4>Distribución por Semáforo SPI</h4><div class="chart-canvas"><canvas id="chartSPI"></canvas></div></div>
       <div class="chart-card"><h4>Proyectos por Etapa en Curso</h4><div class="chart-canvas"><canvas id="chartEtapas"></canvas></div></div>
       <div class="chart-card" style="grid-column:1/-1"><h4>Avance Global por Proyecto</h4><div class="chart-canvas"><canvas id="chartAvance"></canvas></div></div>
-      <div class="chart-card">
-        <h4>Asignación de Proyectos por Líder</h4>
-        ${buildLeadersListHTML(leaderCounts)}
-      </div>
-      <div class="chart-card">
-        <h4>Responsables</h4>
-        ${buildResponsablesListHTML(respData)}
-      </div>
+      <div class="chart-card"><h4>Asignación de Proyectos por Líder</h4>${buildLeadersListHTML(leaderCounts)}</div>
+      <div class="chart-card"><h4>Responsables</h4>${buildResponsablesListHTML(respData)}</div>
     </div>
   `;
-
   Object.values(dashboardCharts).forEach(c => { try { c.destroy(); } catch(e){} });
   dashboardCharts = {};
-
   const spiCounts = { ok:0, warn:0, bad:0, na:0 };
   filtered.forEach(p => {
     const cls = spiClass(calcSPI(p));
@@ -1561,45 +1543,32 @@ function renderDashboard(){
     type: 'doughnut',
     data: {
       labels: ['Verde (≥0.90)', 'Amarillo (0.70–0.89)', 'Rojo (<0.70)', 'Sin datos'],
-      datasets: [{ data: [spiCounts.ok, spiCounts.warn, spiCounts.bad, spiCounts.na],
-        backgroundColor: ['#27ae60','#f39c12','#e74c3c','#bdc3c7'], borderWidth: 2, borderColor: '#fff' }]
+      datasets: [{ data: [spiCounts.ok, spiCounts.warn, spiCounts.bad, spiCounts.na], backgroundColor: ['#27ae60','#f39c12','#e74c3c','#bdc3c7'], borderWidth: 2, borderColor: '#fff' }]
     },
     options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { font: { size: 11 }, padding: 10 } } } }
   });
-
   const etapaCounts = {};
   for (const fase in STAGES) for (const et of STAGES[fase]){
     etapaCounts[et.key] = { label: `${FASE_LABEL[fase]} / ${et.label}`, count: 0 };
   }
-  filtered.forEach(p => {
-    getCurrentEtapas(p).forEach(c => { if (etapaCounts[c.key]) etapaCounts[c.key].count++; });
-  });
+  filtered.forEach(p => { getCurrentEtapas(p).forEach(c => { if (etapaCounts[c.key]) etapaCounts[c.key].count++; }); });
   const etapaEntries = Object.values(etapaCounts).filter(e => e.count > 0).sort((a,b) => b.count - a.count);
   dashboardCharts.etapas = new Chart(document.getElementById('chartEtapas'), {
     type: 'bar',
     data: {
       labels: etapaEntries.length ? etapaEntries.map(e => e.label) : ['Sin etapas en curso'],
-      datasets: [{ label: 'Proyectos', data: etapaEntries.length ? etapaEntries.map(e => e.count) : [0],
-        backgroundColor: '#1B294E', borderRadius: 4 }]
+      datasets: [{ label: 'Proyectos', data: etapaEntries.length ? etapaEntries.map(e => e.count) : [0], backgroundColor: '#1B294E', borderRadius: 4 }]
     },
-    options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y',
-      plugins: { legend: { display: false } },
-      scales: { x: { beginAtZero: true, ticks: { stepSize: 1 } } }
-    }
+    options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true, ticks: { stepSize: 1 } } } }
   });
-
   const avanceEntries = filtered.slice(0, 10).map(p => ({ name: p.name.length > 25 ? p.name.slice(0,25)+'…' : p.name, avance: getAvanceGlobal(p) }));
   dashboardCharts.avance = new Chart(document.getElementById('chartAvance'), {
     type: 'bar',
     data: {
       labels: avanceEntries.map(e => e.name),
-      datasets: [{ label: 'Avance %', data: avanceEntries.map(e => e.avance),
-        backgroundColor: avanceEntries.map(e => e.avance >= 90 ? '#27ae60' : e.avance >= 50 ? '#f39c12' : '#e74c3c'), borderRadius: 4 }]
+      datasets: [{ label: 'Avance %', data: avanceEntries.map(e => e.avance), backgroundColor: avanceEntries.map(e => e.avance >= 90 ? '#27ae60' : e.avance >= 50 ? '#f39c12' : '#e74c3c'), borderRadius: 4 }]
     },
-    options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y',
-      plugins: { legend: { display: false } },
-      scales: { x: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%' } } }
-    }
+    options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%' } } } }
   });
 }
 
@@ -1630,9 +1599,7 @@ function renderGrid(){
   filtered.forEach(p => grid.appendChild(createCard(p)));
   updateSelButton();
   updateExportAllButton();
-  if (document.getElementById('dashboardDropdown')?.open){
-    setTimeout(renderDashboard, 30);
-  }
+  if (document.getElementById('dashboardDropdown')?.open){ setTimeout(renderDashboard, 30); }
 }
 
 function createCard(p){
@@ -1642,16 +1609,24 @@ function createCard(p){
   const spClass = spiClass(sp);
   const spText = sp === null ? 'SPI: N/D' : 'SPI: ' + sp.toFixed(2);
   const currents = getCurrentEtapas(p);
-  const etapaTxt = currents.length > 0
-    ? currents.map(c => `${FASE_LABEL[c.fase]} / ${c.label}`).join(' + ')
-    : 'Sin etapas en curso';
+  const etapaTxt = currents.length > 0 ? currents.map(c => `${FASE_LABEL[c.fase]} / ${c.label}`).join(' + ') : 'Sin etapas en curso';
   const avance = getAvanceGlobal(p).toFixed(1);
   const loc = locationsToString(p);
-
   const bpipClean = (p.bpip || '').trim();
   const bpipDisplay = bpipClean ? `BPIP: ${escapeHtml(bpipClean)}` : 'Sin BPIP';
   const bpipEmptyClass = bpipClean ? '' : ' bpip-empty';
   const catBadge = p.categoria ? `<span class="card-cat-badge">${escapeHtml(p.categoria)}</span>` : '';
+
+  const stale = getStaleAlert(p);
+  const staleHtml = stale.show ? `
+    <div class="card-stale-alert ${(stale.progressStale && stale.activitiesStale) ? 'critical' : ''}">
+      <span class="alert-icon">⚠️</span>
+      <div>
+        <strong>Requiere actualización:</strong>
+        ${stale.progressStale ? ` % avance${stale.daysSinceProgress!==null?` (${stale.daysSinceProgress} d)`:''}` : ''}${stale.progressStale && stale.activitiesStale ? ' · ' : ''}${stale.activitiesStale ? ` actividades programadas${stale.daysSinceActivities!==null?` (${stale.daysSinceActivities} d)`:''}` : ''}
+      </div>
+    </div>
+  ` : '';
 
   el.innerHTML = `
     <input type="checkbox" class="card-check" data-id="${p.id}" ${state.selected.has(p.id)?'checked':''}>
@@ -1664,6 +1639,7 @@ function createCard(p){
     <div class="card-row"><span class="lbl">Avance global:</span><span class="val">${avance}%</span></div>
     <div class="card-row"><span class="lbl">Monto global:</span><span class="val">${fmtCRC(getMontoGlobal(p))}</span></div>
     <div class="card-spi ${spClass}">${spText}</div>
+    ${staleHtml}
     <div class="card-actions">
       <button class="btn btn-sm btn-view" data-act="view" data-id="${p.id}">Ver</button>
       <button class="btn btn-sm btn-edit-gold" data-act="edit" data-id="${p.id}">Editar</button>
@@ -1707,15 +1683,9 @@ function updateSelButton(){
   const n = state.selected.size;
   btn.textContent = `Exportar Seleccionados (${n})`;
   btn.disabled = n === 0;
-}
-
-function buildEtapasTableHTML(p, diff){
-  let html = `<div class="view-table-wrap"><table class="view-table">
-    <thead><tr>
-      <th>Fase</th><th>Etapa</th><th>Peso</th>
-      <th>Inicio Prog.</th><th>Fin Prog.</th>
-      <th>Inicio Real</th><th>Fin Real</th>
-      <th style="text-align:right">% Avance</th>
+}function buildEtapasTableHTML(p, diff){
+  let html = `<div class="view-table-wrap"><table class="view-table"><thead><tr>
+      <th>Fase</th><th>Etapa</th><th>Peso</th><th>Inicio Prog.</th><th>Fin Prog.</th><th>Inicio Real</th><th>Fin Real</th><th style="text-align:right">% Avance</th>
     </tr></thead><tbody>`;
   let has = false;
   for (const fase in STAGES) for (const et of STAGES[fase]){
@@ -1753,11 +1723,8 @@ function buildLandsTableHTML(p, diff){
     if (r && r[field]) return ' class="diff-changed-cell"';
     return '';
   };
-  let html = `<div class="view-table-wrap"><table class="view-table">
-    <thead><tr>
-      <th>Tipo</th><th>Finalidad</th><th>Figura</th>
-      <th style="text-align:right">Monto Avalúo</th>
-      <th>Fecha Estimada</th><th>Fecha Real</th>
+  let html = `<div class="view-table-wrap"><table class="view-table"><thead><tr>
+      <th>Tipo</th><th>Finalidad</th><th>Figura</th><th style="text-align:right">Monto Avalúo</th><th>Fecha Estimada</th><th>Fecha Real</th>
     </tr></thead><tbody>`;
   if (!p.lands?.length){
     html += `<tr><td colspan="6" style="text-align:center;color:#888;padding:20px">Sin registros</td></tr>`;
@@ -1788,34 +1755,20 @@ function buildFinancialTableHTML(p, diff){
   const info = getFinancialViewInfo(p);
   const years = info.years;
   const tot = getFinancialManualTotals(p);
+  const ejecTotal = getEjecucionTotal(p);
   const landTotal = getLandTotal(p);
-  const grandTotal = tot.total + landTotal;
+  const grandTotal = tot.total + ejecTotal + landTotal;
   if (years.length === 0){
     return `<div style="text-align:center;color:#888;padding:20px;font-size:13px">Sin programación financiera registrada</div>`;
   }
   const finDiff = (diff && diff.financial) || {};
-  const cellFund = (year, fundKey) => {
-    const fd = finDiff[year];
-    return (fd && fd[fundKey]) ? ' class="diff-changed-cell"' : '';
-  };
-  const cellLand = (year) => {
-    const fd = finDiff[year];
-    return (fd && fd.__land) ? ' class="diff-changed-cell"' : '';
-  };
-  const cellTotalYear = (year) => {
-    const fd = finDiff[year];
-    if (!fd) return '';
-    const hasAny = Object.keys(fd).length > 0;
-    return hasAny ? ' class="diff-changed-cell"' : '';
-  };
-  let html = `<div class="view-table-wrap"><table class="view-table">
-    <thead><tr>
+  const cellFund = (year, fundKey) => { const fd = finDiff[year]; return (fd && fd[fundKey]) ? ' class="diff-changed-cell"' : ''; };
+  const cellLand = (year) => { const fd = finDiff[year]; return (fd && fd.__land) ? ' class="diff-changed-cell"' : ''; };
+  const cellEjec = (year) => { const fd = finDiff[year]; return (fd && fd.__ejecucion) ? ' class="diff-changed-cell"' : ''; };
+  const cellTotalYear = (year) => { const fd = finDiff[year]; if (!fd) return ''; const hasAny = Object.keys(fd).length > 0; return hasAny ? ' class="diff-changed-cell"' : ''; };
+  let html = `<div class="view-table-wrap"><table class="view-table"><thead><tr>
       <th>Fondo / Año</th>
-      ${years.map(y => {
-        const isAgg = info.hasAggregation && y === info.cutoff;
-        const title = isAgg ? `Incluye años: ${info.aggregated.join(', ')}` : '';
-        return `<th style="text-align:right" title="${title}">${y}${isAgg ? ' *' : ''}</th>`;
-      }).join('')}
+      ${years.map(y => { const isAgg = info.hasAggregation && y === info.cutoff; const title = isAgg ? `Incluye años: ${info.aggregated.join(', ')}` : ''; return `<th style="text-align:right" title="${title}">${y}${isAgg ? ' *' : ''}</th>`; }).join('')}
       <th style="text-align:right">TOTAL</th>
     </tr></thead><tbody>`;
   FUNDS.forEach(f => {
@@ -1825,6 +1778,13 @@ function buildFinancialTableHTML(p, diff){
       <td style="text-align:right;font-weight:700">${fmtCRC(tot[f.key])}</td>
     </tr>`;
   });
+  if (ejecTotal > 0){
+    html += `<tr>
+      <td style="font-weight:700;color:#1b5e20">Ejecución (auto → ${getEjecucionFundLabel(p)})</td>
+      ${years.map(y => `<td${cellEjec(y)} style="text-align:right;color:#1b5e20">${fmtCell(getEjecucionForYearView(p, y, info))}</td>`).join('')}
+      <td style="text-align:right;font-weight:700;color:#1b5e20">${fmtCRC(ejecTotal)}</td>
+    </tr>`;
+  }
   html += `<tr>
     <td style="font-style:italic;color:#856404">Terrenos computables (auto → Propios)</td>
     ${years.map(y => `<td${cellLand(y)} style="text-align:right;font-style:italic;color:#856404">${fmtCell(landForYearView(p, y, info))}</td>`).join('')}
@@ -1832,7 +1792,7 @@ function buildFinancialTableHTML(p, diff){
   </tr>`;
   html += `<tr style="background:#f0f1f5">
     <td style="font-weight:700">Total por año</td>
-    ${years.map(y => `<td${cellTotalYear(y)} style="text-align:right;font-weight:700">${fmtCRC(FUNDS.reduce((s,f) => s + fundForYearView(p, y, f.key, info), 0) + landForYearView(p, y, info))}</td>`).join('')}
+    ${years.map(y => `<td${cellTotalYear(y)} style="text-align:right;font-weight:700">${fmtCRC(FUNDS.reduce((s,f) => s + fundForYearView(p, y, f.key, info), 0) + getEjecucionForYearView(p, y, info) + landForYearView(p, y, info))}</td>`).join('')}
     <td style="text-align:right;font-weight:700;color:var(--aya-azul)">${fmtCRC(grandTotal)}</td>
   </tr>`;
   html += `</tbody></table></div>`;
@@ -1847,86 +1807,40 @@ function buildProgrammedTablesViewHTML(p, diff){
   const nxt = pa.next || [];
   const dc = (diff && diff.programmedCurrent) || { rows: {}, wholeSection: false };
   const dn = (diff && diff.programmedNext) || { rows: {}, wholeSection: false };
-  const cellC = (idx, field) => {
-    if (dc.wholeSection) return ' class="diff-changed-cell"';
-    const r = dc.rows[idx];
-    return (r && r[field]) ? ' class="diff-changed-cell"' : '';
-  };
-  const cellN = (idx, field) => {
-    if (dn.wholeSection) return ' class="diff-changed-cell"';
-    const r = dn.rows[idx];
-    return (r && r[field]) ? ' class="diff-changed-cell"' : '';
-  };
-  const badge = (estado) => {
-    const cls = estado === 'Logrado' ? 'spi-ok' : estado === 'En proceso' ? 'spi-warn' : 'spi-na';
-    return `<span class="${cls}" style="display:inline-block;padding:2px 10px;border-radius:10px;font-size:11px;font-weight:700">${escapeHtml(estado)||'—'}</span>`;
-  };
+  const cellC = (idx, field) => { if (dc.wholeSection) return ' class="diff-changed-cell"'; const r = dc.rows[idx]; return (r && r[field]) ? ' class="diff-changed-cell"' : ''; };
+  const cellN = (idx, field) => { if (dn.wholeSection) return ' class="diff-changed-cell"'; const r = dn.rows[idx]; return (r && r[field]) ? ' class="diff-changed-cell"' : ''; };
+  const badge = (estado) => { const cls = estado === 'Logrado' ? 'spi-ok' : estado === 'En proceso' ? 'spi-warn' : 'spi-na'; return `<span class="${cls}" style="display:inline-block;padding:2px 10px;border-radius:10px;font-size:11px;font-weight:700">${escapeHtml(estado)||'—'}</span>`; };
   let html = '<div style="font-size:11px;color:#666;margin-bottom:8px;font-weight:700;text-transform:uppercase">Actividades del Mes</div>';
-  html += `<div class="view-table-wrap"><table class="view-table">
-    <thead><tr><th>Descripción</th><th>Responsable</th><th style="width:140px">Estado</th></tr></thead><tbody>`;
+  html += `<div class="view-table-wrap"><table class="view-table"><thead><tr><th>Descripción</th><th>Responsable</th><th style="width:140px">Estado</th></tr></thead><tbody>`;
   if (cur.length === 0) html += `<tr><td colspan="3" style="text-align:center;color:#888;padding:16px">Sin registros</td></tr>`;
-  else cur.forEach((a, i) => {
-    html += `<tr>
-      <td${cellC(i,'desc')}>${escapeHtml(a.desc)||'—'}</td>
-      <td${cellC(i,'responsable')}>${escapeHtml(a.responsable)||'—'}</td>
-      <td${cellC(i,'estado')}>${badge(a.estado)}</td>
-    </tr>`;
-  });
+  else cur.forEach((a, i) => { html += `<tr><td${cellC(i,'desc')}>${escapeHtml(a.desc)||'—'}</td><td${cellC(i,'responsable')}>${escapeHtml(a.responsable)||'—'}</td><td${cellC(i,'estado')}>${badge(a.estado)}</td></tr>`; });
   html += `</tbody></table></div>`;
   html += '<div style="font-size:11px;color:#666;margin:14px 0 8px;font-weight:700;text-transform:uppercase">Actividades del Próximo Mes</div>';
-  html += `<div class="view-table-wrap"><table class="view-table">
-    <thead><tr><th>Descripción</th><th>Responsable</th></tr></thead><tbody>`;
+  html += `<div class="view-table-wrap"><table class="view-table"><thead><tr><th>Descripción</th><th>Responsable</th></tr></thead><tbody>`;
   if (nxt.length === 0) html += `<tr><td colspan="2" style="text-align:center;color:#888;padding:16px">Sin registros</td></tr>`;
-  else nxt.forEach((a, i) => {
-    html += `<tr>
-      <td${cellN(i,'desc')}>${escapeHtml(a.desc)||'—'}</td>
-      <td${cellN(i,'responsable')}>${escapeHtml(a.responsable)||'—'}</td>
-    </tr>`;
-  });
+  else nxt.forEach((a, i) => { html += `<tr><td${cellN(i,'desc')}>${escapeHtml(a.desc)||'—'}</td><td${cellN(i,'responsable')}>${escapeHtml(a.responsable)||'—'}</td></tr>`; });
   html += `</tbody></table></div>`;
   return html;
 }
 function buildTeamViewHTML(team, diff){
   const di = (diff && diff.teamInternos) || { rows: {}, wholeSection: false };
   const de = (diff && diff.teamExternos) || { rows: {}, wholeSection: false };
-  const cellI = (idx, field) => {
-    if (di.wholeSection) return ' class="diff-changed-cell"';
-    const r = di.rows[idx];
-    return (r && r[field]) ? ' class="diff-changed-cell"' : '';
-  };
-  const cellE = (idx, field) => {
-    if (de.wholeSection) return ' class="diff-changed-cell"';
-    const r = de.rows[idx];
-    return (r && r[field]) ? ' class="diff-changed-cell"' : '';
-  };
+  const cellI = (idx, field) => { if (di.wholeSection) return ' class="diff-changed-cell"'; const r = di.rows[idx]; return (r && r[field]) ? ' class="diff-changed-cell"' : ''; };
+  const cellE = (idx, field) => { if (de.wholeSection) return ' class="diff-changed-cell"'; const r = de.rows[idx]; return (r && r[field]) ? ' class="diff-changed-cell"' : ''; };
   const emptyInt = !team || !team.internos || team.internos.length === 0;
   const emptyExt = !team || !team.externos || team.externos.length === 0;
-  if (emptyInt && emptyExt){
-    return '<div class="alert-empty">Sin responsables registrados</div>';
-  }
+  if (emptyInt && emptyExt) return '<div class="alert-empty">Sin responsables registrados</div>';
   let html = '';
   if (!emptyInt){
     html += '<div style="font-size:11px;color:#666;margin-bottom:6px;font-weight:700;text-transform:uppercase">Responsables Internos</div>';
     html += '<div class="view-table-wrap"><table class="view-table"><thead><tr><th>Nombre</th><th>Responsabilidad</th><th>Correo</th></tr></thead><tbody>';
-    team.internos.forEach((r, i) => {
-      html += `<tr>
-        <td${cellI(i,'nombre')}>${escapeHtml(r.nombre)||'—'}</td>
-        <td${cellI(i,'responsabilidad')}>${escapeHtml(r.responsabilidad)||'—'}</td>
-        <td${cellI(i,'email')}>${escapeHtml(r.email)||'—'}</td>
-      </tr>`;
-    });
+    team.internos.forEach((r, i) => { html += `<tr><td${cellI(i,'nombre')}>${escapeHtml(r.nombre)||'—'}</td><td${cellI(i,'responsabilidad')}>${escapeHtml(r.responsabilidad)||'—'}</td><td${cellI(i,'email')}>${escapeHtml(r.email)||'—'}</td></tr>`; });
     html += '</tbody></table></div>';
   }
   if (!emptyExt){
     html += '<div style="font-size:11px;color:#666;margin:14px 0 6px;font-weight:700;text-transform:uppercase">Responsables Externos</div>';
     html += '<div class="view-table-wrap"><table class="view-table"><thead><tr><th>Nombre</th><th>Responsabilidad</th><th>Correo</th></tr></thead><tbody>';
-    team.externos.forEach((r, i) => {
-      html += `<tr>
-        <td${cellE(i,'nombre')}>${escapeHtml(r.nombre)||'—'}</td>
-        <td${cellE(i,'responsabilidad')}>${escapeHtml(r.responsabilidad)||'—'}</td>
-        <td${cellE(i,'email')}>${escapeHtml(r.email)||'—'}</td>
-      </tr>`;
-    });
+    team.externos.forEach((r, i) => { html += `<tr><td${cellE(i,'nombre')}>${escapeHtml(r.nombre)||'—'}</td><td${cellE(i,'responsabilidad')}>${escapeHtml(r.responsabilidad)||'—'}</td><td${cellE(i,'email')}>${escapeHtml(r.email)||'—'}</td></tr>`; });
     html += '</tbody></table></div>';
   }
   return html;
@@ -1935,7 +1849,6 @@ function buildTeamViewHTML(team, diff){
 function openViewModal(id, versionIndex = 0){
   const pOrig = state.projects.find(x => x.id === id);
   if (!pOrig) return;
-
   const histLen = (pOrig.history || []).length;
   if (versionIndex < 0) versionIndex = 0;
   if (versionIndex > histLen) versionIndex = histLen;
@@ -1958,20 +1871,12 @@ function openViewModal(id, versionIndex = 0){
   let newerDate = null;
   if (versionIndex > 0){
     let newer = null;
-    if (versionIndex === 1){
-      newer = pOrig;
-    } else {
+    if (versionIndex === 1){ newer = pOrig; }
+    else {
       const snapNewer = pOrig.history[versionIndex - 2];
-      if (snapNewer){
-        newer = JSON.parse(JSON.stringify(snapNewer));
-        newer.id = pOrig.id;
-        migrateProject(newer);
-      }
+      if (snapNewer){ newer = JSON.parse(JSON.stringify(snapNewer)); newer.id = pOrig.id; migrateProject(newer); }
     }
-    if (newer){
-      diff = computeDiff(p, newer);
-      newerDate = newer.updatedAt;
-    }
+    if (newer){ diff = computeDiff(p, newer); newerDate = newer.updatedAt; }
   }
 
   const spi = calcSPI(p);
@@ -1980,9 +1885,13 @@ function openViewModal(id, versionIndex = 0){
   const currents = getCurrentEtapas(p);
   const loc = locationsToString(p);
   const tot = getFinancialManualTotals(p);
+  const ejecTotal = getEjecucionTotal(p);
+  const obrasTotal = tot.total + ejecTotal;
   const landTotal = getLandTotal(p);
   const landNC = getLandNonComputableTotal(p);
-  const global = tot.total + landTotal;
+  const global = obrasTotal + landTotal;
+  const stale = getStaleAlert(p);
+  const midStatus = getMideplanStatus(p);
 
   const sortByPriority = (a,b) => { const o={Alta:0,Media:1,Baja:2}; return (o[a.priority]??3)-(o[b.priority]??3); };
   const topDif = [...(p.difficulties||[])].sort(sortByPriority).slice(0,3);
@@ -2037,12 +1946,20 @@ function openViewModal(id, versionIndex = 0){
   const body = document.getElementById('viewBody');
   body.innerHTML = `
     ${diffLegend}
+    ${stale.show ? `
+      <div class="diff-legend" style="background:#fff7d6;border-color:#f39c12;color:#856404">
+        <strong>⚠️ Proyecto requiere actualización:</strong>
+        ${stale.progressStale ? ` Porcentaje de avance sin actualizar${stale.daysSinceProgress!==null?` (${stale.daysSinceProgress} días)`:''}.` : ''}
+        ${stale.activitiesStale ? ` Actividades programadas sin actualizar${stale.daysSinceActivities!==null?` (${stale.daysSinceActivities} días)`:''}.` : ''}
+      </div>
+    ` : ''}
     <div class="view-header-info">
       ${showCategoria ? `<div${cls(diff && diff.general.categoria)}>Categoría: <strong>${escapeHtml(p.categoria) || '—'}</strong></div>` : ''}
       <div${cls(diff && diff.general.leader)}>Líder: <strong>${escapeHtml(p.leader) || '—'}</strong></div>
       ${showLoc ? `<div${cls(diff && diff.locations)}>📍 <strong>${escapeHtml(loc) || '—'}</strong></div>` : ''}
       ${showCodigoSistema ? `<div${cls(diff && diff.general.codigoSistema)}>Código del Sistema: <strong>${escapeHtml(p.codigoSistema) || '—'}</strong></div>` : ''}
       ${showPoblacion ? `<div${cls(diff && diff.general.poblacionBeneficiada)}>Población Beneficiada: <strong>${p.poblacionBeneficiada ? fmtInt(p.poblacionBeneficiada) : '—'}</strong></div>` : ''}
+      ${p.mideplanDate ? `<div${cls(diff && diff.mideplan)}>Última aprobación MIDEPLAN: <strong>${fmtDate(p.mideplanDate)}</strong> <span style="display:inline-block;width:10px;height:10px;border-radius:50%;margin-left:6px;vertical-align:middle;background:${midStatus==='green'?'#27ae60':midStatus==='orange'?'#f39c12':midStatus==='red'?'#e74c3c':'#bbb'};box-shadow:0 0 6px ${midStatus==='green'?'#27ae60':midStatus==='orange'?'#f39c12':midStatus==='red'?'#e74c3c':'transparent'}"></span></div>` : ''}
       <div>Registro: <strong>${fmtDate(p.createdAt)}</strong></div>
       <div>Última actualización: <strong>${fmtDateTime(p.updatedAt)}</strong></div>
     </div>
@@ -2061,7 +1978,7 @@ function openViewModal(id, versionIndex = 0){
         <div class="kpi-label">Monto Global</div>
         <div class="kpi-value" style="font-size:15px">${fmtCRC(global)}</div>
         <div style="font-size:11px;color:#666;margin-top:4px">
-          Obras: ${fmtCRC(tot.total)}<br>
+          Obras: ${fmtCRC(obrasTotal)}<br>
           Terrenos: ${fmtCRC(landTotal)}${landNC > 0 ? `<br><span style="color:#856404">Excluido Conv./Don.: ${fmtCRC(landNC)}</span>` : ''}
         </div>
       </div>
@@ -2077,20 +1994,18 @@ function openViewModal(id, versionIndex = 0){
         </div>
         <div class="view-section">
           <h3>Descripción del Proyecto</h3>
-          ${p.description
-            ? `<p class="view-text${diff && diff.general.description ? ' diff-changed' : ''}">${escapeHtml(p.description)}</p>`
-            : `<div class="alert-empty${diff && diff.general.description ? ' diff-changed' : ''}">Sin descripción registrada</div>`}
+          ${p.description ? `<p class="view-text${diff && diff.general.description ? ' diff-changed' : ''}">${escapeHtml(p.description)}</p>` : `<div class="alert-empty${diff && diff.general.description ? ' diff-changed' : ''}">Sin descripción registrada</div>`}
         </div>
         <div class="view-section">
           <h3>Componentes</h3>
-          ${p.components
-            ? `<p class="view-text${diff && diff.general.components ? ' diff-changed' : ''}">${escapeHtml(p.components)}</p>`
-            : `<div class="alert-empty${diff && diff.general.components ? ' diff-changed' : ''}">Sin componentes registrados</div>`}
+          ${p.components ? `<p class="view-text${diff && diff.general.components ? ' diff-changed' : ''}">${escapeHtml(p.components)}</p>` : `<div class="alert-empty${diff && diff.general.components ? ' diff-changed' : ''}">Sin componentes registrados</div>`}
         </div>
         <div class="view-section">
           <h3>Resumen Financiero</h3>
           <table style="font-size:12px"><tbody>
-            <tr><td>Monto de Obras</td><td style="text-align:right;font-weight:700">${fmtCRC(tot.total)}</td></tr>
+            <tr><td>Fondos (manual)</td><td style="text-align:right;font-weight:700">${fmtCRC(tot.total)}</td></tr>
+            ${ejecTotal > 0 ? `<tr><td style="color:#1b5e20">Ejecución auto → ${getEjecucionFundLabel(p)}</td><td style="text-align:right;color:#1b5e20;font-weight:700">${fmtCRC(ejecTotal)}</td></tr>` : ''}
+            <tr><td><strong>Monto de Obras</strong></td><td style="text-align:right;font-weight:700">${fmtCRC(obrasTotal)}</td></tr>
             <tr><td>Monto de Terrenos (computable)</td><td style="text-align:right;font-weight:700">${fmtCRC(landTotal)}</td></tr>
             ${landNC > 0 ? `<tr><td style="color:#856404;font-size:11px;font-style:italic">Excluido Convenio/Donación</td><td style="text-align:right;color:#856404;font-size:11px;font-style:italic">${fmtCRC(landNC)}</td></tr>` : ''}
             <tr style="background:var(--aya-fondo-claro)"><td><strong>Monto Global</strong></td><td style="text-align:right;font-weight:700;color:var(--aya-azul)">${fmtCRC(global)}</td></tr>
@@ -2101,16 +2016,12 @@ function openViewModal(id, versionIndex = 0){
         <div class="view-section">
           <h3>Etapas Actuales</h3>
           ${currents.length > 0
-            ? currents.map(c => {
-              const sub = (diff && diff.etapas[c.key]) || {};
-              const hasSub = Object.keys(sub).length > 0;
-              return `
+            ? currents.map(c => { const sub = (diff && diff.etapas[c.key]) || {}; const hasSub = Object.keys(sub).length > 0; return `
               <div class="view-etapa-item${hasSub ? ' diff-changed' : ''}">
                 <span class="view-etapa-badge">${FASE_LABEL[c.fase]} · ${c.label}</span>
                 <div class="label-row"><span>Progreso</span><span>${c.progress}%</span></div>
                 <div class="progress-bar"><div style="width:${c.progress}%"></div></div>
-              </div>`;
-            }).join('')
+              </div>`; }).join('')
             : '<div style="color:#666;font-size:13px">Sin etapas en curso (0% de avance)</div>'}
         </div>
         <div class="view-section">
@@ -2130,15 +2041,11 @@ function openViewModal(id, versionIndex = 0){
       <h3>Estado y Meta Anual</h3>
       <div style="margin-bottom:12px">
         <div style="font-size:11px;color:#666;margin-bottom:4px;font-weight:700;text-transform:uppercase">Estado del Proyecto</div>
-        ${p.estadoProyecto
-          ? `<p class="view-text${diff && diff.estado ? ' diff-changed' : ''}">${escapeHtml(p.estadoProyecto)}</p>`
-          : `<div class="alert-empty${diff && diff.estado ? ' diff-changed' : ''}">Sin estado registrado</div>`}
+        ${p.estadoProyecto ? `<p class="view-text${diff && diff.estado ? ' diff-changed' : ''}">${escapeHtml(p.estadoProyecto)}</p>` : `<div class="alert-empty${diff && diff.estado ? ' diff-changed' : ''}">Sin estado registrado</div>`}
       </div>
       <div>
         <div style="font-size:11px;color:#666;margin-bottom:4px;font-weight:700;text-transform:uppercase">Meta Anual</div>
-        ${p.metaAnual
-          ? `<p class="view-text${diff && diff.meta ? ' diff-changed' : ''}">${escapeHtml(p.metaAnual)}</p>`
-          : `<div class="alert-empty${diff && diff.meta ? ' diff-changed' : ''}">Sin meta registrada</div>`}
+        ${p.metaAnual ? `<p class="view-text${diff && diff.meta ? ' diff-changed' : ''}">${escapeHtml(p.metaAnual)}</p>` : `<div class="alert-empty${diff && diff.meta ? ' diff-changed' : ''}">Sin meta registrada</div>`}
       </div>
     </div>
     <div class="view-section"><h3>Etapas y Cronograma</h3>${buildEtapasTableHTML(p, diff)}</div>
@@ -2150,13 +2057,8 @@ function openViewModal(id, versionIndex = 0){
 
   const bpipHeaderEl = document.getElementById('viewBpipHeader');
   const bpipClean = (p.bpip || '').trim();
-  if (bpipClean){
-    bpipHeaderEl.textContent = 'BPIP: ' + bpipClean;
-    bpipHeaderEl.classList.remove('bpip-header-empty');
-  } else {
-    bpipHeaderEl.textContent = 'Sin BPIP';
-    bpipHeaderEl.classList.add('bpip-header-empty');
-  }
+  if (bpipClean){ bpipHeaderEl.textContent = 'BPIP: ' + bpipClean; bpipHeaderEl.classList.remove('bpip-header-empty'); }
+  else { bpipHeaderEl.textContent = 'Sin BPIP'; bpipHeaderEl.classList.add('bpip-header-empty'); }
   bpipHeaderEl.classList.toggle('diff-changed', !!(diff && diff.general.bpip));
 
   const titleEl = document.getElementById('viewTitle');
@@ -2167,18 +2069,11 @@ function openViewModal(id, versionIndex = 0){
   if (histLen > 0){
     barEl.style.display = 'flex';
     const label = document.getElementById('viewVerLabel');
-    if (versionIndex === 0){
-      label.textContent = `Versión actual — ${fmtDateTime(versionDate)}`;
-      label.classList.remove('historical');
-    } else {
-      label.textContent = `Retroceso ${versionIndex} de ${histLen} — ${fmtDateTime(versionDate)}`;
-      label.classList.add('historical');
-    }
+    if (versionIndex === 0){ label.textContent = `Versión actual — ${fmtDateTime(versionDate)}`; label.classList.remove('historical'); }
+    else { label.textContent = `Retroceso ${versionIndex} de ${histLen} — ${fmtDateTime(versionDate)}`; label.classList.add('historical'); }
     document.getElementById('viewPrevVer').disabled = versionIndex >= histLen;
     document.getElementById('viewNextVer').disabled = versionIndex === 0;
-  } else {
-    barEl.style.display = 'none';
-  }
+  } else { barEl.style.display = 'none'; }
 
   const m = document.getElementById('viewModal');
   m.classList.add('open');
@@ -2203,10 +2098,7 @@ function zoomImage(delta){
   img.style.width = (90 * currentZoom) + 'vw';
   updateZoomDisplay();
 }
-function updateZoomDisplay(){
-  const el = document.getElementById('zoomLevelDisplay');
-  if (el) el.textContent = Math.round(currentZoom * 100) + '%';
-}
+function updateZoomDisplay(){ const el = document.getElementById('zoomLevelDisplay'); if (el) el.textContent = Math.round(currentZoom * 100) + '%'; }
 
 let currentTab = 'general';
 function openEditor(id){
@@ -2214,35 +2106,22 @@ function openEditor(id){
   currentTab = 'general';
   state.dirty = false;
   const p = getEditingProject();
-  if (p){
-    const snap = JSON.parse(JSON.stringify(p));
-    delete snap.history;
-    state.editorSnapshot = snap;
-  } else {
-    state.editorSnapshot = null;
-  }
+  if (p){ const snap = JSON.parse(JSON.stringify(p)); delete snap.history; state.editorSnapshot = snap; }
+  else { state.editorSnapshot = null; }
   $('#editorModal').classList.add('open');
   renderTab();
 }
 function closeEditor(){ state.editingId = null; state.dirty = false; state.editorSnapshot = null; $('#editorModal').classList.remove('open'); }
 function getEditingProject(){ return state.projects.find(p => p.id === state.editingId); }
-function persist(){
-  const p = getEditingProject();
-  if (p){ state.dirty = true; save(); renderGrid(); }
-}
+function persist(){ const p = getEditingProject(); if (p){ state.dirty = true; save(); renderGrid(); } }
 function renderTab(){
   const p = getEditingProject();
   if (!p) return;
   const bpipEl = document.getElementById('editorBpipHeader');
   if (bpipEl){
     const bpipClean = (p.bpip || '').trim();
-    if (bpipClean){
-      bpipEl.textContent = 'BPIP: ' + bpipClean;
-      bpipEl.classList.remove('bpip-header-empty');
-    } else {
-      bpipEl.textContent = 'Sin BPIP';
-      bpipEl.classList.add('bpip-header-empty');
-    }
+    if (bpipClean){ bpipEl.textContent = 'BPIP: ' + bpipClean; bpipEl.classList.remove('bpip-header-empty'); }
+    else { bpipEl.textContent = 'Sin BPIP'; bpipEl.classList.add('bpip-header-empty'); }
   }
   $('#modalTitle').textContent = p.name || 'Nuevo Proyecto';
   $$('#tabsNav .tab').forEach(t => t.classList.toggle('active', t.dataset.tab === currentTab));
@@ -2262,6 +2141,7 @@ function renderTab(){
 function renderGeneralTab(p){
   const wrap = document.createElement('div');
   const allLeaders = getAllLeaders();
+  const midStatus = getMideplanStatus(p);
   wrap.innerHTML = `
     <div class="row">
       <div class="form-group"><label>Nombre del Proyecto</label><input class="form-control" id="f-name" value="${escapeHtml(p.name)}" placeholder="Ej: Construcción de tanque de almacenamiento"></div>
@@ -2286,6 +2166,25 @@ function renderGeneralTab(p){
         <input class="form-control" value="${fmtDateTime(p.updatedAt)}" disabled title="Se actualiza al presionar 'Guardar y Cerrar' con cambios realizados">
       </div>
     </div>
+    <div class="form-group">
+      <label>Última aprobación de MIDEPLAN</label>
+      <div class="mideplan-group">
+        <span class="date-wrap">
+          <input type="text" class="form-control date-text" id="f-mideplan"
+            placeholder="dd/mm/aaaa" maxlength="10" value="${isoToDisplay(p.mideplanDate||'')}" data-iso="${p.mideplanDate||''}" autocomplete="off">
+          <span class="date-pick-btn" title="Abrir calendario">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>
+            <input type="date" class="date-native" tabindex="-1" value="${p.mideplanDate||''}">
+          </span>
+        </span>
+        <div class="mideplan-lights" title="Semáforo MIDEPLAN: Verde ≤3 meses · Naranja 3-6 meses · Rojo >6 meses">
+          <span class="mideplan-light red ${midStatus==='red'?'active':''}" data-light="red"></span>
+          <span class="mideplan-light orange ${midStatus==='orange'?'active':''}" data-light="orange"></span>
+          <span class="mideplan-light green ${midStatus==='green'?'active':''}" data-light="green"></span>
+        </div>
+      </div>
+      <div class="hint">Verde: al día (≤3 meses) · Naranja: 3-6 meses (seguimiento) · Rojo: ≥6 meses sin actualización.</div>
+    </div>
     <div class="section-title" style="font-size:13px;margin-top:8px">Ubicación Geográfica (múltiples)</div>
     <div class="locations-list" id="locationsList"></div>
     <button class="btn btn-sm btn-primary" id="addLocation">+ Agregar Ubicación</button>
@@ -2308,14 +2207,14 @@ function renderGeneralTab(p){
       ${p.mapImage ? '<button class="btn btn-sm" id="mapRemove" style="margin-top:6px">Quitar imagen</button>' : ''}
     </div>
     <div class="summary-box">
-      <div class="row-s"><span><strong>Monto Obras (auto):</strong></span><span>${fmtCRC(getMontoObras(p))}</span></div>
+      <div class="row-s"><span><strong>Fondos (manual):</strong></span><span>${fmtCRC(getFinancialManualTotals(p).total)}</span></div>
+      ${getEjecucionTotal(p) > 0 ? `<div class="row-s"><span><strong style="color:#1b5e20">Ejecución auto → ${getEjecucionFundLabel(p)}:</strong></span><span style="color:#1b5e20">${fmtCRC(getEjecucionTotal(p))}</span></div>` : ''}
+      <div class="row-s"><span><strong>Monto Obras:</strong></span><span>${fmtCRC(getMontoObras(p))}</span></div>
       <div class="row-s"><span><strong>Monto Terrenos (computable):</strong></span><span>${fmtCRC(getLandTotal(p))}</span></div>
       ${getLandNonComputableTotal(p) > 0 ? `<div class="row-s"><span><em style="color:#856404">Excluido (Convenio/Donación):</em></span><span style="color:#856404">${fmtCRC(getLandNonComputableTotal(p))}</span></div>` : ''}
       <div class="row-s" style="border-top:1px solid #ccc;margin-top:6px;padding-top:6px"><span><strong>Monto Global:</strong></span><span><strong>${fmtCRC(getMontoGlobal(p))}</strong></span></div>
     </div>
-    <datalist id="leadersList">
-      ${allLeaders.map(l => `<option value="${escapeHtml(l)}"></option>`).join('')}
-    </datalist>
+    <datalist id="leadersList">${allLeaders.map(l => `<option value="${escapeHtml(l)}"></option>`).join('')}</datalist>
   `;
 
   const locList = wrap.querySelector('#locationsList');
@@ -2359,10 +2258,7 @@ function renderGeneralTab(p){
       });
     });
     locList.querySelectorAll('[data-remove]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        p.locations.splice(Number(btn.dataset.remove), 1);
-        persist(); renderTab();
-      });
+      btn.addEventListener('click', () => { p.locations.splice(Number(btn.dataset.remove), 1); persist(); renderTab(); });
     });
   }
   renderLocations();
@@ -2381,10 +2277,7 @@ function renderGeneralTab(p){
   wrap.querySelector('#f-poblacion').addEventListener('input', e => {
     const raw = e.target.value;
     if (raw === ''){ p.poblacionBeneficiada = 0; }
-    else {
-      const v = Math.max(0, Math.floor(Number(raw) || 0));
-      p.poblacionBeneficiada = v;
-    }
+    else { p.poblacionBeneficiada = Math.max(0, Math.floor(Number(raw) || 0)); }
     persist();
   });
   wrap.querySelector('#f-desc').addEventListener('input', e => { p.description = e.target.value; persist(); });
@@ -2402,6 +2295,15 @@ function renderGeneralTab(p){
   });
   const rm = wrap.querySelector('#mapRemove');
   if (rm) rm.addEventListener('click', () => { p.mapImage = ''; persist(); renderTab(); });
+
+  const mideplanEl = wrap.querySelector('#f-mideplan');
+  if (mideplanEl){
+    mideplanEl.addEventListener('datechange', () => {
+      p.mideplanDate = mideplanEl.dataset.iso || '';
+      persist();
+      renderTab();
+    });
+  }
   return wrap;
 }
 
@@ -2410,70 +2312,31 @@ function renderEquipoTab(p){
   if (!p.team) p.team = { internos: [], externos: [] };
   if (!Array.isArray(p.team.internos)) p.team.internos = [];
   if (!Array.isArray(p.team.externos)) p.team.externos = [];
-
   const allNames = getAllTeamNames();
   const allResp = getAllTeamResponsabilidades();
   const allEmails = getAllTeamEmails();
-
   wrap.innerHTML = `
     <div class="sub-section">
-      <div class="sub-section-head">
-        <div class="sub-section-title">👥 Responsables Internos</div>
-        <button class="btn btn-sm btn-primary" id="addInterno">+ Agregar Responsable</button>
-      </div>
-      <table><thead><tr>
-        <th style="width:25%">Nombre</th>
-        <th style="width:35%">Responsabilidad</th>
-        <th style="width:30%">Correo</th>
-        <th style="width:55px"></th>
-      </tr></thead>
-      <tbody id="internosBody"></tbody></table>
+      <div class="sub-section-head"><div class="sub-section-title">👥 Responsables Internos</div><button class="btn btn-sm btn-primary" id="addInterno">+ Agregar Responsable</button></div>
+      <table><thead><tr><th style="width:25%">Nombre</th><th style="width:35%">Responsabilidad</th><th style="width:30%">Correo</th><th style="width:55px"></th></tr></thead><tbody id="internosBody"></tbody></table>
     </div>
     <div class="sub-section">
-      <div class="sub-section-head">
-        <div class="sub-section-title">🌐 Responsables Externos</div>
-        <button class="btn btn-sm btn-primary" id="addExterno">+ Agregar Responsable</button>
-      </div>
-      <table><thead><tr>
-        <th style="width:25%">Nombre</th>
-        <th style="width:35%">Responsabilidad</th>
-        <th style="width:30%">Correo</th>
-        <th style="width:55px"></th>
-      </tr></thead>
-      <tbody id="externosBody"></tbody></table>
+      <div class="sub-section-head"><div class="sub-section-title">🌐 Responsables Externos</div><button class="btn btn-sm btn-primary" id="addExterno">+ Agregar Responsable</button></div>
+      <table><thead><tr><th style="width:25%">Nombre</th><th style="width:35%">Responsabilidad</th><th style="width:30%">Correo</th><th style="width:55px"></th></tr></thead><tbody id="externosBody"></tbody></table>
     </div>
-    <datalist id="teamNamesList">
-      ${allNames.map(n => `<option value="${escapeHtml(n)}"></option>`).join('')}
-    </datalist>
-    <datalist id="teamRespList">
-      ${allResp.map(r => `<option value="${escapeHtml(r)}"></option>`).join('')}
-    </datalist>
-    <datalist id="teamEmailsList">
-      ${allEmails.map(e => `<option value="${escapeHtml(e)}"></option>`).join('')}
-    </datalist>
+    <datalist id="teamNamesList">${allNames.map(n => `<option value="${escapeHtml(n)}"></option>`).join('')}</datalist>
+    <datalist id="teamRespList">${allResp.map(r => `<option value="${escapeHtml(r)}"></option>`).join('')}</datalist>
+    <datalist id="teamEmailsList">${allEmails.map(e => `<option value="${escapeHtml(e)}"></option>`).join('')}</datalist>
   `;
-
   buildTeamList(p, 'internos', wrap.querySelector('#internosBody'));
   buildTeamList(p, 'externos', wrap.querySelector('#externosBody'));
-
-  wrap.querySelector('#addInterno').addEventListener('click', () => {
-    p.team.internos.push({ nombre:'', responsabilidad:'', email:'' });
-    persist(); renderTab();
-  });
-  wrap.querySelector('#addExterno').addEventListener('click', () => {
-    p.team.externos.push({ nombre:'', responsabilidad:'', email:'' });
-    persist(); renderTab();
-  });
-
+  wrap.querySelector('#addInterno').addEventListener('click', () => { p.team.internos.push({ nombre:'', responsabilidad:'', email:'' }); persist(); renderTab(); });
+  wrap.querySelector('#addExterno').addEventListener('click', () => { p.team.externos.push({ nombre:'', responsabilidad:'', email:'' }); persist(); renderTab(); });
   return wrap;
 }
-
 function buildTeamList(p, which, body){
   const list = p.team[which] || [];
-  if (list.length === 0){
-    body.innerHTML = `<tr><td colspan="4" class="team-empty">Sin responsables. Use "Agregar Responsable".</td></tr>`;
-    return;
-  }
+  if (list.length === 0){ body.innerHTML = `<tr><td colspan="4" class="team-empty">Sin responsables. Use "Agregar Responsable".</td></tr>`; return; }
   list.forEach((item, idx) => {
     const tr = document.createElement('tr');
     tr.innerHTML = `
@@ -2494,10 +2357,7 @@ function buildTeamList(p, which, body){
     });
   });
   body.querySelectorAll('[data-del]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      p.team[btn.dataset.which].splice(Number(btn.dataset.del), 1);
-      persist(); renderTab();
-    });
+    btn.addEventListener('click', () => { p.team[btn.dataset.which].splice(Number(btn.dataset.del), 1); persist(); renderTab(); });
   });
 }
 
@@ -2505,18 +2365,14 @@ function renderEstadoTab(p){
   const wrap = document.createElement('div');
   wrap.innerHTML = `
     <div class="sub-section">
-      <div class="sub-section-head">
-        <div class="sub-section-title">📋 Estado del Proyecto</div>
-      </div>
+      <div class="sub-section-head"><div class="sub-section-title">📋 Estado del Proyecto</div></div>
       <div class="form-group" style="margin-bottom:8px">
         <label>Descripción del Estado Actual</label>
         <textarea class="form-control" id="f-estado" rows="5" placeholder="Describa las condiciones actuales del proyecto...">${escapeHtml(p.estadoProyecto||'')}</textarea>
       </div>
     </div>
     <div class="sub-section">
-      <div class="sub-section-head">
-        <div class="sub-section-title">🎯 Meta Anual</div>
-      </div>
+      <div class="sub-section-head"><div class="sub-section-title">🎯 Meta Anual</div></div>
       <div class="form-group" style="margin-bottom:8px">
         <label>Metas del Año</label>
         <textarea class="form-control" id="f-meta" rows="5" placeholder="Ej: Obtener Viabilidad Ambiental">${escapeHtml(p.metaAnual||'')}</textarea>
@@ -2543,9 +2399,7 @@ function renderEtapasTab(p){
     <div id="etapasList"></div>
   `;
   ['preinversion','inversion','postinversion'].forEach(f => {
-    wrap.querySelector('#fase-' + f).addEventListener('change', e => {
-      p.fases[f] = e.target.checked; persist(); renderTab();
-    });
+    wrap.querySelector('#fase-' + f).addEventListener('change', e => { p.fases[f] = e.target.checked; persist(); renderTab(); });
   });
   const list = wrap.querySelector('#etapasList');
   for (const fase in STAGES){
@@ -2559,8 +2413,16 @@ function renderEtapasTab(p){
 }
 function renderEtapaCard(p, fase, et){
   const d = p.etapas[et.key];
+  const isEjecucion = et.key === 'ejecucion';
   const card = document.createElement('div');
   card.className = 'etapa-card' + (d.active ? ' active' : '');
+
+  let distTxt = '—';
+  if (isEjecucion){
+    const dist = getEjecucionDistribution(p);
+    if (dist) distTxt = `${dist.months} mes(es) × ${fmtCRC(dist.monthly)}`;
+  }
+
   card.innerHTML = `
     <div class="etapa-head">
       <input type="checkbox" id="chk-${et.key}" ${d.active?'checked':''}>
@@ -2569,29 +2431,43 @@ function renderEtapaCard(p, fase, et){
     </div>
     <div id="fields-${et.key}" style="display:${d.active?'block':'none'}">
       <div class="row-3" style="margin-bottom:10px">
-        <div><label style="font-size:11px;font-weight:700;color:#1B294E;text-transform:uppercase">Inicio Programado</label>
-          ${dateInputHTML('ip-'+et.key, d.inicioProg||'')}</div>
-        <div><label style="font-size:11px;font-weight:700;color:#1B294E;text-transform:uppercase">Fin Programado</label>
-          ${dateInputHTML('fp-'+et.key, d.finProg||'')}</div>
-        <div><label style="font-size:11px;font-weight:700;color:#1B294E;text-transform:uppercase">% Avance</label>
-          <input type="number" min="0" max="100" class="form-control" id="pr-${et.key}" value="${d.progress||0}"></div>
+        <div><label style="font-size:11px;font-weight:700;color:#1B294E;text-transform:uppercase">Inicio Programado</label>${dateInputHTML('ip-'+et.key, d.inicioProg||'')}</div>
+        <div><label style="font-size:11px;font-weight:700;color:#1B294E;text-transform:uppercase">Fin Programado</label>${dateInputHTML('fp-'+et.key, d.finProg||'')}</div>
+        <div><label style="font-size:11px;font-weight:700;color:#1B294E;text-transform:uppercase">% Avance</label><input type="number" min="0" max="100" class="form-control" id="pr-${et.key}" value="${d.progress||0}"></div>
       </div>
       <div class="row-3">
-        <div><label style="font-size:11px;font-weight:700;color:#1B294E;text-transform:uppercase">Inicio Real</label>
-          ${dateInputHTML('ir-'+et.key, d.inicioReal||'')}</div>
-        <div><label style="font-size:11px;font-weight:700;color:#1B294E;text-transform:uppercase">Fin Real</label>
-          ${dateInputHTML('fr-'+et.key, d.finReal||'')}</div>
+        <div><label style="font-size:11px;font-weight:700;color:#1B294E;text-transform:uppercase">Inicio Real</label>${dateInputHTML('ir-'+et.key, d.inicioReal||'')}</div>
+        <div><label style="font-size:11px;font-weight:700;color:#1B294E;text-transform:uppercase">Fin Real</label>${dateInputHTML('fr-'+et.key, d.finReal||'')}</div>
       </div>
+      ${isEjecucion ? `
+        <div class="etapa-ejecucion-fields">
+          <div class="row-3">
+            <div><label>Monto de Ejecución</label><div class="money-input"><input type="text" class="form-control" id="monto-ejecucion" value="${d.montoEjecucion ? fmtNumber(d.montoEjecucion) : ''}" placeholder="0.00"></div></div>
+            <div><label>Tipo de Fondo</label><select class="form-control" id="fondo-ejecucion">${FUNDS.map(f => `<option value="${f.key}" ${(d.fondoEjecucion||'propios')===f.key?'selected':''}>${f.label}</option>`).join('')}</select></div>
+            <div><label>Distribución mensual</label><div class="form-control" style="background:#fffbe6;color:#856404;font-style:italic;text-align:right;padding-right:10px" id="dist-mensual">${distTxt}</div></div>
+          </div>
+          <div class="hint" style="margin-top:8px">El monto se reparte proporcionalmente entre cada mes entre el inicio y el fin programado, y se suma automáticamente por año en la Programación Financiera.</div>
+        </div>
+      ` : ''}
     </div>
   `;
-  card.querySelector('#chk-' + et.key).addEventListener('change', e => {
-    d.active = e.target.checked; persist(); renderTab();
-  });
+
+  card.querySelector('#chk-' + et.key).addEventListener('change', e => { d.active = e.target.checked; persist(); renderTab(); });
   if (d.active){
     const bindEtapaDate = (id, key) => {
       const el = card.querySelector('[id="'+id+'"]');
       if (!el) return;
-      el.addEventListener('datechange', () => { d[key] = el.dataset.iso || ''; persist(); });
+      el.addEventListener('datechange', () => {
+        d[key] = el.dataset.iso || '';
+        if (isEjecucion){
+          const distEl = card.querySelector('#dist-mensual');
+          if (distEl){
+            const dist = getEjecucionDistribution(p);
+            distEl.textContent = dist ? `${dist.months} mes(es) × ${fmtCRC(dist.monthly)}` : '—';
+          }
+        }
+        persist();
+      });
     };
     bindEtapaDate('ip-'+et.key, 'inicioProg');
     bindEtapaDate('fp-'+et.key, 'finProg');
@@ -2600,8 +2476,29 @@ function renderEtapaCard(p, fase, et){
     const prEl = card.querySelector('#pr-' + et.key);
     prEl.addEventListener('change', e => {
       d.progress = Math.max(0, Math.min(100, Number(e.target.value)||0));
-      e.target.value = d.progress; persist();
+      e.target.value = d.progress;
+      p.lastProgressUpdate = nowDateTimeStr();
+      persist();
     });
+
+    if (isEjecucion){
+      const montoEl = card.querySelector('#monto-ejecucion');
+      const fondoEl = card.querySelector('#fondo-ejecucion');
+      const distEl  = card.querySelector('#dist-mensual');
+      const refreshDist = () => {
+        const dist = getEjecucionDistribution(p);
+        if (distEl) distEl.textContent = dist ? `${dist.months} mes(es) × ${fmtCRC(dist.monthly)}` : '—';
+      };
+      montoEl.addEventListener('change', () => {
+        const v = parseNum(montoEl.value);
+        d.montoEjecucion = v;
+        montoEl.value = v ? fmtNumber(v) : '';
+        refreshDist();
+        persist(); renderGrid();
+      });
+      montoEl.addEventListener('focus', () => montoEl.select());
+      fondoEl.addEventListener('change', () => { d.fondoEjecucion = fondoEl.value; persist(); renderGrid(); });
+    }
   }
   return card;
 }
@@ -2610,57 +2507,31 @@ function renderDificultadesTab(p){
   const wrap = document.createElement('div');
   wrap.innerHTML = `
     <div class="sub-section">
-      <div class="sub-section-head">
-        <div class="sub-section-title">⚠️ Dificultades del Proyecto</div>
-        <button class="btn btn-sm btn-primary" id="addDif">+ Agregar Dificultad</button>
-      </div>
-      <table><thead><tr><th style="width:65%">Descripción</th><th>Prioridad</th><th style="width:55px"></th></tr></thead>
-      <tbody id="difBody"></tbody></table>
+      <div class="sub-section-head"><div class="sub-section-title">⚠️ Dificultades del Proyecto</div><button class="btn btn-sm btn-primary" id="addDif">+ Agregar Dificultad</button></div>
+      <table><thead><tr><th style="width:65%">Descripción</th><th>Prioridad</th><th style="width:55px"></th></tr></thead><tbody id="difBody"></tbody></table>
     </div>
     <div class="sub-section">
-      <div class="sub-section-head">
-        <div class="sub-section-title">🎯 Actividades Críticas</div>
-        <button class="btn btn-sm btn-primary" id="addAct">+ Agregar Actividad Crítica</button>
-      </div>
-      <table><thead><tr><th style="width:65%">Descripción</th><th>Prioridad</th><th style="width:55px"></th></tr></thead>
-      <tbody id="actBody"></tbody></table>
+      <div class="sub-section-head"><div class="sub-section-title">🎯 Actividades Críticas</div><button class="btn btn-sm btn-primary" id="addAct">+ Agregar Actividad Crítica</button></div>
+      <table><thead><tr><th style="width:65%">Descripción</th><th>Prioridad</th><th style="width:55px"></th></tr></thead><tbody id="actBody"></tbody></table>
     </div>
   `;
   buildList(p, 'difficulties', wrap.querySelector('#difBody'));
   buildList(p, 'activities', wrap.querySelector('#actBody'));
-  wrap.querySelector('#addDif').addEventListener('click', () => {
-    p.difficulties = p.difficulties || [];
-    p.difficulties.push({ desc:'', priority:'Media' });
-    persist(); renderTab();
-  });
-  wrap.querySelector('#addAct').addEventListener('click', () => {
-    p.activities = p.activities || [];
-    p.activities.push({ desc:'', priority:'Media' });
-    persist(); renderTab();
-  });
+  wrap.querySelector('#addDif').addEventListener('click', () => { p.difficulties = p.difficulties || []; p.difficulties.push({ desc:'', priority:'Media' }); persist(); renderTab(); });
+  wrap.querySelector('#addAct').addEventListener('click', () => { p.activities = p.activities || []; p.activities.push({ desc:'', priority:'Media' }); persist(); renderTab(); });
   return wrap;
 }
 function buildList(p, field, body){
   const list = p[field] || [];
-  if (list.length === 0){
-    body.innerHTML = '<tr><td colspan="3" style="text-align:center;color:#888">Sin registros. Use el botón "Agregar".</td></tr>';
-    return;
-  }
-  const sorted = [...list].sort((a,b) => {
-    const o = { Alta:0, Media:1, Baja:2 };
-    return (o[a.priority]??3) - (o[b.priority]??3);
-  });
-  const placeholderDesc = field === 'difficulties'
-    ? 'Ej: Retraso en permisos municipales'
-    : 'Ej: Aprobación de planos constructivos';
+  if (list.length === 0){ body.innerHTML = '<tr><td colspan="3" style="text-align:center;color:#888">Sin registros. Use el botón "Agregar".</td></tr>'; return; }
+  const sorted = [...list].sort((a,b) => { const o = { Alta:0, Media:1, Baja:2 }; return (o[a.priority]??3) - (o[b.priority]??3); });
+  const placeholderDesc = field === 'difficulties' ? 'Ej: Retraso en permisos municipales' : 'Ej: Aprobación de planos constructivos';
   sorted.forEach(d => {
     const realIdx = list.indexOf(d);
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td><input type="text" data-idx="${realIdx}" data-field="desc" data-list="${field}" value="${escapeHtml(d.desc||'')}" placeholder="${placeholderDesc}"></td>
-      <td><select data-idx="${realIdx}" data-field="priority" data-list="${field}">
-        ${PRIORIDADES.map(pr => `<option value="${pr}" ${d.priority===pr?'selected':''}>${pr}</option>`).join('')}
-      </select></td>
+      <td><select data-idx="${realIdx}" data-field="priority" data-list="${field}">${PRIORIDADES.map(pr => `<option value="${pr}" ${d.priority===pr?'selected':''}>${pr}</option>`).join('')}</select></td>
       <td><button class="btn btn-sm btn-danger" data-del="${realIdx}" data-list="${field}">×</button></td>
     `;
     body.appendChild(tr);
@@ -2674,10 +2545,7 @@ function buildList(p, field, body){
     });
   });
   body.querySelectorAll('[data-del]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      p[btn.dataset.list].splice(Number(btn.dataset.del), 1);
-      persist(); renderTab();
-    });
+    btn.addEventListener('click', () => { p[btn.dataset.list].splice(Number(btn.dataset.del), 1); persist(); renderTab(); });
   });
 }
 
@@ -2686,41 +2554,18 @@ function renderActividadesTab(p){
   if (!p.programmedActivities) p.programmedActivities = { current: [], next: [] };
   wrap.innerHTML = `
     <div class="sub-section">
-      <div class="sub-section-head">
-        <div class="sub-section-title">📅 Actividades del Mes</div>
-        <button class="btn btn-sm btn-primary" id="addCurAct">+ Agregar Actividad</button>
-      </div>
-      <table><thead><tr>
-        <th style="width:50%">Descripción</th>
-        <th style="width:28%">Responsable</th>
-        <th style="width:16%">Estado</th>
-        <th style="width:55px"></th>
-      </tr></thead>
-      <tbody id="curActBody"></tbody></table>
+      <div class="sub-section-head"><div class="sub-section-title">📅 Actividades del Mes</div><button class="btn btn-sm btn-primary" id="addCurAct">+ Agregar Actividad</button></div>
+      <table><thead><tr><th style="width:50%">Descripción</th><th style="width:28%">Responsable</th><th style="width:16%">Estado</th><th style="width:55px"></th></tr></thead><tbody id="curActBody"></tbody></table>
     </div>
     <div class="sub-section">
-      <div class="sub-section-head">
-        <div class="sub-section-title">📌 Actividades del Próximo Mes</div>
-        <button class="btn btn-sm btn-primary" id="addNextAct">+ Agregar Actividad</button>
-      </div>
-      <table><thead><tr>
-        <th style="width:65%">Descripción</th>
-        <th style="width:35%">Responsable</th>
-        <th style="width:55px"></th>
-      </tr></thead>
-      <tbody id="nextActBody"></tbody></table>
+      <div class="sub-section-head"><div class="sub-section-title">📌 Actividades del Próximo Mes</div><button class="btn btn-sm btn-primary" id="addNextAct">+ Agregar Actividad</button></div>
+      <table><thead><tr><th style="width:65%">Descripción</th><th style="width:35%">Responsable</th><th style="width:55px"></th></tr></thead><tbody id="nextActBody"></tbody></table>
     </div>
   `;
   buildProgrammedList(p, 'current', wrap.querySelector('#curActBody'));
   buildProgrammedList(p, 'next', wrap.querySelector('#nextActBody'));
-  wrap.querySelector('#addCurAct').addEventListener('click', () => {
-    p.programmedActivities.current.push({ desc:'', responsable:'', estado:'Pendiente' });
-    persist(); renderTab();
-  });
-  wrap.querySelector('#addNextAct').addEventListener('click', () => {
-    p.programmedActivities.next.push({ desc:'', responsable:'' });
-    persist(); renderTab();
-  });
+  wrap.querySelector('#addCurAct').addEventListener('click', () => { p.programmedActivities.current.push({ desc:'', responsable:'', estado:'Pendiente' }); p.lastActivitiesUpdate = nowDateTimeStr(); persist(); renderTab(); });
+  wrap.querySelector('#addNextAct').addEventListener('click', () => { p.programmedActivities.next.push({ desc:'', responsable:'' }); p.lastActivitiesUpdate = nowDateTimeStr(); persist(); renderTab(); });
   return wrap;
 }
 function buildProgrammedList(p, which, body){
@@ -2736,9 +2581,7 @@ function buildProgrammedList(p, which, body){
       tr.innerHTML = `
         <td><input type="text" data-which="current" data-idx="${idx}" data-field="desc" value="${escapeHtml(item.desc||'')}" placeholder="Ej: Inspección de avance de obra"></td>
         <td><input type="text" data-which="current" data-idx="${idx}" data-field="responsable" value="${escapeHtml(item.responsable||'')}" placeholder="Nombre del responsable"></td>
-        <td><select data-which="current" data-idx="${idx}" data-field="estado">
-          ${ESTADOS_ACT.map(e => `<option value="${e}" ${item.estado===e?'selected':''}>${e}</option>`).join('')}
-        </select></td>
+        <td><select data-which="current" data-idx="${idx}" data-field="estado">${ESTADOS_ACT.map(e => `<option value="${e}" ${item.estado===e?'selected':''}>${e}</option>`).join('')}</select></td>
         <td><button class="btn btn-sm btn-danger" data-which="current" data-del="${idx}">×</button></td>
       `;
     } else {
@@ -2755,12 +2598,14 @@ function buildProgrammedList(p, which, body){
       const which2 = el.dataset.which;
       const idx = Number(el.dataset.idx);
       p.programmedActivities[which2][idx][el.dataset.field] = el.value;
+      p.lastActivitiesUpdate = nowDateTimeStr();
       persist();
     });
   });
   body.querySelectorAll('[data-del]').forEach(btn => {
     btn.addEventListener('click', () => {
       p.programmedActivities[btn.dataset.which].splice(Number(btn.dataset.del), 1);
+      p.lastActivitiesUpdate = nowDateTimeStr();
       persist(); renderTab();
     });
   });
@@ -2773,19 +2618,9 @@ function renderTerrenosTab(p){
   const totalNC = getLandNonComputableTotal(p);
   wrap.innerHTML = `
     <div class="section-title">Terrenos y Servidumbres</div>
-    <div class="hint" style="margin-bottom:10px">
-      Los registros con figura <strong>Convenio</strong> o <strong>Donación</strong> se marcan como <span class="land-badge-nc">NO COMPUTA</span> y su avalúo <strong>no se suma</strong> a la programación financiera, aunque se registre el monto.
-    </div>
+    <div class="hint" style="margin-bottom:10px">Los registros con figura <strong>Convenio</strong> o <strong>Donación</strong> se marcan como <span class="land-badge-nc">NO COMPUTA</span> y su avalúo <strong>no se suma</strong> a la programación financiera, aunque se registre el monto.</div>
     <table>
-      <thead><tr>
-        <th style="width:110px">Tipo</th>
-        <th style="width:160px">Finalidad</th>
-        <th>Figura</th>
-        <th style="width:170px">Monto Avalúo</th>
-        <th style="width:150px">Fecha Est.</th>
-        <th style="width:150px">Fecha Real</th>
-        <th style="width:45px"></th>
-      </tr></thead>
+      <thead><tr><th style="width:110px">Tipo</th><th style="width:160px">Finalidad</th><th>Figura</th><th style="width:170px">Monto Avalúo</th><th style="width:150px">Fecha Est.</th><th style="width:150px">Fecha Real</th><th style="width:45px"></th></tr></thead>
       <tbody id="landBody"></tbody>
     </table>
     <button class="btn btn-sm add-row-btn" id="addLand">+ Agregar Terreno / Servidumbre</button>
@@ -2806,14 +2641,9 @@ function renderTerrenosTab(p){
       if (nc) tr.className = 'land-non-computable';
       const badge = nc ? '<span class="land-badge-nc" title="Esta figura no suma a la programación financiera">NO COMPUTA</span>' : '';
       tr.innerHTML = `
-        <td><select data-idx="${i}" data-field="type">
-          <option value="terreno" ${l.type==='terreno'?'selected':''}>Terreno</option>
-          <option value="servidumbre" ${l.type==='servidumbre'?'selected':''}>Servidumbre</option>
-        </select></td>
+        <td><select data-idx="${i}" data-field="type"><option value="terreno" ${l.type==='terreno'?'selected':''}>Terreno</option><option value="servidumbre" ${l.type==='servidumbre'?'selected':''}>Servidumbre</option></select></td>
         <td><input type="text" data-idx="${i}" data-field="finalidad" value="${escapeHtml(l.finalidad||'')}" placeholder="Ej: Tanque"></td>
-        <td><select data-idx="${i}" data-field="figure">
-          ${FIGURAS.map(f => `<option ${l.figure===f?'selected':''}>${f}</option>`).join('')}
-        </select>${badge}</td>
+        <td><select data-idx="${i}" data-field="figure">${FIGURAS.map(f => `<option ${l.figure===f?'selected':''}>${f}</option>`).join('')}</select>${badge}</td>
         <td><div class="money-input"><input type="text" data-idx="${i}" data-field="avaluo" value="${l.avaluo?fmtNumber(l.avaluo):''}"></div></td>
         <td>${dateInputHTML('land-fe-'+i, l.fechaEst||'')}</td>
         <td>${dateInputHTML('land-fr-'+i, l.fechaReal||'')}</td>
@@ -2840,9 +2670,7 @@ function renderTerrenosTab(p){
     });
   });
   body.querySelectorAll('[data-del]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      p.lands.splice(Number(btn.dataset.del), 1); persist(); renderTab();
-    });
+    btn.addEventListener('click', () => { p.lands.splice(Number(btn.dataset.del), 1); persist(); renderTab(); });
   });
   wrap.querySelector('#addLand').addEventListener('click', () => {
     p.lands = p.lands || [];
@@ -2859,17 +2687,18 @@ function renderFinancieroTab(p){
   const landTotal = getLandTotal(p);
   const landNC = getLandNonComputableTotal(p);
   const tot = getFinancialManualTotals(p);
-  const grandTotal = tot.total + landTotal;
+  const ejecTotal = getEjecucionTotal(p);
+  const obrasTotal = tot.total + ejecTotal;
+  const grandTotal = obrasTotal + landTotal;
 
   const yearColWidths = years.map(y => {
     let maxLen = 8;
-    FUNDS.forEach(f => {
-      const v = getFundForYear(p,y,f.key);
-      if (v) maxLen = Math.max(maxLen, fmtNumber(v).length);
-    });
+    FUNDS.forEach(f => { const v = getFundForYear(p,y,f.key); if (v) maxLen = Math.max(maxLen, fmtNumber(v).length); });
+    const ejecV = getEjecucionForYear(p, y);
+    if (ejecV) maxLen = Math.max(maxLen, fmtNumber(ejecV).length);
     const landV = getLandForYear(p,y);
     if (landV) maxLen = Math.max(maxLen, fmtNumber(landV).length);
-    const sumY = FUNDS.reduce((s,f) => s + getFundForYear(p,y,f.key), 0) + landV;
+    const sumY = FUNDS.reduce((s,f) => s + getFundForYear(p,y,f.key), 0) + ejecV + landV;
     if (sumY) maxLen = Math.max(maxLen, fmtNumber(sumY).length);
     maxLen = Math.min(18, maxLen);
     return Math.max(120, Math.min(200, maxLen * 8 + 40));
@@ -2879,23 +2708,23 @@ function renderFinancieroTab(p){
     ? years.map((y, i) => {
         const isAuto = autoYears.has(y);
         const w = yearColWidths[i];
-        return `<th style="min-width:${w}px">${y}${isAuto
-          ? '<span class="auto-badge" title="Año derivado del cronograma de etapas">auto</span>'
-          : `<button class="del-year" data-year="${y}" title="Eliminar año">×</button>`}</th>`;
+        return `<th style="min-width:${w}px">${y}${isAuto ? '<span class="auto-badge" title="Año derivado del cronograma de etapas">auto</span>' : `<button class="del-year" data-year="${y}" title="Eliminar año">×</button>`}</th>`;
       }).join('')
     : '<th style="color:#999">— Sin años —</th>';
 
   const fundRowsHtml = FUNDS.map(f => `
     <tr>
       <td class="row-label">${f.label}</td>
-      ${years.map((y, i) => {
-        const v = getFundForYear(p,y,f.key);
-        const vStr = v ? fmtNumber(v) : '';
-        return `<td style="min-width:${yearColWidths[i]}px"><div class="money-input"><input type="text" data-year="${y}" data-fund="${f.key}" value="${vStr}" size="${Math.ceil(yearColWidths[i]/8)}"></div></td>`;
-      }).join('')}
+      ${years.map((y, i) => { const v = getFundForYear(p,y,f.key); const vStr = v ? fmtNumber(v) : ''; return `<td style="min-width:${yearColWidths[i]}px"><div class="money-input"><input type="text" data-year="${y}" data-fund="${f.key}" value="${vStr}" size="${Math.ceil(yearColWidths[i]/8)}"></div></td>`; }).join('')}
       <td class="total-col">${fmtCRC(tot[f.key])}</td>
     </tr>
   `).join('');
+
+  const ejecRowHtml = ejecTotal > 0 ? `<tr>
+    <td class="row-label" style="color:#1b5e20">Ejecución (auto → ${getEjecucionFundLabel(p)})</td>
+    ${years.map((y, i) => `<td class="auto-cell" style="min-width:${yearColWidths[i]}px;color:#1b5e20">${getEjecucionForYear(p, y) > 0 ? fmtCRC(getEjecucionForYear(p, y)) : '—'}</td>`).join('')}
+    <td class="auto-cell" style="color:#1b5e20">${fmtCRC(ejecTotal)}</td>
+  </tr>` : '';
 
   const landRowHtml = `<tr>
     <td class="row-label">Terrenos computables (auto → Propios)</td>
@@ -2907,7 +2736,7 @@ function renderFinancieroTab(p){
     <td class="row-label">Total por año</td>
     ${years.map((y, i) => {
       const manual = FUNDS.reduce((s,f) => s + getFundForYear(p, y, f.key), 0);
-      return `<td class="total-col" style="min-width:${yearColWidths[i]}px">${fmtCRC(manual + getLandForYear(p, y))}</td>`;
+      return `<td class="total-col" style="min-width:${yearColWidths[i]}px">${fmtCRC(manual + getEjecucionForYear(p, y) + getLandForYear(p, y))}</td>`;
     }).join('')}
     <td class="total-col">${fmtCRC(grandTotal)}</td>
   </tr>`;
@@ -2924,12 +2753,8 @@ function renderFinancieroTab(p){
     ${years.length === 0 ? '<p style="text-align:center;color:#888;padding:20px">Aún no hay años. Active etapas con fechas o agregue un año manualmente.</p>' : `
     <div class="fin-scroll" id="finScrollContainer">
       <table class="fin-table">
-        <thead><tr>
-          <th style="min-width:220px">Fondo / Año</th>
-          ${yearHeaders}
-          <th style="min-width:130px">TOTAL</th>
-        </tr></thead>
-        <tbody>${fundRowsHtml}${landRowHtml}${totalsRowHtml}
+        <thead><tr><th style="min-width:220px">Fondo / Año</th>${yearHeaders}<th style="min-width:130px">TOTAL</th></tr></thead>
+        <tbody>${fundRowsHtml}${ejecRowHtml}${landRowHtml}${totalsRowHtml}
           <tr class="grand-total"><td colspan="${years.length + 2}">MONTO GLOBAL DEL PROYECTO: ${fmtCRC(grandTotal)}</td></tr>
         </tbody>
       </table>
@@ -2940,7 +2765,8 @@ function renderFinancieroTab(p){
       <div class="row-s"><span>Fondos Específicos:</span><span>${fmtCRC(tot.especificos)}</span></div>
       <div class="row-s"><span>Fondos Transferidos:</span><span>${fmtCRC(tot.transferidos)}</span></div>
       <div class="row-s"><span>Por Asignar:</span><span>${fmtCRC(tot.porAsignar)}</span></div>
-      <div class="row-s" style="border-top:1px solid #ccc;margin-top:6px;padding-top:6px"><strong>Monto de Obras:</strong><strong>${fmtCRC(tot.total)}</strong></div>
+      ${ejecTotal > 0 ? `<div class="row-s"><span style="color:#1b5e20">Ejecución (auto → ${getEjecucionFundLabel(p)}):</span><span style="color:#1b5e20">${fmtCRC(ejecTotal)}</span></div>` : ''}
+      <div class="row-s" style="border-top:1px solid #ccc;margin-top:6px;padding-top:6px"><strong>Monto de Obras:</strong><strong>${fmtCRC(obrasTotal)}</strong></div>
       <div class="row-s"><strong>Monto de Terrenos (computable):</strong><strong>${fmtCRC(landTotal)}</strong></div>
       ${landNC > 0 ? `<div class="row-s"><em style="color:#856404">Excluido Convenio/Donación:</em><em style="color:#856404">${fmtCRC(landNC)}</em></div>` : ''}
       <div class="row-s" style="border-top:2px solid var(--aya-dorado);margin-top:6px;padding-top:6px;font-size:15px"><strong>MONTO GLOBAL:</strong><strong>${fmtCRC(grandTotal)}</strong></div>
@@ -3005,9 +2831,11 @@ function resizeImage(file, maxWidth){
 function renderProjectHTML(p, forPrint, options = {}){
   const { isDOC = false, imgDims = null } = options;
   const tot = getFinancialManualTotals(p);
+  const ejecTotal = getEjecucionTotal(p);
+  const obrasTotal = tot.total + ejecTotal;
   const landTotal = getLandTotal(p);
   const landNC = getLandNonComputableTotal(p);
-  const global = tot.total + landTotal;
+  const global = obrasTotal + landTotal;
   const spi = calcSPI(p);
   const spiTxt = spi === null ? 'N/D' : spi.toFixed(2);
   const avance = getAvanceGlobal(p).toFixed(1);
@@ -3016,48 +2844,36 @@ function renderProjectHTML(p, forPrint, options = {}){
   const info = getFinancialViewInfo(p);
   const years = info.years;
   const loc = locationsToString(p);
+  const stale = getStaleAlert(p);
 
   const styleTable = forPrint ? '' : 'border-collapse:collapse;width:100%;margin:8px 0;font-family:Arial;font-size:11pt;';
   const styleTh = forPrint ? '' : 'border:1px solid #999;padding:6px;background:#1B294E;color:#fff;text-align:left;';
   const styleTd = forPrint ? '' : 'border:1px solid #999;padding:6px;';
-
   const styleH1 = forPrint ? '' : 'color:#1B294E;font-family:Arial;font-size:18pt;border-bottom:3px solid #C9AD6E;padding-bottom:4px;margin:20px 0 10px;';
   const styleH2 = forPrint ? '' : 'color:#1B294E;font-family:Arial;font-size:13pt;border-bottom:2px solid #C9AD6E;padding-bottom:3px;margin:16px 0 8px;';
 
-  const docTitleProject = [
-    'background:#1B294E','color:#FFFFFF','font-size:15pt','font-weight:bold','padding:8px 12px',
-    'margin:6px 0 10px 0','border-left:6px solid #C9AD6E','border-bottom:3px solid #C9AD6E',
-    'page-break-before:auto','page-break-after:avoid','page-break-inside:avoid'
-  ].join(';') + ';';
-
-  const docSubtitle = [
-    'color:#1B294E','font-size:12pt','font-weight:bold','padding:3px 0 3px 10px',
-    'margin:12px 0 6px 0','border-left:5px solid #C9AD6E','border-bottom:1px solid #C9AD6E',
-    'page-break-before:auto','page-break-after:avoid','page-break-inside:avoid'
-  ].join(';') + ';';
+  const docTitleProject = ['background:#1B294E','color:#FFFFFF','font-size:15pt','font-weight:bold','padding:8px 12px','margin:6px 0 10px 0','border-left:6px solid #C9AD6E','border-bottom:3px solid #C9AD6E','page-break-before:auto','page-break-after:avoid','page-break-inside:avoid'].join(';') + ';';
+  const docSubtitle = ['color:#1B294E','font-size:12pt','font-weight:bold','padding:3px 0 3px 10px','margin:12px 0 6px 0','border-left:5px solid #C9AD6E','border-bottom:1px solid #C9AD6E','page-break-before:auto','page-break-after:avoid','page-break-inside:avoid'].join(';') + ';';
 
   const titleProject = (text) => isDOC ? `<div style="${docTitleProject}">${text}</div>` : `<h1 style="${styleH1}">${text}</h1>`;
   const subtitle = (text) => isDOC ? `<div style="${docSubtitle}">${text}</div>` : `<h2 style="${styleH2}">${text}</h2>`;
 
   let html = `<div style="font-family:Arial,sans-serif;color:#1a1a1a;">`;
-
+  if (stale.show){
+    html += `<div style="background:#fff7d6;border-left:4px solid #f39c12;padding:10px 14px;margin:8px 0;border-radius:4px;color:#856404;font-size:11pt;"><strong>⚠️ ALERTA DE ACTUALIZACIÓN:</strong> ${stale.progressStale?'Porcentaje de avance sin actualizar'+((stale.daysSinceProgress!==null)?` (${stale.daysSinceProgress} días)`:''):''}${stale.progressStale&&stale.activitiesStale?' · ':''}${stale.activitiesStale?'Actividades programadas sin actualizar'+((stale.daysSinceActivities!==null)?` (${stale.daysSinceActivities} días)`:''):''}</div>`;
+  }
   html += titleProject(escapeHtml(p.name) || 'Proyecto sin nombre');
   html += `<p style="margin:4px 0;font-size:11pt"><strong>BPIP:</strong> ${escapeHtml(p.bpip)||'—'} &nbsp;&nbsp; <strong>Líder:</strong> ${escapeHtml(p.leader)||'—'}</p>`;
   if (p.categoria) html += `<p style="margin:4px 0;font-size:11pt"><strong>Categoría:</strong> ${escapeHtml(p.categoria)}</p>`;
+  if (p.mideplanDate) html += `<p style="margin:4px 0;font-size:11pt"><strong>Última aprobación MIDEPLAN:</strong> ${fmtDate(p.mideplanDate)}</p>`;
   if (loc) html += `<p style="margin:4px 0;font-size:11pt"><strong>Ubicación:</strong> ${escapeHtml(loc)}</p>`;
   if (p.codigoSistema) html += `<p style="margin:4px 0;font-size:11pt"><strong>Código del Sistema:</strong> ${escapeHtml(p.codigoSistema)}</p>`;
   if (p.poblacionBeneficiada) html += `<p style="margin:4px 0;font-size:11pt"><strong>Población Beneficiada:</strong> ${fmtInt(p.poblacionBeneficiada)}</p>`;
   html += `<p style="margin:4px 0;font-size:11pt"><strong>Fecha de registro:</strong> ${fmtDate(p.createdAt)} &nbsp;&nbsp; <strong>Última actualización:</strong> ${fmtDateTime(p.updatedAt)}</p>`;
   html += `<p style="margin:4px 0;font-size:11pt"><strong>Etapas actuales:</strong> ${currentsTxt} &nbsp;&nbsp; <strong>Avance global:</strong> ${avance}% &nbsp;&nbsp; <strong>SPI:</strong> ${spiTxt}</p>`;
 
-  if (p.description){
-    html += subtitle('Descripción');
-    html += `<p style="font-size:11pt;margin:3px 0;">${escapeHtml(p.description)}</p>`;
-  }
-  if (p.components){
-    html += subtitle('Componentes');
-    html += `<p style="font-size:11pt;margin:3px 0;">${escapeHtml(p.components)}</p>`;
-  }
+  if (p.description){ html += subtitle('Descripción'); html += `<p style="font-size:11pt;margin:3px 0;">${escapeHtml(p.description)}</p>`; }
+  if (p.components){ html += subtitle('Componentes'); html += `<p style="font-size:11pt;margin:3px 0;">${escapeHtml(p.components)}</p>`; }
 
   if (p.mapImage && forPrint){
     if (isDOC && imgDims){
@@ -3075,29 +2891,19 @@ function renderProjectHTML(p, forPrint, options = {}){
   }
 
   html += subtitle('Estado del Proyecto');
-  if (p.estadoProyecto) html += `<p style="font-size:11pt;margin:3px 0;white-space:pre-wrap;">${escapeHtml(p.estadoProyecto)}</p>`;
-  else html += `<p style="font-size:11pt;margin:3px 0;color:#888;font-style:italic;">Sin estado registrado</p>`;
-
+  html += p.estadoProyecto ? `<p style="font-size:11pt;margin:3px 0;white-space:pre-wrap;">${escapeHtml(p.estadoProyecto)}</p>` : `<p style="font-size:11pt;margin:3px 0;color:#888;font-style:italic;">Sin estado registrado</p>`;
   html += subtitle('Meta Anual');
-  if (p.metaAnual) html += `<p style="font-size:11pt;margin:3px 0;white-space:pre-wrap;">${escapeHtml(p.metaAnual)}</p>`;
-  else html += `<p style="font-size:11pt;margin:3px 0;color:#888;font-style:italic;">Sin meta registrada</p>`;
+  html += p.metaAnual ? `<p style="font-size:11pt;margin:3px 0;white-space:pre-wrap;">${escapeHtml(p.metaAnual)}</p>` : `<p style="font-size:11pt;margin:3px 0;color:#888;font-style:italic;">Sin meta registrada</p>`;
 
   html += subtitle('Etapas y Cronograma');
-  html += `<table style="${styleTable}"><thead><tr>
-    <th style="${styleTh}">Fase</th><th style="${styleTh}">Etapa</th><th style="${styleTh}">Peso</th>
-    <th style="${styleTh}">Inicio Prog.</th><th style="${styleTh}">Fin Prog.</th>
-    <th style="${styleTh}">Inicio Real</th><th style="${styleTh}">Fin Real</th>
-    <th style="${styleTh}">% Avance</th></tr></thead><tbody>`;
+  html += `<table style="${styleTable}"><thead><tr><th style="${styleTh}">Fase</th><th style="${styleTh}">Etapa</th><th style="${styleTh}">Peso</th><th style="${styleTh}">Inicio Prog.</th><th style="${styleTh}">Fin Prog.</th><th style="${styleTh}">Inicio Real</th><th style="${styleTh}">Fin Real</th><th style="${styleTh}">% Avance</th></tr></thead><tbody>`;
   let hasEtapa = false;
   for (const fase in STAGES) for (const et of STAGES[fase]){
     if (!p.fases?.[fase]) continue;
     const d = p.etapas?.[et.key];
     if (!d?.active) continue;
     hasEtapa = true;
-    html += `<tr><td style="${styleTd}">${FASE_LABEL[fase]}</td><td style="${styleTd}">${et.label}</td><td style="${styleTd}">${et.weight}%</td>
-      <td style="${styleTd}">${fmtDate(d.inicioProg)}</td><td style="${styleTd}">${fmtDate(d.finProg)}</td>
-      <td style="${styleTd}">${fmtDate(d.inicioReal)}</td><td style="${styleTd}">${fmtDate(d.finReal)}</td>
-      <td style="${styleTd}">${Number(d.progress)||0}%</td></tr>`;
+    html += `<tr><td style="${styleTd}">${FASE_LABEL[fase]}</td><td style="${styleTd}">${et.label}</td><td style="${styleTd}">${et.weight}%</td><td style="${styleTd}">${fmtDate(d.inicioProg)}</td><td style="${styleTd}">${fmtDate(d.finProg)}</td><td style="${styleTd}">${fmtDate(d.inicioReal)}</td><td style="${styleTd}">${fmtDate(d.finReal)}</td><td style="${styleTd}">${Number(d.progress)||0}%</td></tr>`;
   }
   if (!hasEtapa) html += `<tr><td colspan="8" style="${styleTd};text-align:center;color:#888">Sin etapas activas</td></tr>`;
   html += `</tbody></table>`;
@@ -3105,36 +2911,26 @@ function renderProjectHTML(p, forPrint, options = {}){
   html += subtitle('Dificultades');
   html += `<table style="${styleTable}"><thead><tr><th style="${styleTh}">#</th><th style="${styleTh}">Descripción</th><th style="${styleTh}">Prioridad</th></tr></thead><tbody>`;
   if (!p.difficulties?.length) html += `<tr><td colspan="3" style="${styleTd};text-align:center;color:#888">Sin registros</td></tr>`;
-  else [...p.difficulties].sort((a,b)=>{const o={Alta:0,Media:1,Baja:2};return (o[a.priority]??3)-(o[b.priority]??3);})
-    .forEach((d,i)=>{ html += `<tr><td style="${styleTd}">${i+1}</td><td style="${styleTd}">${escapeHtml(d.desc)}</td><td style="${styleTd}">${d.priority}</td></tr>`; });
+  else [...p.difficulties].sort((a,b)=>{const o={Alta:0,Media:1,Baja:2};return (o[a.priority]??3)-(o[b.priority]??3);}).forEach((d,i)=>{ html += `<tr><td style="${styleTd}">${i+1}</td><td style="${styleTd}">${escapeHtml(d.desc)}</td><td style="${styleTd}">${d.priority}</td></tr>`; });
   html += `</tbody></table>`;
 
   html += subtitle('Actividades Críticas');
   html += `<table style="${styleTable}"><thead><tr><th style="${styleTh}">#</th><th style="${styleTh}">Descripción</th><th style="${styleTh}">Prioridad</th></tr></thead><tbody>`;
   if (!p.activities?.length) html += `<tr><td colspan="3" style="${styleTd};text-align:center;color:#888">Sin registros</td></tr>`;
-  else [...p.activities].sort((a,b)=>{const o={Alta:0,Media:1,Baja:2};return (o[a.priority]??3)-(o[b.priority]??3);})
-    .forEach((d,i)=>{ html += `<tr><td style="${styleTd}">${i+1}</td><td style="${styleTd}">${escapeHtml(d.desc)}</td><td style="${styleTd}">${d.priority}</td></tr>`; });
+  else [...p.activities].sort((a,b)=>{const o={Alta:0,Media:1,Baja:2};return (o[a.priority]??3)-(o[b.priority]??3);}).forEach((d,i)=>{ html += `<tr><td style="${styleTd}">${i+1}</td><td style="${styleTd}">${escapeHtml(d.desc)}</td><td style="${styleTd}">${d.priority}</td></tr>`; });
   html += `</tbody></table>`;
 
   html += subtitle('Actividades Programadas');
   const pa = p.programmedActivities || { current: [], next: [] };
   html += `<p style="font-size:11pt;margin:8px 0 3px;"><strong>Actividades del Mes</strong></p>`;
-  html += `<table style="${styleTable}"><thead><tr>
-    <th style="${styleTh}">Descripción</th><th style="${styleTh}">Responsable</th><th style="${styleTh}">Estado</th>
-  </tr></thead><tbody>`;
+  html += `<table style="${styleTable}"><thead><tr><th style="${styleTh}">Descripción</th><th style="${styleTh}">Responsable</th><th style="${styleTh}">Estado</th></tr></thead><tbody>`;
   if (!pa.current?.length) html += `<tr><td colspan="3" style="${styleTd};text-align:center;color:#888">Sin registros</td></tr>`;
-  else pa.current.forEach(a => {
-    html += `<tr><td style="${styleTd}">${escapeHtml(a.desc)||'—'}</td><td style="${styleTd}">${escapeHtml(a.responsable)||'—'}</td><td style="${styleTd}">${escapeHtml(a.estado)||'—'}</td></tr>`;
-  });
+  else pa.current.forEach(a => { html += `<tr><td style="${styleTd}">${escapeHtml(a.desc)||'—'}</td><td style="${styleTd}">${escapeHtml(a.responsable)||'—'}</td><td style="${styleTd}">${escapeHtml(a.estado)||'—'}</td></tr>`; });
   html += `</tbody></table>`;
   html += `<p style="font-size:11pt;margin:12px 0 3px;"><strong>Actividades del Próximo Mes</strong></p>`;
-  html += `<table style="${styleTable}"><thead><tr>
-    <th style="${styleTh}">Descripción</th><th style="${styleTh}">Responsable</th>
-  </tr></thead><tbody>`;
+  html += `<table style="${styleTable}"><thead><tr><th style="${styleTh}">Descripción</th><th style="${styleTh}">Responsable</th></tr></thead><tbody>`;
   if (!pa.next?.length) html += `<tr><td colspan="2" style="${styleTd};text-align:center;color:#888">Sin registros</td></tr>`;
-  else pa.next.forEach(a => {
-    html += `<tr><td style="${styleTd}">${escapeHtml(a.desc)||'—'}</td><td style="${styleTd}">${escapeHtml(a.responsable)||'—'}</td></tr>`;
-  });
+  else pa.next.forEach(a => { html += `<tr><td style="${styleTd}">${escapeHtml(a.desc)||'—'}</td><td style="${styleTd}">${escapeHtml(a.responsable)||'—'}</td></tr>`; });
   html += `</tbody></table>`;
 
   html += subtitle('Equipo del Proyecto');
@@ -3143,17 +2939,13 @@ function renderProjectHTML(p, forPrint, options = {}){
     if (team.internos && team.internos.length > 0){
       html += `<p style="font-size:11pt;margin:8px 0 3px;"><strong>Responsables Internos</strong></p>`;
       html += `<table style="${styleTable}"><thead><tr><th style="${styleTh}">Nombre</th><th style="${styleTh}">Responsabilidad</th><th style="${styleTh}">Correo</th></tr></thead><tbody>`;
-      team.internos.forEach(r => {
-        html += `<tr><td style="${styleTd}">${escapeHtml(r.nombre)||'—'}</td><td style="${styleTd}">${escapeHtml(r.responsabilidad)||'—'}</td><td style="${styleTd}">${escapeHtml(r.email)||'—'}</td></tr>`;
-      });
+      team.internos.forEach(r => { html += `<tr><td style="${styleTd}">${escapeHtml(r.nombre)||'—'}</td><td style="${styleTd}">${escapeHtml(r.responsabilidad)||'—'}</td><td style="${styleTd}">${escapeHtml(r.email)||'—'}</td></tr>`; });
       html += `</tbody></table>`;
     }
     if (team.externos && team.externos.length > 0){
       html += `<p style="font-size:11pt;margin:8px 0 3px;"><strong>Responsables Externos</strong></p>`;
       html += `<table style="${styleTable}"><thead><tr><th style="${styleTh}">Nombre</th><th style="${styleTh}">Responsabilidad</th><th style="${styleTh}">Correo</th></tr></thead><tbody>`;
-      team.externos.forEach(r => {
-        html += `<tr><td style="${styleTd}">${escapeHtml(r.nombre)||'—'}</td><td style="${styleTd}">${escapeHtml(r.responsabilidad)||'—'}</td><td style="${styleTd}">${escapeHtml(r.email)||'—'}</td></tr>`;
-      });
+      team.externos.forEach(r => { html += `<tr><td style="${styleTd}">${escapeHtml(r.nombre)||'—'}</td><td style="${styleTd}">${escapeHtml(r.responsabilidad)||'—'}</td><td style="${styleTd}">${escapeHtml(r.email)||'—'}</td></tr>`; });
       html += `</tbody></table>`;
     }
   } else {
@@ -3161,20 +2953,13 @@ function renderProjectHTML(p, forPrint, options = {}){
   }
 
   html += subtitle('Terrenos y Servidumbres');
-  html += `<p style="font-size:10pt;color:#856404;font-style:italic;margin:3px 0 6px;">
-    Nota: los registros con figura Convenio o Donación no se suman a la programación financiera.
-  </p>`;
-  html += `<table style="${styleTable}"><thead><tr>
-    <th style="${styleTh}">Tipo</th><th style="${styleTh}">Finalidad</th><th style="${styleTh}">Figura</th><th style="${styleTh}">Avalúo</th>
-    <th style="${styleTh}">Fecha Est.</th><th style="${styleTh}">Fecha Real</th></tr></thead><tbody>`;
+  html += `<p style="font-size:10pt;color:#856404;font-style:italic;margin:3px 0 6px;">Nota: los registros con figura Convenio o Donación no se suman a la programación financiera.</p>`;
+  html += `<table style="${styleTable}"><thead><tr><th style="${styleTh}">Tipo</th><th style="${styleTh}">Finalidad</th><th style="${styleTh}">Figura</th><th style="${styleTh}">Avalúo</th><th style="${styleTh}">Fecha Est.</th><th style="${styleTh}">Fecha Real</th></tr></thead><tbody>`;
   if (!p.lands?.length) html += `<tr><td colspan="6" style="${styleTd};text-align:center;color:#888">Sin registros</td></tr>`;
   else p.lands.forEach(l => {
     const nc = !isLandComputable(l);
     const ncTxt = nc ? ' <em style="color:#856404;font-size:9pt">(no computa)</em>' : '';
-    html += `<tr><td style="${styleTd}">${l.type}</td><td style="${styleTd}">${escapeHtml(l.finalidad)||'—'}</td><td style="${styleTd}">${l.figure}${ncTxt}</td>
-      <td style="${styleTd};text-align:right">${fmtCRC(l.avaluo)}</td>
-      <td style="${styleTd}">${fmtDate(l.fechaEst)}</td>
-      <td style="${styleTd}">${fmtDate(l.fechaReal)}</td></tr>`;
+    html += `<tr><td style="${styleTd}">${l.type}</td><td style="${styleTd}">${escapeHtml(l.finalidad)||'—'}</td><td style="${styleTd}">${l.figure}${ncTxt}</td><td style="${styleTd};text-align:right">${fmtCRC(l.avaluo)}</td><td style="${styleTd}">${fmtDate(l.fechaEst)}</td><td style="${styleTd}">${fmtDate(l.fechaReal)}</td></tr>`;
   });
   html += `</tbody></table>`;
   html += `<p style="text-align:right;font-weight:700;font-size:12pt;margin:8px 0">Total Terrenos (computable): ${fmtCRC(landTotal)}${landNC > 0 ? ` <span style="color:#856404;font-weight:400;font-size:10pt">— Excluido Conv./Don.: ${fmtCRC(landNC)}</span>` : ''}</p>`;
@@ -3184,23 +2969,25 @@ function renderProjectHTML(p, forPrint, options = {}){
     html += `<p style="font-size:11pt">Sin programación financiera registrada.</p>`;
   } else {
     html += `<table style="${styleTable}"><thead><tr><th style="${styleTh}">Fondo / Año</th>`;
-    years.forEach(y => {
-      const isAgg = info.hasAggregation && y === info.cutoff;
-      html += `<th style="${styleTh};text-align:right">${y}${isAgg ? ' *' : ''}</th>`;
-    });
+    years.forEach(y => { const isAgg = info.hasAggregation && y === info.cutoff; html += `<th style="${styleTh};text-align:right">${y}${isAgg ? ' *' : ''}</th>`; });
     html += `<th style="${styleTh};text-align:right">TOTAL</th></tr></thead><tbody>`;
     FUNDS.forEach(f => {
       html += `<tr><td style="${styleTd}"><strong>${f.label}</strong></td>`;
       years.forEach(y => { html += `<td style="${styleTd};text-align:right">${fmtCell(fundForYearView(p, y, f.key, info))}</td>`; });
       html += `<td style="${styleTd};text-align:right;font-weight:700">${fmtCRC(tot[f.key])}</td></tr>`;
     });
+    if (ejecTotal > 0){
+      html += `<tr><td style="${styleTd}"><em style="color:#1b5e20">Ejecución (auto → ${getEjecucionFundLabel(p)})</em></td>`;
+      years.forEach(y => { html += `<td style="${styleTd};text-align:right;color:#1b5e20">${fmtCell(getEjecucionForYearView(p, y, info))}</td>`; });
+      html += `<td style="${styleTd};text-align:right;color:#1b5e20">${fmtCRC(ejecTotal)}</td></tr>`;
+    }
     html += `<tr><td style="${styleTd}"><em>Terrenos computables (auto → Propios)</em></td>`;
     years.forEach(y => { html += `<td style="${styleTd};text-align:right">${fmtCell(landForYearView(p, y, info))}</td>`; });
     html += `<td style="${styleTd};text-align:right">${fmtCRC(landTotal)}</td></tr>`;
     html += `<tr style="background:#F5F6FA"><td style="${styleTd}"><strong>Total por año</strong></td>`;
     years.forEach(y => {
       const manual = FUNDS.reduce((s,f) => s + fundForYearView(p, y, f.key, info), 0);
-      html += `<td style="${styleTd};text-align:right;font-weight:700">${fmtCRC(manual + landForYearView(p, y, info))}</td>`;
+      html += `<td style="${styleTd};text-align:right;font-weight:700">${fmtCRC(manual + getEjecucionForYearView(p, y, info) + landForYearView(p, y, info))}</td>`;
     });
     html += `<td style="${styleTd};text-align:right;font-weight:700">${fmtCRC(global)}</td></tr>`;
     html += `</tbody></table>`;
@@ -3211,13 +2998,12 @@ function renderProjectHTML(p, forPrint, options = {}){
 
   html += subtitle('Resumen Financiero');
   html += `<table style="${styleTable}"><tbody>
-    <tr><td style="${styleTd}"><strong>Monto de Obras</strong></td><td style="${styleTd};text-align:right">${fmtCRC(tot.total)}</td></tr>
+    <tr><td style="${styleTd}"><strong>Monto de Obras</strong></td><td style="${styleTd};text-align:right">${fmtCRC(obrasTotal)}</td></tr>
     <tr><td style="${styleTd}"><strong>Monto de Terrenos (computable)</strong></td><td style="${styleTd};text-align:right">${fmtCRC(landTotal)}</td></tr>
     ${landNC > 0 ? `<tr><td style="${styleTd}"><em style="color:#856404">Excluido Convenio/Donación</em></td><td style="${styleTd};text-align:right;color:#856404"><em>${fmtCRC(landNC)}</em></td></tr>` : ''}
     <tr style="background:#F5F6FA"><td style="${styleTd}"><strong>MONTO GLOBAL DEL PROYECTO</strong></td><td style="${styleTd};text-align:right"><strong>${fmtCRC(global)}</strong></td></tr>
     <tr><td style="${styleTd}"><strong>SPI (al día de hoy)</strong></td><td style="${styleTd};text-align:right">${spiTxt}</td></tr>
   </tbody></table>`;
-
   html += `</div>`;
   return html;
 }
@@ -3255,9 +3041,7 @@ function updatePrintPreview(){
   const projects = state.projects.filter(p => state.printTarget.includes(p.id));
   if (projects.length === 0){ iframe.srcdoc = '<p style="padding:20px;text-align:center;color:#888">Sin proyectos</p>'; return; }
   let body = '';
-  projects.forEach((p, i) => {
-    body += `<div style="${i < projects.length-1 ? 'page-break-after:always;' : ''}">${renderProjectHTML(p, true)}</div>`;
-  });
+  projects.forEach((p, i) => { body += `<div style="${i < projects.length-1 ? 'page-break-after:always;' : ''}">${renderProjectHTML(p, true)}</div>`; });
   iframe.srcdoc = buildPrintDocument(body, opts);
 }
 async function exportPDFDirect(){
@@ -3309,25 +3093,13 @@ async function exportDOC(project){
     let imgDims = null;
     if (project.mapImage) imgDims = await getImageDimensions(project.mapImage);
     const content = renderProjectHTML(project, true, { isDOC: true, imgDims });
-    const html = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
-    <head><meta charset="utf-8"><title>${escapeHtml(project.name)}</title>
-    <style>${DOC_STYLE}</style>
-    </head><body>${content}</body></html>`;
+    const html = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><title>${escapeHtml(project.name)}</title><style>${DOC_STYLE}</style></head><body>${content}</body></html>`;
     downloadBlob(new Blob([html], {type:'application/msword'}), safeName(project.name) + '.doc');
-  } catch(e){
-    console.error('Error export DOC:', e);
-    alert('Error al exportar DOC: ' + (e.message || e));
-  }
+  } catch(e){ console.error('Error export DOC:', e); alert('Error al exportar DOC: ' + (e.message || e)); }
 }
-
 async function exportDOCBulk(projects){
   try {
-    let html = `<div style="text-align:center;margin-bottom:15px;padding:10px 0;border-bottom:2px solid #C9AD6E;">
-      <img src="https://www.aya.go.cr/assets/img/96cb7f83-6325-4ee1-8e4e-fa1e21262be8.png" style="height:45px"><br>
-      <div style="color:#1B294E;font-size:16pt;font-weight:bold;margin:8px 0;">UEN Programación y Control — Portafolio de Proyectos</div>
-      <p style="color:#666;font-size:10pt;margin:3px 0;">Instituto Costarricense de Acueductos y Alcantarillados</p>
-      <p style="color:#666;font-size:9pt;margin:3px 0;">${projects.length} proyecto(s) — Generado: ${new Date().toLocaleString('es-CR')}</p>
-    </div>`;
+    let html = `<div style="text-align:center;margin-bottom:15px;padding:10px 0;border-bottom:2px solid #C9AD6E;"><img src="https://www.aya.go.cr/assets/img/96cb7f83-6325-4ee1-8e4e-fa1e21262be8.png" style="height:45px"><br><div style="color:#1B294E;font-size:16pt;font-weight:bold;margin:8px 0;">UEN Programación y Control — Portafolio de Proyectos</div><p style="color:#666;font-size:10pt;margin:3px 0;">Instituto Costarricense de Acueductos y Alcantarillados</p><p style="color:#666;font-size:9pt;margin:3px 0;">${projects.length} proyecto(s) — Generado: ${new Date().toLocaleString('es-CR')}</p></div>`;
     for (let i = 0; i < projects.length; i++){
       const p = projects[i];
       let imgDims = null;
@@ -3335,20 +3107,16 @@ async function exportDOCBulk(projects){
       const divider = i < projects.length - 1 ? 'page-break-before:always;' : '';
       html += `<div style="${divider}">${renderProjectHTML(p, true, { isDOC: true, imgDims })}</div>`;
     }
-    const docHtml = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
-    <head><meta charset="utf-8"><style>${DOC_STYLE}</style></head>
-    <body>${html}</body></html>`;
+    const docHtml = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><style>${DOC_STYLE}</style></head><body>${html}</body></html>`;
     downloadBlob(new Blob([docHtml],{type:'application/msword'}), 'Portafolio_Proyectos_AYA.doc');
-  } catch(e){
-    console.error('Error export DOC bulk:', e);
-    alert('Error al exportar portafolio DOC: ' + (e.message || e));
-  }
+  } catch(e){ console.error('Error export DOC bulk:', e); alert('Error al exportar portafolio DOC: ' + (e.message || e)); }
 }
 
 function safeSheet(s){ return (s||'').replace(/[\\\/\?\*\[\]:]/g,'').slice(0,31) || 'Sheet'; }
 
 function addProjectConsolidatedSheet(wb, project, prefix=''){
   const tot = getFinancialManualTotals(project);
+  const ejecTotal = getEjecucionTotal(project);
   const landTotal = getLandTotal(project);
   const landNC = getLandNonComputableTotal(project);
   const spi = calcSPI(project);
@@ -3356,12 +3124,12 @@ function addProjectConsolidatedSheet(wb, project, prefix=''){
   const years = info.years;
   const currents = getCurrentEtapas(project);
   const loc = locationsToString(project);
-
   const rows = [];
   rows.push(['DATOS GENERALES']);
   rows.push(['Nombre', project.name || '—']);
   rows.push(['BPIP', project.bpip || '—']);
   rows.push(['Categoría', project.categoria || '—']);
+  rows.push(['Última aprobación MIDEPLAN', project.mideplanDate ? fmtDate(project.mideplanDate) : '—']);
   rows.push(['Líder', project.leader || '—']);
   rows.push(['Ubicaciones', loc || '—']);
   rows.push(['Código del Sistema', project.codigoSistema || '—']);
@@ -3371,7 +3139,6 @@ function addProjectConsolidatedSheet(wb, project, prefix=''){
   rows.push(['Descripción', project.description || '—']);
   rows.push(['Componentes', project.components || '—']);
   rows.push([]);
-
   rows.push(['INDICADORES']);
   rows.push(['SPI', spi === null ? 'N/D' : spi.toFixed(2)]);
   rows.push(['Avance Global (%)', getAvanceGlobal(project).toFixed(1)]);
@@ -3381,12 +3148,10 @@ function addProjectConsolidatedSheet(wb, project, prefix=''){
   if (landNC > 0) rows.push(['Excluido Convenio/Donación', landNC]);
   rows.push(['Etapas actuales', currents.map(c => FASE_LABEL[c.fase]+' / '+c.label+' ('+c.progress+'%)').join('; ') || '—']);
   rows.push([]);
-
   rows.push(['ESTADO Y META ANUAL']);
   rows.push(['Estado del Proyecto', project.estadoProyecto || '—']);
   rows.push(['Meta Anual', project.metaAnual || '—']);
   rows.push([]);
-
   rows.push(['ETAPAS Y CRONOGRAMA']);
   rows.push(['Fase','Etapa','Peso (%)','Inicio Prog.','Fin Prog.','Inicio Real','Fin Real','% Avance']);
   let hasEtapa = false;
@@ -3399,96 +3164,65 @@ function addProjectConsolidatedSheet(wb, project, prefix=''){
   }
   if (!hasEtapa) rows.push(['Sin etapas activas','','','','','','','']);
   rows.push([]);
-
-  rows.push(['DIFICULTADES']);
-  rows.push(['Descripción','Prioridad']);
-  if (!project.difficulties?.length) rows.push(['Sin registros','']);
-  else project.difficulties.forEach(d => rows.push([d.desc||'—', d.priority||'—']));
+  rows.push(['DIFICULTADES']); rows.push(['Descripción','Prioridad']);
+  if (!project.difficulties?.length) rows.push(['Sin registros','']); else project.difficulties.forEach(d => rows.push([d.desc||'—', d.priority||'—']));
   rows.push([]);
-
-  rows.push(['ACTIVIDADES CRÍTICAS']);
-  rows.push(['Descripción','Prioridad']);
-  if (!project.activities?.length) rows.push(['Sin registros','']);
-  else project.activities.forEach(d => rows.push([d.desc||'—', d.priority||'—']));
+  rows.push(['ACTIVIDADES CRÍTICAS']); rows.push(['Descripción','Prioridad']);
+  if (!project.activities?.length) rows.push(['Sin registros','']); else project.activities.forEach(d => rows.push([d.desc||'—', d.priority||'—']));
   rows.push([]);
-
   rows.push(['ACTIVIDADES PROGRAMADAS']);
   const pa = project.programmedActivities || { current: [], next: [] };
-  rows.push(['Actividades del Mes']);
-  rows.push(['Descripción','Responsable','Estado']);
-  if (!pa.current?.length) rows.push(['Sin registros','','']);
-  else pa.current.forEach(a => rows.push([a.desc||'—', a.responsable||'—', a.estado||'—']));
+  rows.push(['Actividades del Mes']); rows.push(['Descripción','Responsable','Estado']);
+  if (!pa.current?.length) rows.push(['Sin registros','','']); else pa.current.forEach(a => rows.push([a.desc||'—', a.responsable||'—', a.estado||'—']));
   rows.push([]);
-  rows.push(['Actividades del Próximo Mes']);
-  rows.push(['Descripción','Responsable']);
-  if (!pa.next?.length) rows.push(['Sin registros','']);
-  else pa.next.forEach(a => rows.push([a.desc||'—', a.responsable||'—']));
+  rows.push(['Actividades del Próximo Mes']); rows.push(['Descripción','Responsable']);
+  if (!pa.next?.length) rows.push(['Sin registros','']); else pa.next.forEach(a => rows.push([a.desc||'—', a.responsable||'—']));
   rows.push([]);
-
-  rows.push(['EQUIPO DEL PROYECTO']);
-  rows.push(['Tipo', 'Nombre', 'Responsabilidad', 'Correo']);
+  rows.push(['EQUIPO DEL PROYECTO']); rows.push(['Tipo', 'Nombre', 'Responsabilidad', 'Correo']);
   const team = project.team || { internos: [], externos: [] };
-  if (team.internos?.length){
-    team.internos.forEach(r => rows.push(['Interno', r.nombre || '—', r.responsabilidad || '—', r.email || '—']));
-  }
-  if (team.externos?.length){
-    team.externos.forEach(r => rows.push(['Externo', r.nombre || '—', r.responsabilidad || '—', r.email || '—']));
-  }
+  if (team.internos?.length){ team.internos.forEach(r => rows.push(['Interno', r.nombre || '—', r.responsabilidad || '—', r.email || '—'])); }
+  if (team.externos?.length){ team.externos.forEach(r => rows.push(['Externo', r.nombre || '—', r.responsabilidad || '—', r.email || '—'])); }
   if (!team.internos?.length && !team.externos?.length) rows.push(['Sin registros','','','']);
   rows.push([]);
-
-  rows.push(['TERRENOS Y SERVIDUMBRES']);
-  rows.push(['Tipo','Finalidad','Figura','Avalúo','Computa','Fecha Est.','Fecha Real']);
+  rows.push(['TERRENOS Y SERVIDUMBRES']); rows.push(['Tipo','Finalidad','Figura','Avalúo','Computa','Fecha Est.','Fecha Real']);
   if (!project.lands?.length) rows.push(['Sin registros','','','','','','']);
   else project.lands.forEach(l => rows.push([l.type, l.finalidad||'—', l.figure, Number(l.avaluo)||0, isLandComputable(l) ? 'Sí' : 'No', fmtDate(l.fechaEst), fmtDate(l.fechaReal)]));
   rows.push(['','','Total Avalúo (todos)', getLandRawTotal(project),'','','']);
   rows.push(['','','Total Computable', landTotal,'','','']);
   if (landNC > 0) rows.push(['','','Excluido Conv./Don.', landNC,'','','']);
   rows.push([]);
-
   rows.push(['PROGRAMACIÓN FINANCIERA']);
-  if (years.length === 0){
-    rows.push(['Sin programación financiera registrada']);
-  } else {
-    const headerRow = ['Fondo / Año', ...years.map(y => {
-      const isAgg = info.hasAggregation && y === info.cutoff;
-      return isAgg ? `${y} *` : `${y}`;
-    }), 'TOTAL'];
+  if (years.length === 0){ rows.push(['Sin programación financiera registrada']); }
+  else {
+    const headerRow = ['Fondo / Año', ...years.map(y => { const isAgg = info.hasAggregation && y === info.cutoff; return isAgg ? `${y} *` : `${y}`; }), 'TOTAL'];
     rows.push(headerRow);
-    FUNDS.forEach(f => {
-      const row = [f.label];
-      years.forEach(y => row.push(fundForYearView(project, y, f.key, info)));
-      row.push(tot[f.key]);
-      rows.push(row);
-    });
+    FUNDS.forEach(f => { const row = [f.label]; years.forEach(y => row.push(fundForYearView(project, y, f.key, info))); row.push(tot[f.key]); rows.push(row); });
+    if (ejecTotal > 0){
+      const ejecRowXls = [`Ejecución (auto → ${getEjecucionFundLabel(project)})`];
+      years.forEach(y => ejecRowXls.push(getEjecucionForYearView(project, y, info)));
+      ejecRowXls.push(ejecTotal);
+      rows.push(ejecRowXls);
+    }
     const landRow = ['Terrenos computables (auto → Propios)'];
     years.forEach(y => landRow.push(landForYearView(project, y, info)));
     landRow.push(landTotal);
     rows.push(landRow);
     const totRow = ['Total por año'];
-    years.forEach(y => {
-      const manual = FUNDS.reduce((s,f) => s + fundForYearView(project, y, f.key, info), 0);
-      totRow.push(manual + landForYearView(project, y, info));
-    });
-    totRow.push(tot.total + landTotal);
+    years.forEach(y => { const manual = FUNDS.reduce((s,f) => s + fundForYearView(project, y, f.key, info), 0); totRow.push(manual + getEjecucionForYearView(project, y, info) + landForYearView(project, y, info)); });
+    totRow.push(tot.total + ejecTotal + landTotal);
     rows.push(totRow);
-    if (info.hasAggregation){
-      rows.push([`* El año ${info.cutoff} incluye montos de años anteriores: ${info.aggregated.join(', ')}`]);
-    }
+    if (info.hasAggregation){ rows.push([`* El año ${info.cutoff} incluye montos de años anteriores: ${info.aggregated.join(', ')}`]); }
   }
-
   const ws = XLSX.utils.aoa_to_sheet(rows);
   ws['!cols'] = [{wch:24},{wch:24},{wch:14},{wch:14},{wch:14},{wch:14},{wch:14},{wch:12}];
   const base = (prefix ? prefix + ' - ' : '') + (project.name || 'Proyecto');
   XLSX.utils.book_append_sheet(wb, ws, safeSheet(base));
 }
-
 function exportXLS(project){
   const wb = XLSX.utils.book_new();
   addProjectConsolidatedSheet(wb, project, '');
   XLSX.writeFile(wb, safeName(project.name) + '.xlsx');
 }
-
 function exportXLSBulk(projects){
   const wb = XLSX.utils.book_new();
   const resumen = [['Proyecto','BPIP','Categoría','Código Sistema','Población Beneficiada','Líder','Ubicaciones','Etapa Actual','Avance (%)','SPI','Monto Obras','Monto Terrenos (computable)','Monto Global']];
@@ -3501,7 +3235,6 @@ function exportXLSBulk(projects){
       getMontoObras(p), getLandTotal(p), getMontoGlobal(p)]);
   });
   XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(resumen), 'Resumen Portafolio');
-
   const nameCount = {};
   projects.forEach(p => {
     let prefix = (p.bpip || 'Proy').slice(0, 18);
@@ -3515,42 +3248,36 @@ function exportXLSBulk(projects){
 async function addImageProportional(slide, imgData, x, y, maxW, maxH){
   const dims = await getImageDimensions(imgData);
   const ratio = dims.w / dims.h;
-  let w = maxW;
-  let h = w / ratio;
+  let w = maxW, h = w / ratio;
   if (h > maxH){ h = maxH; w = h * ratio; }
-  const offsetX = x + (maxW - w) / 2;
-  const offsetY = y + (maxH - h) / 2;
+  const offsetX = x + (maxW - w) / 2, offsetY = y + (maxH - h) / 2;
   try { slide.addImage({ data: imgData, x: offsetX, y: offsetY, w, h }); }
   catch(e){ console.warn('No se pudo agregar imagen al PPTX:', e); }
   return { x: offsetX, y: offsetY, w, h };
 }
-
 async function addImageAt50PercentArea(slide, imgData, x, y, maxW, maxH){
   const dims = await getImageDimensions(imgData);
   const ratio = dims.w / dims.h;
   const SLIDE_W = 13.333, SLIDE_H = 7.5;
   const targetArea = SLIDE_W * SLIDE_H * 0.5;
-  let w = Math.sqrt(targetArea * ratio);
-  let h = w / ratio;
+  let w = Math.sqrt(targetArea * ratio), h = w / ratio;
   if (w > maxW){ w = maxW; h = w / ratio; }
   if (h > maxH){ h = maxH; w = h * ratio; }
-  const offsetX = x + (maxW - w) / 2;
-  const offsetY = y + (maxH - h) / 2;
+  const offsetX = x + (maxW - w) / 2, offsetY = y + (maxH - h) / 2;
   try { slide.addImage({ data: imgData, x: offsetX, y: offsetY, w, h }); }
   catch(e){ console.warn('No se pudo agregar imagen al PPTX:', e); }
   return { x: offsetX, y: offsetY, w, h };
 }
-
 function buildEtapasTableForPPTX(project, BLUE, WHITE){
   const rows = [[
-    { text:'Fase',        options:{bold:true, fill:BLUE, color:WHITE, align:'center'} },
-    { text:'Etapa',       options:{bold:true, fill:BLUE, color:WHITE, align:'center'} },
-    { text:'Peso',        options:{bold:true, fill:BLUE, color:WHITE, align:'center'} },
-    { text:'Inicio Prog.',options:{bold:true, fill:BLUE, color:WHITE, align:'center'} },
-    { text:'Fin Prog.',   options:{bold:true, fill:BLUE, color:WHITE, align:'center'} },
+    { text:'Fase', options:{bold:true, fill:BLUE, color:WHITE, align:'center'} },
+    { text:'Etapa', options:{bold:true, fill:BLUE, color:WHITE, align:'center'} },
+    { text:'Peso', options:{bold:true, fill:BLUE, color:WHITE, align:'center'} },
+    { text:'Inicio Prog.', options:{bold:true, fill:BLUE, color:WHITE, align:'center'} },
+    { text:'Fin Prog.', options:{bold:true, fill:BLUE, color:WHITE, align:'center'} },
     { text:'Inicio Real', options:{bold:true, fill:BLUE, color:WHITE, align:'center'} },
-    { text:'Fin Real',    options:{bold:true, fill:BLUE, color:WHITE, align:'center'} },
-    { text:'% Avance',    options:{bold:true, fill:BLUE, color:WHITE, align:'center'} }
+    { text:'Fin Real', options:{bold:true, fill:BLUE, color:WHITE, align:'center'} },
+    { text:'% Avance', options:{bold:true, fill:BLUE, color:WHITE, align:'center'} }
   ]];
   let has = false;
   for (const fase in STAGES) for (const et of STAGES[fase]){
@@ -3558,25 +3285,16 @@ function buildEtapasTableForPPTX(project, BLUE, WHITE){
     const d = project.etapas?.[et.key];
     if (!d?.active) continue;
     has = true;
-    rows.push([
-      FASE_LABEL[fase], et.label, et.weight > 0 ? et.weight+'%' : '—',
-      fmtDate(d.inicioProg), fmtDate(d.finProg),
-      fmtDate(d.inicioReal), fmtDate(d.finReal),
-      (Number(d.progress)||0)+'%'
-    ]);
+    rows.push([FASE_LABEL[fase], et.label, et.weight > 0 ? et.weight+'%' : '—', fmtDate(d.inicioProg), fmtDate(d.finProg), fmtDate(d.inicioReal), fmtDate(d.finReal), (Number(d.progress)||0)+'%']);
   }
   if (!has) rows.push([{text:'Sin etapas activas', options:{colspan:8, align:'center', italic:true, color:'888888'}},{},{},{},{},{},{},{}]);
   return rows;
 }
-
 function buildFinancieroTableForPPTX(project, BLUE, WHITE, tot, landTotal, global, info){
   const years = info.years;
   const headerRow = [
     { text:'Fondo / Año', options:{bold:true, fill:BLUE, color:WHITE} },
-    ...years.map(y => {
-      const isAgg = info.hasAggregation && y === info.cutoff;
-      return { text: String(y) + (isAgg ? ' *' : ''), options:{bold:true, fill:BLUE, color:WHITE, align:'right'} };
-    }),
+    ...years.map(y => { const isAgg = info.hasAggregation && y === info.cutoff; return { text: String(y) + (isAgg ? ' *' : ''), options:{bold:true, fill:BLUE, color:WHITE, align:'right'} }; }),
     { text:'TOTAL', options:{bold:true, fill:BLUE, color:WHITE, align:'right'} }
   ];
   const rows = [headerRow];
@@ -3586,6 +3304,13 @@ function buildFinancieroTableForPPTX(project, BLUE, WHITE, tot, landTotal, globa
     r.push({ text: fmtCRC(tot[f.key]), options:{align:'right', bold:true} });
     rows.push(r);
   });
+  const ejecTotal = getEjecucionTotal(project);
+  if (ejecTotal > 0){
+    const ejecR = [{ text:'Ejecución (auto → ' + getEjecucionFundLabel(project) + ')', options:{italic:true, color:'1b5e20'} }];
+    years.forEach(y => ejecR.push({ text: fmtCell(getEjecucionForYearView(project, y, info)), options:{align:'right', italic:true, color:'1b5e20'} }));
+    ejecR.push({ text: fmtCRC(ejecTotal), options:{align:'right', italic:true, color:'1b5e20'} });
+    rows.push(ejecR);
+  }
   const landR = [{ text:'Terrenos computables (auto → Propios)', options:{italic:true} }];
   years.forEach(y => landR.push({ text: fmtCell(landForYearView(project,y,info)), options:{align:'right', italic:true} }));
   landR.push({ text: fmtCRC(landTotal), options:{align:'right', italic:true} });
@@ -3593,21 +3318,20 @@ function buildFinancieroTableForPPTX(project, BLUE, WHITE, tot, landTotal, globa
   const totR = [{ text:'TOTAL POR AÑO', options:{bold:true} }];
   years.forEach(y => {
     const manual = FUNDS.reduce((s,f) => s + fundForYearView(project, y, f.key, info), 0);
-    totR.push({ text: fmtCRC(manual + landForYearView(project,y,info)), options:{align:'right', bold:true} });
+    totR.push({ text: fmtCRC(manual + getEjecucionForYearView(project,y,info) + landForYearView(project,y,info)), options:{align:'right', bold:true} });
   });
   totR.push({ text: fmtCRC(global), options:{align:'right', bold:true} });
   rows.push(totR);
   return rows;
 }
-
 function buildTerrenosTableForPPTX(project, BLUE, WHITE, landTotal){
   const rows = [[
-    { text:'Tipo',           options:{bold:true, fill:BLUE, color:WHITE, align:'center'} },
-    { text:'Finalidad',      options:{bold:true, fill:BLUE, color:WHITE, align:'center'} },
-    { text:'Figura',         options:{bold:true, fill:BLUE, color:WHITE, align:'center'} },
-    { text:'Avalúo',         options:{bold:true, fill:BLUE, color:WHITE, align:'right'} },
+    { text:'Tipo', options:{bold:true, fill:BLUE, color:WHITE, align:'center'} },
+    { text:'Finalidad', options:{bold:true, fill:BLUE, color:WHITE, align:'center'} },
+    { text:'Figura', options:{bold:true, fill:BLUE, color:WHITE, align:'center'} },
+    { text:'Avalúo', options:{bold:true, fill:BLUE, color:WHITE, align:'right'} },
     { text:'Fecha Estimada', options:{bold:true, fill:BLUE, color:WHITE, align:'center'} },
-    { text:'Fecha Real',     options:{bold:true, fill:BLUE, color:WHITE, align:'center'} }
+    { text:'Fecha Real', options:{bold:true, fill:BLUE, color:WHITE, align:'center'} }
   ]];
   const lands = project.lands || [];
   lands.forEach(l => {
@@ -3615,13 +3339,9 @@ function buildTerrenosTableForPPTX(project, BLUE, WHITE, landTotal){
     const figTxt = l.figure + (nc ? ' (no computa)' : '');
     rows.push([l.type, l.finalidad||'—', figTxt, fmtCRC(l.avaluo), fmtDate(l.fechaEst), fmtDate(l.fechaReal)]);
   });
-  rows.push([
-    { text:'TOTAL COMPUTABLE', options:{bold:true} }, '', '',
-    { text: fmtCRC(landTotal), options:{bold:true, align:'right'} }, '', ''
-  ]);
+  rows.push([{ text:'TOTAL COMPUTABLE', options:{bold:true} }, '', '', { text: fmtCRC(landTotal), options:{bold:true, align:'right'} }, '', '']);
   return rows;
 }
-
 function computeCenteredY(numRows, fontSize, availableTop, availableBottom){
   const estimatedRowH = fontSize * 0.032;
   const tableH = numRows * estimatedRowH;
@@ -3633,15 +3353,18 @@ function computeCenteredY(numRows, fontSize, availableTop, availableBottom){
 async function addProjectSlidesToPPTX(pptx, project){
   const BLUE = '1B294E', GOLD = 'C9AD6E', WHITE = 'FFFFFF', LIGHT = 'F5F6FA', GRAY = '666666', DARK = '002060';
   const tot = getFinancialManualTotals(project);
+  const ejecTotal = getEjecucionTotal(project);
+  const obrasTotal = tot.total + ejecTotal;
   const landTotal = getLandTotal(project);
   const landNC = getLandNonComputableTotal(project);
-  const global = tot.total + landTotal;
+  const global = obrasTotal + landTotal;
   const spi = calcSPI(project);
   const loc = locationsToString(project);
   const info = getFinancialViewInfo(project);
   const years = info.years;
   const avance = getAvanceGlobal(project);
   const spiColor = spi === null ? '999999' : (spi >= 0.9 ? '27ae60' : spi >= 0.7 ? 'f39c12' : 'e74c3c');
+  const stale = getStaleAlert(project);
 
   const addLogo = (slide, x, y, w, h) => {
     if (!AYA_LOGO_BASE64) return;
@@ -3660,29 +3383,47 @@ async function addProjectSlidesToPPTX(pptx, project){
   if (project.categoria) extraInfo.push(`Categoría: ${project.categoria}`);
   if (project.codigoSistema) extraInfo.push(`Código Sistema: ${project.codigoSistema}`);
   if (project.poblacionBeneficiada) extraInfo.push(`Población Beneficiada: ${fmtInt(project.poblacionBeneficiada)}`);
+  if (project.mideplanDate) extraInfo.push(`MIDEPLAN: ${fmtDate(project.mideplanDate)}`);
   if (loc) s1.addText(loc, { x:0.5, y:3.0, w:12.33, h:0.5, fontSize:14, color:'CCCCCC', align:'center' });
   if (extraInfo.length) s1.addText(extraInfo.join('   |   '), { x:0.5, y:3.5, w:12.33, h:0.35, fontSize:13, color:'CCCCCC', align:'center' });
   const now = new Date();
   s1.addText(`${getSpanishMonth(now)} ${now.getFullYear()}`, { x:0.5, y:3.9, w:12.33, h:0.4, fontSize:18, color:WHITE, align:'center' });
   const kpis = [
-    { label:'SPI',           value: spi === null ? 'N/D' : spi.toFixed(2), sub: spiLabel(spi), color: spiColor },
+    { label:'SPI', value: spi === null ? 'N/D' : spi.toFixed(2), sub: spiLabel(spi), color: spiColor },
     { label:'AVANCE GLOBAL', value: avance.toFixed(1)+'%', sub:'Ponderado por peso de etapa', color: GOLD },
-    { label:'MONTO GLOBAL',  value: fmtCRC(global), sub:`Obras: ${fmtCRC(tot.total)}  |  Terr.: ${fmtCRC(landTotal)}${landNC>0?` (exc. ${fmtCRC(landNC)})`:''}`, color: GOLD }
+    { label:'MONTO GLOBAL', value: fmtCRC(global), sub:`Obras: ${fmtCRC(obrasTotal)}  |  Terr.: ${fmtCRC(landTotal)}${landNC>0?` (exc. ${fmtCRC(landNC)})`:''}`, color: GOLD }
   ];
   kpis.forEach((k,i)=>{
     const x = 0.5 + i*4.15;
     s1.addShape(pptx.ShapeType.rect, { x, y:4.45, w:3.9, h:2.4, fill:{color:'243A68'}, line:{color:'243A68'} });
     s1.addShape(pptx.ShapeType.rect, { x, y:4.45, w:3.9, h:0.12, fill:{color:k.color}, line:{color:k.color} });
-    s1.addText(k.label, { x:x+0.2, y:4.7,  w:3.5, h:0.35, fontSize:14, color:GOLD,  bold:true, align:'center' });
-    s1.addText(k.value, { x:x+0.2, y:5.1,  w:3.5, h:0.75, fontSize:28, color:WHITE, bold:true, align:'center', valign:'middle' });
-    s1.addText(k.sub,   { x:x+0.2, y:5.95, w:3.5, h:0.7,  fontSize:14, color:'CCCCCC', align:'center' });
+    s1.addText(k.label, { x:x+0.2, y:4.7, w:3.5, h:0.35, fontSize:14, color:GOLD, bold:true, align:'center' });
+    s1.addText(k.value, { x:x+0.2, y:5.1, w:3.5, h:0.75, fontSize:28, color:WHITE, bold:true, align:'center', valign:'middle' });
+    s1.addText(k.sub, { x:x+0.2, y:5.95, w:3.5, h:0.7, fontSize:14, color:'CCCCCC', align:'center' });
   });
+
+  /* NUEVA DIAPOSITIVA DE ALERTA DE INACTIVIDAD */
+  if (stale.show){
+    let sAlert = pptx.addSlide();
+    sAlert.background = { color: 'FFF7D6' };
+    sAlert.addShape(pptx.ShapeType.rect, { x:0, y:0, w:13.333, h:0.5, fill:{color:'F39C12'}, line:{color:'F39C12'} });
+    sAlert.addText('⚠️  ALERTA DE ACTUALIZACIÓN', { x:0.5, y:0.55, w:12.33, h:0.8, fontSize:32, color:'856404', bold:true, align:'center' });
+    sAlert.addShape(pptx.ShapeType.rect, { x:0.5, y:1.55, w:12.33, h:0.06, fill:{color:'F39C12'}, line:{color:'F39C12'} });
+    sAlert.addText('Este proyecto requiere actualización de datos por parte del equipo responsable:', { x:0.5, y:1.8, w:12.33, h:0.5, fontSize:18, color:'333333', align:'center' });
+    const lines = [];
+    if (stale.progressStale) lines.push({ text:`• Porcentaje de avance sin actualizar${stale.daysSinceProgress!==null?` (${stale.daysSinceProgress} días)`:''}`, options:{ bullet:false } });
+    if (stale.activitiesStale) lines.push({ text:`• Actividades programadas sin actualizar${stale.daysSinceActivities!==null?` (${stale.daysSinceActivities} días)`:''}`, options:{ bullet:false } });
+    sAlert.addText(lines, { x:1.0, y:2.5, w:11.33, h:1.8, fontSize:20, color:'721C24', bold:true });
+    sAlert.addText(`Última actualización de avance: ${fmtDateTime(project.lastProgressUpdate)}`, { x:0.5, y:4.6, w:12.33, h:0.4, fontSize:14, color:'666666', italic:true, align:'center' });
+    sAlert.addText(`Última actualización de actividades: ${fmtDateTime(project.lastActivitiesUpdate)}`, { x:0.5, y:5.05, w:12.33, h:0.4, fontSize:14, color:'666666', italic:true, align:'center' });
+    sAlert.addText('Se recomienda revisar y actualizar la información a la brevedad.', { x:0.5, y:6.0, w:12.33, h:0.5, fontSize:16, color:'1B294E', bold:true, align:'center' });
+  }
 
   let s2 = pptx.addSlide();
   s2.background = { color: WHITE };
   s2.addText('Mapa, Descripción y Componentes', { x:0.5, y:0.3, w:12.33, h:0.6, fontSize:28, color:DARK, bold:true });
   s2.addShape(pptx.ShapeType.rect, { x:0.5, y:0.95, w:3, h:0.06, fill:{color:GOLD}, line:{color:GOLD} });
-  const hasMap  = !!project.mapImage;
+  const hasMap = !!project.mapImage;
   const hasDesc = !!(project.description && project.description.trim());
   const hasComp = !!(project.components && project.components.trim());
   if (hasMap && (hasDesc || hasComp)){
@@ -3690,28 +3431,14 @@ async function addProjectSlidesToPPTX(pptx, project){
     s2.addShape(pptx.ShapeType.rect, { x:0.5, y:1.55, w:6, h:5.5, fill:{color:LIGHT}, line:{color:'E0E3EB'} });
     await addImageProportional(s2, project.mapImage, 0.5, 1.55, 6, 5.5);
     let cy = 1.15;
-    if (hasDesc){
-      s2.addText('DESCRIPCIÓN', { x:6.8, y:cy, w:6, h:0.35, fontSize:16, color:DARK, bold:true });
-      s2.addText(project.description, { x:6.8, y:cy+0.42, w:6, h:2.4, fontSize:14, color:'333333', valign:'top' });
-      cy += 3.1;
-    }
-    if (hasComp){
-      s2.addText('COMPONENTES', { x:6.8, y:cy, w:6, h:0.35, fontSize:16, color:DARK, bold:true });
-      s2.addText(project.components, { x:6.8, y:cy+0.42, w:6, h:2.4, fontSize:14, color:'333333', valign:'top' });
-    }
+    if (hasDesc){ s2.addText('DESCRIPCIÓN', { x:6.8, y:cy, w:6, h:0.35, fontSize:16, color:DARK, bold:true }); s2.addText(project.description, { x:6.8, y:cy+0.42, w:6, h:2.4, fontSize:14, color:'333333', valign:'top' }); cy += 3.1; }
+    if (hasComp){ s2.addText('COMPONENTES', { x:6.8, y:cy, w:6, h:0.35, fontSize:16, color:DARK, bold:true }); s2.addText(project.components, { x:6.8, y:cy+0.42, w:6, h:2.4, fontSize:14, color:'333333', valign:'top' }); }
   } else if (hasMap){
     await addImageAt50PercentArea(s2, project.mapImage, 0.5, 1.3, 12.33, 5.8);
   } else if (hasDesc || hasComp){
     let cy = 1.15;
-    if (hasDesc){
-      s2.addText('DESCRIPCIÓN', { x:0.5, y:cy, w:12.33, h:0.35, fontSize:16, color:DARK, bold:true });
-      s2.addText(project.description, { x:0.5, y:cy+0.42, w:12.33, h:2.7, fontSize:14, color:'333333', valign:'top' });
-      cy += 3.3;
-    }
-    if (hasComp){
-      s2.addText('COMPONENTES', { x:0.5, y:cy, w:12.33, h:0.35, fontSize:16, color:DARK, bold:true });
-      s2.addText(project.components, { x:0.5, y:cy+0.42, w:12.33, h:2.7, fontSize:14, color:'333333', valign:'top' });
-    }
+    if (hasDesc){ s2.addText('DESCRIPCIÓN', { x:0.5, y:cy, w:12.33, h:0.35, fontSize:16, color:DARK, bold:true }); s2.addText(project.description, { x:0.5, y:cy+0.42, w:12.33, h:2.7, fontSize:14, color:'333333', valign:'top' }); cy += 3.3; }
+    if (hasComp){ s2.addText('COMPONENTES', { x:0.5, y:cy, w:12.33, h:0.35, fontSize:16, color:DARK, bold:true }); s2.addText(project.components, { x:0.5, y:cy+0.42, w:12.33, h:2.7, fontSize:14, color:'333333', valign:'top' }); }
   } else {
     s2.addText('Sin información de mapa, descripción o componentes registrada', { x:0.5, y:3.3, w:12.33, h:0.5, fontSize:16, color:GRAY, italic:true, align:'center' });
   }
@@ -3722,18 +3449,10 @@ async function addProjectSlidesToPPTX(pptx, project){
   s3.addShape(pptx.ShapeType.rect, { x:0.5, y:0.95, w:3, h:0.06, fill:{color:GOLD}, line:{color:GOLD} });
   s3.addText('ESTADO DEL PROYECTO', { x:0.5, y:1.15, w:12.33, h:0.35, fontSize:16, color:DARK, bold:true });
   s3.addShape(pptx.ShapeType.rect, { x:0.5, y:1.55, w:12.33, h:2.6, fill:{color:LIGHT}, line:{color:'E0E3EB'} });
-  s3.addText(project.estadoProyecto || 'Sin estado registrado', {
-    x:0.7, y:1.65, w:11.93, h:2.4, fontSize:14,
-    color: project.estadoProyecto ? '333333' : '888888',
-    valign:'top', italic: !project.estadoProyecto
-  });
+  s3.addText(project.estadoProyecto || 'Sin estado registrado', { x:0.7, y:1.65, w:11.93, h:2.4, fontSize:14, color: project.estadoProyecto ? '333333' : '888888', valign:'top', italic: !project.estadoProyecto });
   s3.addText('META ANUAL', { x:0.5, y:4.35, w:12.33, h:0.35, fontSize:16, color:DARK, bold:true });
   s3.addShape(pptx.ShapeType.rect, { x:0.5, y:4.75, w:12.33, h:2.45, fill:{color:LIGHT}, line:{color:'E0E3EB'} });
-  s3.addText(project.metaAnual || 'Sin meta registrada', {
-    x:0.7, y:4.85, w:11.93, h:2.25, fontSize:14,
-    color: project.metaAnual ? '333333' : '888888',
-    valign:'top', italic: !project.metaAnual
-  });
+  s3.addText(project.metaAnual || 'Sin meta registrada', { x:0.7, y:4.85, w:11.93, h:2.25, fontSize:14, color: project.metaAnual ? '333333' : '888888', valign:'top', italic: !project.metaAnual });
 
   let s4 = pptx.addSlide();
   s4.background = { color: WHITE };
@@ -3741,13 +3460,7 @@ async function addProjectSlidesToPPTX(pptx, project){
   s4.addShape(pptx.ShapeType.rect, { x:0.5, y:0.95, w:3, h:0.06, fill:{color:GOLD}, line:{color:GOLD} });
   const etRows = buildEtapasTableForPPTX(project, BLUE, WHITE);
   const etY = computeCenteredY(etRows.length, 14, 1.25, 7.3);
-  s4.addTable(etRows, {
-    x: 0.4, y: etY, w: 12.53,
-    colW: [1.7, 2.3, 0.9, 1.5, 1.5, 1.5, 1.5, 1.63],
-    fontSize: 14,
-    border: { pt:1, color:'CCCCCC' },
-    valign: 'middle'
-  });
+  s4.addTable(etRows, { x: 0.4, y: etY, w: 12.53, colW: [1.7, 2.3, 0.9, 1.5, 1.5, 1.5, 1.5, 1.63], fontSize: 14, border: { pt:1, color:'CCCCCC' }, valign: 'middle' });
 
   let s5 = pptx.addSlide();
   s5.background = { color: WHITE };
@@ -3757,75 +3470,39 @@ async function addProjectSlidesToPPTX(pptx, project){
   const difSorted = [...(project.difficulties||[])].sort(sortP);
   const actSorted = [...(project.activities||[])].sort(sortP);
   const combRows = [[
-    { text:'Categoría',   options:{bold:true, fill:BLUE, color:WHITE, align:'center'} },
+    { text:'Categoría', options:{bold:true, fill:BLUE, color:WHITE, align:'center'} },
     { text:'Descripción', options:{bold:true, fill:BLUE, color:WHITE} },
-    { text:'Prioridad',   options:{bold:true, fill:BLUE, color:WHITE, align:'center'} }
+    { text:'Prioridad', options:{bold:true, fill:BLUE, color:WHITE, align:'center'} }
   ]];
   if (difSorted.length === 0 && actSorted.length === 0){
     combRows.push([{text:'—',options:{align:'center',italic:true,color:'888888'}},{text:'Sin actividades críticas ni dificultades registradas',options:{italic:true,color:'888888'}},{text:'—',options:{align:'center',italic:true,color:'888888'}}]);
   } else {
-    difSorted.forEach(d => combRows.push([
-      { text:'Dificultad', options:{bold:true, color:'B71C1C'} },
-      { text:d.desc||'—', options:{} },
-      { text:d.priority||'—', options:{align:'center', bold:true} }
-    ]));
-    actSorted.forEach(a => combRows.push([
-      { text:'Actividad', options:{bold:true, color:'1B5E20'} },
-      { text:a.desc||'—', options:{} },
-      { text:a.priority||'—', options:{align:'center', bold:true} }
-    ]));
+    difSorted.forEach(d => combRows.push([{ text:'Dificultad', options:{bold:true, color:'B71C1C'} },{ text:d.desc||'—', options:{} },{ text:d.priority||'—', options:{align:'center', bold:true} }]));
+    actSorted.forEach(a => combRows.push([{ text:'Actividad', options:{bold:true, color:'1B5E20'} },{ text:a.desc||'—', options:{} },{ text:a.priority||'—', options:{align:'center', bold:true} }]));
   }
   const combY = computeCenteredY(combRows.length, 14, 1.25, 7.3);
-  s5.addTable(combRows, {
-    x: 0.4, y: combY, w: 12.53,
-    colW: [2.2, 8.2, 2.13],
-    fontSize: 14,
-    border: { pt:1, color:'CCCCCC' },
-    valign: 'middle'
-  });
+  s5.addTable(combRows, { x: 0.4, y: combY, w: 12.53, colW: [2.2, 8.2, 2.13], fontSize: 14, border: { pt:1, color:'CCCCCC' }, valign: 'middle' });
 
   let s6 = pptx.addSlide();
   s6.background = { color: WHITE };
   s6.addText('Actividades Programadas', { x:0.5, y:0.3, w:12.33, h:0.6, fontSize:28, color:DARK, bold:true });
   s6.addShape(pptx.ShapeType.rect, { x:0.5, y:0.95, w:3, h:0.06, fill:{color:GOLD}, line:{color:GOLD} });
   const progActs = project.programmedActivities || { current: [], next: [] };
-  const curActs = progActs.current || [];
-  const nextActs = progActs.next || [];
+  const curActs = progActs.current || [], nextActs = progActs.next || [];
   const actProgRows = [[
-    { text:'Sección',      options:{bold:true, fill:BLUE, color:WHITE, align:'center'} },
-    { text:'Descripción',  options:{bold:true, fill:BLUE, color:WHITE} },
-    { text:'Responsable',  options:{bold:true, fill:BLUE, color:WHITE} },
-    { text:'Estado',       options:{bold:true, fill:BLUE, color:WHITE, align:'center'} }
+    { text:'Sección', options:{bold:true, fill:BLUE, color:WHITE, align:'center'} },
+    { text:'Descripción', options:{bold:true, fill:BLUE, color:WHITE} },
+    { text:'Responsable', options:{bold:true, fill:BLUE, color:WHITE} },
+    { text:'Estado', options:{bold:true, fill:BLUE, color:WHITE, align:'center'} }
   ]];
   if (curActs.length === 0 && nextActs.length === 0){
-    actProgRows.push([
-      { text:'—', options:{align:'center', italic:true, color:'888888'} },
-      { text:'Sin actividades programadas registradas', options:{italic:true, color:'888888'} },
-      { text:'—', options:{} },
-      { text:'—', options:{align:'center'} }
-    ]);
+    actProgRows.push([{ text:'—', options:{align:'center', italic:true, color:'888888'} },{ text:'Sin actividades programadas registradas', options:{italic:true, color:'888888'} },{ text:'—', options:{} },{ text:'—', options:{align:'center'} }]);
   } else {
-    curActs.forEach(a => actProgRows.push([
-      { text:'Del Mes', options:{bold:true, color:'1B294E'} },
-      { text:a.desc||'—', options:{} },
-      { text:a.responsable||'—', options:{} },
-      { text:a.estado||'—', options:{align:'center', bold:true} }
-    ]));
-    nextActs.forEach(a => actProgRows.push([
-      { text:'Próximo Mes', options:{bold:true, color:'856404'} },
-      { text:a.desc||'—', options:{} },
-      { text:a.responsable||'—', options:{} },
-      { text:'—', options:{align:'center'} }
-    ]));
+    curActs.forEach(a => actProgRows.push([{ text:'Del Mes', options:{bold:true, color:'1B294E'} },{ text:a.desc||'—', options:{} },{ text:a.responsable||'—', options:{} },{ text:a.estado||'—', options:{align:'center', bold:true} }]));
+    nextActs.forEach(a => actProgRows.push([{ text:'Próximo Mes', options:{bold:true, color:'856404'} },{ text:a.desc||'—', options:{} },{ text:a.responsable||'—', options:{} },{ text:'—', options:{align:'center'} }]));
   }
   const actProgY = computeCenteredY(actProgRows.length, 14, 1.25, 7.3);
-  s6.addTable(actProgRows, {
-    x: 0.4, y: actProgY, w: 12.53,
-    colW: [1.9, 6.3, 2.4, 1.93],
-    fontSize: 14,
-    border: { pt:1, color:'CCCCCC' },
-    valign: 'middle'
-  });
+  s6.addTable(actProgRows, { x: 0.4, y: actProgY, w: 12.53, colW: [1.9, 6.3, 2.4, 1.93], fontSize: 14, border: { pt:1, color:'CCCCCC' }, valign: 'middle' });
 
   let s6b = pptx.addSlide();
   s6b.background = { color: WHITE };
@@ -3833,40 +3510,19 @@ async function addProjectSlidesToPPTX(pptx, project){
   s6b.addShape(pptx.ShapeType.rect, { x:0.5, y:0.95, w:3, h:0.06, fill:{color:GOLD}, line:{color:GOLD} });
   const team = project.team || { internos: [], externos: [] };
   const teamRows = [[
-    { text:'Tipo',            options:{bold:true, fill:BLUE, color:WHITE, align:'center'} },
-    { text:'Nombre',          options:{bold:true, fill:BLUE, color:WHITE} },
+    { text:'Tipo', options:{bold:true, fill:BLUE, color:WHITE, align:'center'} },
+    { text:'Nombre', options:{bold:true, fill:BLUE, color:WHITE} },
     { text:'Responsabilidad', options:{bold:true, fill:BLUE, color:WHITE} },
-    { text:'Correo',          options:{bold:true, fill:BLUE, color:WHITE} }
+    { text:'Correo', options:{bold:true, fill:BLUE, color:WHITE} }
   ]];
   if ((!team.internos || team.internos.length === 0) && (!team.externos || team.externos.length === 0)){
-    teamRows.push([
-      { text:'—', options:{align:'center', italic:true, color:'888888'} },
-      { text:'Sin responsables registrados', options:{italic:true, color:'888888', colspan:2} },
-      { text:'—', options:{} },
-      { text:'—', options:{} }
-    ]);
+    teamRows.push([{ text:'—', options:{align:'center', italic:true, color:'888888'} },{ text:'Sin responsables registrados', options:{italic:true, color:'888888', colspan:2} },{ text:'—', options:{} },{ text:'—', options:{} }]);
   } else {
-    (team.internos || []).forEach(r => teamRows.push([
-      { text:'Interno', options:{bold:true, color:'1B294E'} },
-      { text:r.nombre||'—', options:{} },
-      { text:r.responsabilidad||'—', options:{} },
-      { text:r.email||'—', options:{} }
-    ]));
-    (team.externos || []).forEach(r => teamRows.push([
-      { text:'Externo', options:{bold:true, color:'856404'} },
-      { text:r.nombre||'—', options:{} },
-      { text:r.responsabilidad||'—', options:{} },
-      { text:r.email||'—', options:{} }
-    ]));
+    (team.internos || []).forEach(r => teamRows.push([{ text:'Interno', options:{bold:true, color:'1B294E'} },{ text:r.nombre||'—', options:{} },{ text:r.responsabilidad||'—', options:{} },{ text:r.email||'—', options:{} }]));
+    (team.externos || []).forEach(r => teamRows.push([{ text:'Externo', options:{bold:true, color:'856404'} },{ text:r.nombre||'—', options:{} },{ text:r.responsabilidad||'—', options:{} },{ text:r.email||'—', options:{} }]));
   }
   const teamY = computeCenteredY(teamRows.length, 14, 1.25, 7.3);
-  s6b.addTable(teamRows, {
-    x: 0.4, y: teamY, w: 12.53,
-    colW: [1.8, 3.4, 3.6, 3.73],
-    fontSize: 14,
-    border: { pt:1, color:'CCCCCC' },
-    valign: 'middle'
-  });
+  s6b.addTable(teamRows, { x: 0.4, y: teamY, w: 12.53, colW: [1.8, 3.4, 3.6, 3.73], fontSize: 14, border: { pt:1, color:'CCCCCC' }, valign: 'middle' });
 
   let s7 = pptx.addSlide();
   s7.background = { color: WHITE };
@@ -3878,16 +3534,9 @@ async function addProjectSlidesToPPTX(pptx, project){
     const finRows = buildFinancieroTableForPPTX(project, BLUE, WHITE, tot, landTotal, global, info);
     const finFontSize = years.length <= 4 ? 16 : years.length <= 8 ? 14 : years.length <= 15 ? 12 : 10;
     const finY = computeCenteredY(finRows.length, finFontSize, 1.25, info.hasAggregation ? 6.9 : 7.3);
-    s7.addTable(finRows, {
-      x: 0.4, y: finY, w: 12.53,
-      fontSize: finFontSize,
-      border: { pt:1, color:'CCCCCC' },
-      valign: 'middle'
-    });
+    s7.addTable(finRows, { x: 0.4, y: finY, w: 12.53, fontSize: finFontSize, border: { pt:1, color:'CCCCCC' }, valign: 'middle' });
     if (info.hasAggregation){
-      s7.addText(`* El año ${info.cutoff} incluye montos de años anteriores: ${info.aggregated.join(', ')}`, {
-        x:0.4, y:7.15, w:12.53, h:0.3, fontSize:10, color:GRAY, italic:true
-      });
+      s7.addText(`* El año ${info.cutoff} incluye montos de años anteriores: ${info.aggregated.join(', ')}`, { x:0.4, y:7.15, w:12.53, h:0.3, fontSize:10, color:GRAY, italic:true });
     }
   }
 
@@ -3900,17 +3549,9 @@ async function addProjectSlidesToPPTX(pptx, project){
   } else {
     const landRows = buildTerrenosTableForPPTX(project, BLUE, WHITE, landTotal);
     const landY = computeCenteredY(landRows.length, 13, 1.25, 7.3);
-    s8.addTable(landRows, {
-      x: 0.4, y: landY, w: 12.53,
-      colW: [1.7, 2.1, 2.4, 2.3, 2.0, 2.03],
-      fontSize: 13,
-      border: { pt:1, color:'CCCCCC' },
-      valign: 'middle'
-    });
+    s8.addTable(landRows, { x: 0.4, y: landY, w: 12.53, colW: [1.7, 2.1, 2.4, 2.3, 2.0, 2.03], fontSize: 13, border: { pt:1, color:'CCCCCC' }, valign: 'middle' });
     if (landNC > 0){
-      s8.addText(`Nota: los registros con figura Convenio o Donación no se suman a la programación financiera. Excluido: ${fmtCRC(landNC)}`, {
-        x:0.4, y:7.15, w:12.53, h:0.3, fontSize:10, color:GRAY, italic:true
-      });
+      s8.addText(`Nota: los registros con figura Convenio o Donación no se suman a la programación financiera. Excluido: ${fmtCRC(landNC)}`, { x:0.4, y:7.15, w:12.53, h:0.3, fontSize:10, color:GRAY, italic:true });
     }
   }
 }
@@ -3922,10 +3563,7 @@ async function exportPPTX(project){
     await preloadAyaLogo();
     await addProjectSlidesToPPTX(pptx, project);
     await pptx.writeFile({ fileName: safeName(project.name) + '.pptx' });
-  } catch(e){
-    console.error('Error export PPTX:', e);
-    alert('Error al exportar PPTX: ' + (e.message || e));
-  }
+  } catch(e){ console.error('Error export PPTX:', e); alert('Error al exportar PPTX: ' + (e.message || e)); }
 }
 async function exportPPTXBulk(projects){
   try {
@@ -3941,10 +3579,7 @@ async function exportPPTXBulk(projects){
     cover.addText(`${projects.length} proyecto(s) — Generado: ${new Date().toLocaleDateString('es-CR')}`, { x:0.5, y:5.0, w:12, h:0.4, fontSize:14, color:'C9AD6E' });
     for (const p of projects) await addProjectSlidesToPPTX(pptx, p);
     await pptx.writeFile({ fileName: 'Portafolio_Proyectos_AYA.pptx' });
-  } catch(e){
-    console.error('Error export PPTX bulk:', e);
-    alert('Error al exportar portafolio PPTX: ' + (e.message || e));
-  }
+  } catch(e){ console.error('Error export PPTX bulk:', e); alert('Error al exportar portafolio PPTX: ' + (e.message || e)); }
 }
 
 async function exportBulk(format, ids){
@@ -3975,13 +3610,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   await load();
   const overlay = document.getElementById('loadingOverlay');
   if (overlay) overlay.classList.add('hidden');
-
   preloadAyaLogo();
   renderGrid();
 
-  document.getElementById('dashboardDropdown').addEventListener('toggle', (e) => {
-    if (e.target.open) setTimeout(renderDashboard, 30);
-  });
+  document.getElementById('dashboardDropdown').addEventListener('toggle', (e) => { if (e.target.open) setTimeout(renderDashboard, 30); });
 
   $('#btnNew').addEventListener('click', () => {
     const p = createEmptyProject();
@@ -4016,12 +3648,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     state.selected.delete(state.editingId);
     save(); closeEditor(); renderGrid();
   });
-  $$('#tabsNav .tab').forEach(t => {
-    t.addEventListener('click', () => { currentTab = t.dataset.tab; renderTab(); });
-  });
-  document.addEventListener('click', (e) => {
-    if (!e.target.closest('.export-menu')) document.querySelectorAll('.export-menu.open').forEach(m => m.classList.remove('open'));
-  });
+  $$('#tabsNav .tab').forEach(t => { t.addEventListener('click', () => { currentTab = t.dataset.tab; renderTab(); }); });
+  document.addEventListener('click', (e) => { if (!e.target.closest('.export-menu')) document.querySelectorAll('.export-menu.open').forEach(m => m.classList.remove('open')); });
 
   ['filterSearch','filterCategoria','filterFase','filterEtapa','filterLeader','filterSPI'].forEach(id => {
     const el = document.getElementById(id);
@@ -4059,41 +3687,17 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   document.getElementById('printClose').addEventListener('click', () => document.getElementById('printModal').classList.remove('open'));
   document.getElementById('printCancel').addEventListener('click', () => document.getElementById('printModal').classList.remove('open'));
-  ['printPaper','printOrient','printMargin'].forEach(id => {
-    document.getElementById(id).addEventListener('change', updatePrintPreview);
-  });
+  ['printPaper','printOrient','printMargin'].forEach(id => { document.getElementById(id).addEventListener('change', updatePrintPreview); });
   document.getElementById('printExportDirect').addEventListener('click', exportPDFDirect);
   document.getElementById('printPrint').addEventListener('click', printWindow);
 
   document.getElementById('viewClose').addEventListener('click', () => document.getElementById('viewModal').classList.remove('open'));
   document.getElementById('viewCloseBtn').addEventListener('click', () => document.getElementById('viewModal').classList.remove('open'));
-  document.getElementById('viewExportPdf').addEventListener('click', () => {
-    const id = document.getElementById('viewModal').dataset.projectId;
-    if (id) openPrintModal([id]);
-  });
+  document.getElementById('viewExportPdf').addEventListener('click', () => { const id = document.getElementById('viewModal').dataset.projectId; if (id) openPrintModal([id]); });
+  document.getElementById('viewPrevVer').addEventListener('click', () => { const id = document.getElementById('viewModal').dataset.projectId; if (!id) return; const p = state.projects.find(x => x.id === id); if (!p) return; const histLen = (p.history || []).length; if (state.viewVersion < histLen){ openViewModal(id, state.viewVersion + 1); } });
+  document.getElementById('viewNextVer').addEventListener('click', () => { const id = document.getElementById('viewModal').dataset.projectId; if (!id) return; if (state.viewVersion > 0){ openViewModal(id, state.viewVersion - 1); } });
 
-  document.getElementById('viewPrevVer').addEventListener('click', () => {
-    const id = document.getElementById('viewModal').dataset.projectId;
-    if (!id) return;
-    const p = state.projects.find(x => x.id === id);
-    if (!p) return;
-    const histLen = (p.history || []).length;
-    if (state.viewVersion < histLen){
-      openViewModal(id, state.viewVersion + 1);
-    }
-  });
-  document.getElementById('viewNextVer').addEventListener('click', () => {
-    const id = document.getElementById('viewModal').dataset.projectId;
-    if (!id) return;
-    if (state.viewVersion > 0){
-      openViewModal(id, state.viewVersion - 1);
-    }
-  });
-
-  document.getElementById('zoomImageEl').addEventListener('wheel', (e) => {
-    e.preventDefault();
-    zoomImage(e.deltaY < 0 ? 1 : -1);
-  }, { passive: false });
+  document.getElementById('zoomImageEl').addEventListener('wheel', (e) => { e.preventDefault(); zoomImage(e.deltaY < 0 ? 1 : -1); }, { passive: false });
 
   let isDragging = false, dragStartX = 0, dragStartY = 0, scrollStartX = 0, scrollStartY = 0;
   const zoomImg = document.getElementById('zoomImageEl');
@@ -4113,22 +3717,14 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
   document.addEventListener('mouseup', () => { isDragging = false; });
 
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape'){
-      if (document.getElementById('imageZoomOverlay').classList.contains('open')) closeImageZoom();
-    }
-  });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape'){ if (document.getElementById('imageZoomOverlay').classList.contains('open')) closeImageZoom(); } });
 
   const syncEl = document.getElementById('syncStatus');
   if (syncEl){
     syncEl.addEventListener('click', () => {
-      if (!syncInProgress){
-        updateSyncStatus('saving', 'Sincronización manual...');
-        syncToSupabase();
-      }
+      if (!syncInProgress){ updateSyncStatus('saving', 'Sincronización manual...'); syncToSupabase(); }
     });
   }
-
   window.addEventListener('online', () => { updateSyncStatus('ok'); scheduleSync(); });
   window.addEventListener('offline', () => updateSyncStatus('offline'));
 });
