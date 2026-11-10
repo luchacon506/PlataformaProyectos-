@@ -96,14 +96,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-s
 .leaders-table .count-badge{display:inline-block;background:var(--aya-dorado);color:#fff;padding:2px 10px;border-radius:10px;font-weight:700;min-width:28px;text-align:center}
 .projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
 .empty{text-align:center;padding:80px 20px;color:#888;font-size:15px;grid-column:1/-1}
-.card{background:var(--aya-blanco);border-radius:10px;padding:16px;border-top:4px solid var(--aya-azul);box-shadow:0 2px 8px rgba(0,0,0,.06);display:flex;flex-direction:column;gap:8px;position:relative}
+.card{background:var(--aya-blanco);border-radius:10px;padding:0;border-top:none;box-shadow:0 2px 8px rgba(0,0,0,.06);display:block;position:relative;overflow:hidden}
 .card.selected{box-shadow:0 0 0 2px var(--aya-dorado),0 4px 12px rgba(0,0,0,.1)}
-.card-check{position:absolute;top:10px;right:10px;width:18px;height:18px;cursor:pointer;accent-color:var(--aya-azul);z-index:2}
-.card-bpip-main{font-size:18px;font-weight:normal;color:var(--aya-azul);letter-spacing:.3px;line-height:1.2;padding-right:26px;font-family:inherit}
-.card-bpip-main.bpip-empty{color:#999999;font-size:15px;font-weight:normal;line-height:1.15;letter-spacing:0;padding:0;margin:0;text-align:left;height:auto;grid-column:auto}
-.card-name{font-size:14px;font-weight:normal;color:#444;line-height:1.35;padding-right:26px;margin-top:2px}
-.card-loc{font-size:11px;color:#888;font-style:italic;line-height:1.35}
+.card-check{position:absolute;top:12px;right:12px;width:18px;height:18px;cursor:pointer;accent-color:var(--aya-dorado);z-index:3}
+.card-header{background:var(--aya-azul);color:#fff;padding:10px 42px 10px 14px;border-bottom:3px solid var(--aya-dorado);display:flex;align-items:center;justify-content:space-between;gap:10px;position:relative}
+.card-header-left{min-width:0;flex:1;display:flex;flex-direction:column;gap:2px}
+.card-header-bpip{font-size:13px;font-weight:700;color:var(--aya-dorado);letter-spacing:.4px;line-height:1.2}
+.card-header-bpip.bpip-empty{color:rgba(255,255,255,.6);font-style:italic;font-weight:400;font-size:12px;letter-spacing:.2px}
+.card-header-name{font-size:13px;font-weight:400;color:#fff;line-height:1.3;word-break:break-word}
+.card-mideplan-mini{display:flex;gap:4px;padding:4px 8px;background:linear-gradient(180deg,#1a1a1a 0%,#0a0a0a 100%);border-radius:12px;box-shadow:inset 0 1px 3px rgba(0,0,0,.85),inset 0 -1px 1px rgba(255,255,255,.06);flex-shrink:0}
+.mini-light{width:9px;height:9px;border-radius:50%;background:radial-gradient(circle at 32% 28%,#3a3a3a,#141414 72%);box-shadow:inset 0 0 2px rgba(0,0,0,.8);border:1px solid rgba(0,0,0,.4);transition:all .3s}
+.mini-light.green.active{background:radial-gradient(circle at 32% 28%,#d6ffd6 0%,#27ae60 42%,#0b4a24 100%);box-shadow:0 0 8px #27ae60,0 0 4px #7fff7f,inset 0 0 2px rgba(255,255,255,.9)}
+.mini-light.orange.active{background:radial-gradient(circle at 32% 28%,#ffeac2 0%,#f39c12 42%,#663a00 100%);box-shadow:0 0 8px #f39c12,0 0 4px #ffd07f,inset 0 0 2px rgba(255,255,255,.9)}
+.mini-light.red.active{background:radial-gradient(circle at 32% 28%,#ffd1d1 0%,#e74c3c 42%,#5a0d05 100%);box-shadow:0 0 8px #e74c3c,0 0 4px #ff8f8f,inset 0 0 2px rgba(255,255,255,.9)}
+.card-body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px}
 .card-cat-badge{display:inline-block;font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:10px;background:var(--aya-dorado);color:#fff;letter-spacing:.3px;text-transform:uppercase;align-self:flex-start;margin-top:2px}
+.card-loc{font-size:11px;color:#888;font-style:italic;line-height:1.35}
 .card-row{display:flex;justify-content:space-between;font-size:12.5px;gap:8px}
 .card-row .lbl{color:#666}
 .card-row .val{font-weight:normal;text-align:right}
@@ -118,6 +126,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-s
 .export-menu.open .export-dropdown{display:block}
 .export-dropdown button{display:block;width:100%;padding:9px 14px;text-align:left;background:none;border:none;cursor:pointer;font-size:12.5px;font-family:inherit;color:#333}
 .export-dropdown button:hover{background:var(--aya-fondo-claro)}
+.card-stale-alert{background:linear-gradient(90deg,#fff7d6 0%,#ffedb0 100%);border-left:4px solid #f39c12;color:#856404;padding:8px 10px;border-radius:6px;font-size:11.5px;font-weight:700;margin-top:6px;line-height:1.4;display:flex;align-items:flex-start;gap:7px}
+.card-stale-alert.critical{background:linear-gradient(90deg,#fde2e2 0%,#f9caca 100%);border-left-color:#e74c3c;color:#721c24}
+.card-stale-alert .alert-icon{font-size:15px;flex-shrink:0;line-height:1}
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;z-index:200;overflow-y:auto;padding:20px}
 .modal.open{display:block}
 .modal-content{background:var(--aya-blanco);max-width:1150px;margin:0 auto;border-radius:10px;overflow:hidden;box-shadow:0 10px 40px rgba(0,0,0,.3)}
@@ -278,8 +289,6 @@ td input::placeholder{color:#bbb;font-style:italic}
 .image-zoom-container:active{cursor:grabbing}
 #zoomImageEl{display:inline-block;width:90vw;height:auto;max-width:none;max-height:none;border-radius:4px;box-shadow:0 4px 20px rgba(0,0,0,.5);user-select:none;-webkit-user-drag:none}
 .team-empty{text-align:center;color:#888;font-style:italic;padding:12px;font-size:13px}
-
-/* ============ Semáforo MIDEPLAN ============ */
 .mideplan-group{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
 .mideplan-group .date-wrap{flex:1;min-width:180px}
 .mideplan-lights{display:flex;gap:6px;padding:7px 12px;background:linear-gradient(180deg,#1a1a1a 0%,#0a0a0a 100%);border-radius:24px;box-shadow:inset 0 2px 6px rgba(0,0,0,.8),inset 0 -1px 2px rgba(255,255,255,.08),0 2px 4px rgba(0,0,0,.25);flex-shrink:0}
@@ -287,18 +296,9 @@ td input::placeholder{color:#bbb;font-style:italic}
 .mideplan-light.green.active{background:radial-gradient(circle at 32% 28%,#d6ffd6 0%,#27ae60 42%,#0b4a24 100%);box-shadow:0 0 16px #27ae60,0 0 8px #7fff7f,inset 0 0 5px rgba(255,255,255,.85),inset -2px -2px 4px rgba(0,0,0,.35),0 0 0 1px rgba(39,174,96,.4)}
 .mideplan-light.orange.active{background:radial-gradient(circle at 32% 28%,#ffeac2 0%,#f39c12 42%,#663a00 100%);box-shadow:0 0 16px #f39c12,0 0 8px #ffd07f,inset 0 0 5px rgba(255,255,255,.85),inset -2px -2px 4px rgba(0,0,0,.35),0 0 0 1px rgba(243,156,18,.4)}
 .mideplan-light.red.active{background:radial-gradient(circle at 32% 28%,#ffd1d1 0%,#e74c3c 42%,#5a0d05 100%);box-shadow:0 0 16px #e74c3c,0 0 8px #ff8f8f,inset 0 0 5px rgba(255,255,255,.85),inset -2px -2px 4px rgba(0,0,0,.35),0 0 0 1px rgba(231,76,60,.4)}
-
-/* ============ Alerta de inactividad en tarjeta ============ */
-.card-stale-alert{background:linear-gradient(90deg,#fff7d6 0%,#ffedb0 100%);border-left:4px solid #f39c12;color:#856404;padding:8px 10px;border-radius:6px;font-size:11.5px;font-weight:700;margin-top:6px;line-height:1.4;display:flex;align-items:flex-start;gap:7px}
-.card-stale-alert.critical{background:linear-gradient(90deg,#fde2e2 0%,#f9caca 100%);border-left-color:#e74c3c;color:#721c24}
-.card-stale-alert .alert-icon{font-size:15px;flex-shrink:0;line-height:1}
-
-/* ============ Campos de Ejecución ============ */
 .etapa-ejecucion-fields{background:#eef8f0;border:1px solid #b8dfc3;border-radius:7px;padding:12px;margin-top:10px}
 .etapa-ejecucion-fields .row-3{margin-bottom:0}
 .etapa-ejecucion-fields label{font-size:11px;font-weight:700;color:#1B294E;text-transform:uppercase}
-
-/* ============ Coordenadas CRTM 05 ============ */
 .coord-row{display:flex;gap:10px;align-items:center}
 .coord-row .coord-label{font-weight:700;color:var(--aya-azul);font-size:13px;min-width:22px;text-align:center}
 .coord-row input{flex:1}
@@ -466,9 +466,6 @@ td input::placeholder{color:#bbb;font-style:italic}
 <script>
   const MAX_HISTORY = 20;
 
-/* =========================================================
-   SUPABASE: configuración, cliente y estado de sincronización
-========================================================= */
 const SUPABASE_URL = 'https://jgeprdehntvjykpqycxe.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_KRtl61gHhxOcJjo3fPJpqw_k4oubYWG';
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -560,8 +557,6 @@ const FUNDS = [
   { key:'porAsignar',   label:'Por Asignar' }
 ];
 const FIGURAS_NO_COMPUTABLES = ['Convenio', 'Donación'];
-
-/* Color dorado para filas "auto" en la programación financiera */
 const AUTO_GOLD_COLOR = '#a8843e';
 
 const CR_LOC = {
@@ -922,7 +917,6 @@ function migrateProject(p){
   if (p.mideplanDate === undefined) p.mideplanDate = '';
   if (p.lastProgressUpdate === undefined) p.lastProgressUpdate = p.updatedAt || nowDateTimeStr();
   if (p.lastActivitiesUpdate === undefined) p.lastActivitiesUpdate = p.updatedAt || nowDateTimeStr();
-  /* NUEVO: Coordenadas CRTM 05 */
   if (p.coordX === undefined) p.coordX = '';
   if (p.coordY === undefined) p.coordY = '';
 }
@@ -999,9 +993,6 @@ function getFinancialManualTotals(p){
   return t;
 }
 
-/* =========================================================
-   Semáforo MIDEPLAN
-========================================================= */
 function daysSince(dateStr){
   if (!dateStr) return null;
   const d = new Date(String(dateStr).replace(' ', 'T'));
@@ -1024,7 +1015,6 @@ function getMideplanLabel(status){
   if (status === 'red')    return 'Atrasado (≥6 meses)';
   return 'Sin fecha MIDEPLAN';
 }
-/* NUEVO: color hex para PPTX y badges inline */
 function getMideplanColor(status){
   if (status === 'green')  return '27ae60';
   if (status === 'orange') return 'f39c12';
@@ -1032,9 +1022,6 @@ function getMideplanColor(status){
   return 'bbbbbb';
 }
 
-/* =========================================================
-   Alerta de inactividad
-========================================================= */
 function getStaleAlert(p){
   const now = Date.now();
   const ONE_MONTH_MS = 30 * 24 * 60 * 60 * 1000;
@@ -1055,9 +1042,6 @@ function getStaleAlert(p){
   };
 }
 
-/* =========================================================
-   Distribución del monto de Ejecución
-========================================================= */
 function calcEjecucionDistribution(ejec){
   if (!ejec) return null;
   const monto = Number(ejec.montoEjecucion) || 0;
@@ -1096,11 +1080,9 @@ function getEjecucionFundLabel(p){
   const found = FUNDS.find(x => x.key === f);
   return found ? found.label : 'Fondos Propios';
 }
-/* NUEVO: etiqueta completa con flecha para filas auto */
 function getEjecucionFundArrowLabel(p){
   return `${getEjecucionFundLabel(p)} → Ejecución (auto)`;
 }
-/* NUEVO: etiqueta para terrenos (siempre Fondos Propios) */
 function getTerrenosFundArrowLabel(){
   return 'Fondos Propios → Terrenos (auto)';
 }
@@ -1646,6 +1628,7 @@ function createCard(p){
   const bpipDisplay = bpipClean ? `BPIP: ${escapeHtml(bpipClean)}` : 'Sin BPIP';
   const bpipEmptyClass = bpipClean ? '' : ' bpip-empty';
   const catBadge = p.categoria ? `<span class="card-cat-badge">${escapeHtml(p.categoria)}</span>` : '';
+  const midStatus = getMideplanStatus(p);
 
   const stale = getStaleAlert(p);
   const staleHtml = stale.show ? `
@@ -1660,26 +1643,37 @@ function createCard(p){
 
   el.innerHTML = `
     <input type="checkbox" class="card-check" data-id="${p.id}" ${state.selected.has(p.id)?'checked':''}>
-    <div class="card-bpip-main${bpipEmptyClass}">${bpipDisplay}</div>
-    <div class="card-name">${escapeHtml(p.name) || '(Sin nombre)'}</div>
-    ${catBadge}
-    ${loc ? `<div class="card-loc">📍 ${escapeHtml(loc)}</div>` : ''}
-    <div class="card-row"><span class="lbl">Líder:</span><span class="val">${escapeHtml(p.leader) || '—'}</span></div>
-    <div class="card-row"><span class="lbl">Etapa actual:</span><span class="val" style="max-width:60%;font-size:11.5px">${etapaTxt}</span></div>
-    <div class="card-row"><span class="lbl">Avance global:</span><span class="val">${avance}%</span></div>
-    <div class="card-row"><span class="lbl">Monto global:</span><span class="val">${fmtCRC(getMontoGlobal(p))}</span></div>
-    <div class="card-spi ${spClass}">${spText}</div>
-    ${staleHtml}
-    <div class="card-actions">
-      <button class="btn btn-sm btn-view" data-act="view" data-id="${p.id}">Ver</button>
-      <button class="btn btn-sm btn-edit-gold" data-act="edit" data-id="${p.id}">Editar</button>
-      <div class="export-menu">
-        <button class="btn btn-sm" data-act="export-toggle">Exportar ▾</button>
-        <div class="export-dropdown">
-          <button data-act="export" data-id="${p.id}" data-fmt="pdf">PDF (ajustar página)</button>
-          <button data-act="export" data-id="${p.id}" data-fmt="doc">DOC</button>
-          <button data-act="export" data-id="${p.id}" data-fmt="xls">XLS</button>
-          <button data-act="export" data-id="${p.id}" data-fmt="pptx">PPTX</button>
+    <div class="card-header">
+      <div class="card-header-left">
+        <div class="card-header-bpip${bpipEmptyClass}">${bpipDisplay}</div>
+        <div class="card-header-name">${escapeHtml(p.name) || '(Sin nombre)'}</div>
+      </div>
+      <div class="card-mideplan-mini" title="Semáforo MIDEPLAN: Verde ≤3m · Naranja 3-6m · Rojo >6m">
+        <span class="mini-light red ${midStatus==='red'?'active':''}"></span>
+        <span class="mini-light orange ${midStatus==='orange'?'active':''}"></span>
+        <span class="mini-light green ${midStatus==='green'?'active':''}"></span>
+      </div>
+    </div>
+    <div class="card-body">
+      ${catBadge}
+      ${loc ? `<div class="card-loc">📍 ${escapeHtml(loc)}</div>` : ''}
+      <div class="card-row"><span class="lbl">Líder:</span><span class="val">${escapeHtml(p.leader) || '—'}</span></div>
+      <div class="card-row"><span class="lbl">Etapa actual:</span><span class="val" style="max-width:60%;font-size:11.5px">${etapaTxt}</span></div>
+      <div class="card-row"><span class="lbl">Avance global:</span><span class="val">${avance}%</span></div>
+      <div class="card-row"><span class="lbl">Monto global:</span><span class="val">${fmtCRC(getMontoGlobal(p))}</span></div>
+      <div class="card-spi ${spClass}">${spText}</div>
+      ${staleHtml}
+      <div class="card-actions">
+        <button class="btn btn-sm btn-view" data-act="view" data-id="${p.id}">Ver</button>
+        <button class="btn btn-sm btn-edit-gold" data-act="edit" data-id="${p.id}">Editar</button>
+        <div class="export-menu">
+          <button class="btn btn-sm" data-act="export-toggle">Exportar ▾</button>
+          <div class="export-dropdown">
+            <button data-act="export" data-id="${p.id}" data-fmt="pdf">PDF (ajustar página)</button>
+            <button data-act="export" data-id="${p.id}" data-fmt="doc">DOC</button>
+            <button data-act="export" data-id="${p.id}" data-fmt="xls">XLS</button>
+            <button data-act="export" data-id="${p.id}" data-fmt="pptx">PPTX</button>
+          </div>
         </div>
       </div>
     </div>
@@ -1782,7 +1776,6 @@ function buildLandsTableHTML(p, diff){
   return html;
 }
 
-/* ============ ACTUALIZADO: filas auto en dorado, nombres con flecha ============ */
 function buildFinancialTableHTML(p, diff){
   const info = getFinancialViewInfo(p);
   const years = info.years;
@@ -1803,7 +1796,6 @@ function buildFinancialTableHTML(p, diff){
       ${years.map(y => { const isAgg = info.hasAggregation && y === info.cutoff; const title = isAgg ? `Incluye años: ${info.aggregated.join(', ')}` : ''; return `<th style="text-align:right" title="${title}">${y}${isAgg ? ' *' : ''}</th>`; }).join('')}
       <th style="text-align:right">TOTAL</th>
     </tr></thead><tbody>`;
-  /* Fondos manuales (azul, sin cambios) */
   FUNDS.forEach(f => {
     html += `<tr>
       <td style="font-weight:700;color:var(--aya-azul)">${f.label}</td>
@@ -1811,7 +1803,6 @@ function buildFinancialTableHTML(p, diff){
       <td style="text-align:right;font-weight:700">${fmtCRC(tot[f.key])}</td>
     </tr>`;
   });
-  /* Ejecución (auto) - DORADO: nombre bold, valores normal, total bold */
   if (ejecTotal > 0){
     html += `<tr>
       <td style="font-weight:700;color:${AUTO_GOLD_COLOR}">${getEjecucionFundArrowLabel(p)}</td>
@@ -1819,7 +1810,6 @@ function buildFinancialTableHTML(p, diff){
       <td style="text-align:right;font-weight:700;color:${AUTO_GOLD_COLOR}">${fmtCRC(ejecTotal)}</td>
     </tr>`;
   }
-  /* Terrenos (auto) - DORADO: nombre bold, valores normal, total bold */
   html += `<tr>
     <td style="font-weight:700;color:${AUTO_GOLD_COLOR}">${getTerrenosFundArrowLabel()}</td>
     ${years.map(y => `<td${cellLand(y)} style="text-align:right;color:${AUTO_GOLD_COLOR}">${fmtCell(landForYearView(p, y, info))}</td>`).join('')}
@@ -1836,7 +1826,6 @@ function buildFinancialTableHTML(p, diff){
   }
   return html;
 }
-
 function buildProgrammedTablesViewHTML(p, diff){
   const pa = p.programmedActivities || { current: [], next: [] };
   const cur = pa.current || [];
@@ -2176,7 +2165,6 @@ function renderTab(){
   bindDateInputs(c);
 }
 
-/* ============ ACTUALIZADO: MIDEPLAN bajo Categoría, "ÚLTIMA ACTUALIZACIÓN DE PROYECTO", coords CRTM 05 ============ */
 function renderGeneralTab(p){
   const wrap = document.createElement('div');
   const allLeaders = getAllLeaders();
@@ -2736,7 +2724,6 @@ function renderTerrenosTab(p){
   return wrap;
 }
 
-/* ============ ACTUALIZADO: filas auto en dorado, nombres con flecha ============ */
 function renderFinancieroTab(p){
   const wrap = document.createElement('div');
   const years = getYears(p);
@@ -2777,14 +2764,12 @@ function renderFinancieroTab(p){
     </tr>
   `).join('');
 
-  /* Ejecución (auto) - DORADO */
   const ejecRowHtml = ejecTotal > 0 ? `<tr>
     <td class="row-label" style="color:${AUTO_GOLD_COLOR}">${getEjecucionFundArrowLabel(p)}</td>
     ${years.map((y, i) => `<td class="auto-cell" style="min-width:${yearColWidths[i]}px;color:${AUTO_GOLD_COLOR};font-weight:normal">${getEjecucionForYear(p, y) > 0 ? fmtCRC(getEjecucionForYear(p, y)) : '—'}</td>`).join('')}
     <td class="auto-cell" style="color:${AUTO_GOLD_COLOR};font-weight:700">${fmtCRC(ejecTotal)}</td>
   </tr>` : '';
 
-  /* Terrenos (auto) - DORADO */
   const landRowHtml = `<tr>
     <td class="row-label" style="color:${AUTO_GOLD_COLOR}">${getTerrenosFundArrowLabel()}</td>
     ${years.map((y, i) => `<td class="auto-cell" style="min-width:${yearColWidths[i]}px;color:${AUTO_GOLD_COLOR};font-weight:normal">${getLandForYear(p, y) > 0 ? fmtCRC(getLandForYear(p, y)) : '—'}</td>`).join('')}
@@ -2887,7 +2872,6 @@ function resizeImage(file, maxWidth){
   });
 }
 
-/* ============ ACTUALIZADO: nuevas etiquetas auto + gold ============ */
 function renderProjectHTML(p, forPrint, options = {}){
   const { isDOC = false, imgDims = null } = options;
   const tot = getFinancialManualTotals(p);
@@ -3175,7 +3159,6 @@ async function exportDOCBulk(projects){
 
 function safeSheet(s){ return (s||'').replace(/[\\\/\?\*\[\]:]/g,'').slice(0,31) || 'Sheet'; }
 
-/* ============ ACTUALIZADO: nuevas etiquetas auto ============ */
 function addProjectConsolidatedSheet(wb, project, prefix=''){
   const tot = getFinancialManualTotals(project);
   const ejecTotal = getEjecucionTotal(project);
@@ -3353,8 +3336,6 @@ function buildEtapasTableForPPTX(project, BLUE, WHITE){
   if (!has) rows.push([{text:'Sin etapas activas', options:{colspan:8, align:'center', italic:true, color:'888888'}},{},{},{},{},{},{},{}]);
   return rows;
 }
-
-/* ============ ACTUALIZADO: gold + new labels ============ */
 function buildFinancieroTableForPPTX(project, BLUE, WHITE, tot, landTotal, global, info){
   const years = info.years;
   const GOLD_HEX = 'A8843E';
@@ -3416,34 +3397,22 @@ function computeCenteredY(numRows, fontSize, availableTop, availableBottom){
   return availableTop + (availH - tableH) / 2;
 }
 
-/* ============ NUEVO: cabecera estándar para todas las diapositivas ============ */
 function addPPTXStandardHeader(slide, project, pptx, BLUE, GOLD, WHITE){
   slide.addShape(pptx.ShapeType.rect, { x:0, y:0, w:13.333, h:0.75, fill:{color:BLUE}, line:{color:BLUE} });
   slide.addShape(pptx.ShapeType.rect, { x:0, y:0.75, w:13.333, h:0.05, fill:{color:GOLD}, line:{color:GOLD} });
   const bpip = (project.bpip || '').trim();
-  slide.addText(`BPIP: ${bpip || 'Sin BPIP'}`, {
-    x:0.4, y:0.08, w:6, h:0.28, fontSize:11, color:GOLD, bold:true, align:'left', valign:'middle'
-  });
-  slide.addText(project.name || 'Sin nombre', {
-    x:0.4, y:0.4, w:8.5, h:0.3, fontSize:14, color:WHITE, bold:false, align:'left', valign:'middle'
-  });
+  slide.addText(`BPIP: ${bpip || 'Sin BPIP'}`, { x:0.4, y:0.08, w:6, h:0.28, fontSize:11, color:GOLD, bold:true, align:'left', valign:'middle' });
+  slide.addText(project.name || 'Sin nombre', { x:0.4, y:0.4, w:8.5, h:0.3, fontSize:14, color:WHITE, bold:false, align:'left', valign:'middle' });
   const midStatus = getMideplanStatus(project);
   slide.addShape(pptx.ShapeType.rect, { x:10.3, y:0.12, w:2.8, h:0.52, fill:{color:'0a0a0a'}, line:{color:'1a1a1a'} });
-  slide.addText('MIDEPLAN', {
-    x:10.35, y:0.2, w:1.0, h:0.35, fontSize:7, color:'cccccc', bold:true, align:'center', valign:'middle'
-  });
+  slide.addText('MIDEPLAN', { x:10.35, y:0.2, w:1.0, h:0.35, fontSize:7, color:'cccccc', bold:true, align:'center', valign:'middle' });
   const lightColors = { red:'e74c3c', orange:'f39c12', green:'27ae60' };
   ['red','orange','green'].forEach((key, i) => {
     const active = midStatus === key;
-    slide.addShape(pptx.ShapeType.ellipse, {
-      x: 11.35 + i*0.55, y: 0.21, w: 0.34, h: 0.34,
-      fill: { color: active ? lightColors[key] : '252525' },
-      line: { color: active ? lightColors[key] : '1a1a1a', width: 0.5 }
-    });
+    slide.addShape(pptx.ShapeType.ellipse, { x: 11.35 + i*0.55, y: 0.21, w: 0.34, h: 0.34, fill: { color: active ? lightColors[key] : '252525' }, line: { color: active ? lightColors[key] : '1a1a1a', width: 0.5 } });
   });
 }
 
-/* ============ ACTUALIZADO: cabecera en cada slide + contenido desplazado ============ */
 async function addProjectSlidesToPPTX(pptx, project){
   const BLUE = '1B294E', GOLD = 'C9AD6E', WHITE = 'FFFFFF', LIGHT = 'F5F6FA', GRAY = '666666', DARK = '002060';
   const tot = getFinancialManualTotals(project);
@@ -3466,7 +3435,6 @@ async function addProjectSlidesToPPTX(pptx, project){
     catch(e){ console.warn('Logo no agregado:', e); }
   };
 
-  /* ---- Portada (s1) ---- */
   let s1 = pptx.addSlide();
   s1.background = { color: BLUE };
   addPPTXStandardHeader(s1, project, pptx, BLUE, GOLD, WHITE);
@@ -3498,7 +3466,6 @@ async function addProjectSlidesToPPTX(pptx, project){
     s1.addText(k.sub, { x:x+0.2, y:6.0, w:3.5, h:0.65, fontSize:13, color:'CCCCCC', align:'center' });
   });
 
-  /* ---- Alerta de inactividad ---- */
   if (stale.show){
     let sAlert = pptx.addSlide();
     sAlert.background = { color: 'FFF7D6' };
@@ -3516,7 +3483,6 @@ async function addProjectSlidesToPPTX(pptx, project){
     sAlert.addText('Se recomienda revisar y actualizar la información a la brevedad.', { x:0.5, y:6.1, w:12.33, h:0.5, fontSize:15, color:'1B294E', bold:true, align:'center' });
   }
 
-  /* ---- Mapa + Descripción + Componentes ---- */
   let s2 = pptx.addSlide();
   s2.background = { color: WHITE };
   addPPTXStandardHeader(s2, project, pptx, BLUE, GOLD, WHITE);
@@ -3542,7 +3508,6 @@ async function addProjectSlidesToPPTX(pptx, project){
     s2.addText('Sin información de mapa, descripción o componentes registrada', { x:0.5, y:3.6, w:12.33, h:0.5, fontSize:15, color:GRAY, italic:true, align:'center' });
   }
 
-  /* ---- Estado + Meta ---- */
   let s3 = pptx.addSlide();
   s3.background = { color: WHITE };
   addPPTXStandardHeader(s3, project, pptx, BLUE, GOLD, WHITE);
@@ -3555,7 +3520,6 @@ async function addProjectSlidesToPPTX(pptx, project){
   s3.addShape(pptx.ShapeType.rect, { x:0.5, y:4.8, w:12.33, h:2.3, fill:{color:LIGHT}, line:{color:'E0E3EB'} });
   s3.addText(project.metaAnual || 'Sin meta registrada', { x:0.7, y:4.9, w:11.93, h:2.1, fontSize:12, color: project.metaAnual ? '333333' : '888888', valign:'top', italic: !project.metaAnual });
 
-  /* ---- Etapas y Cronograma ---- */
   let s4 = pptx.addSlide();
   s4.background = { color: WHITE };
   addPPTXStandardHeader(s4, project, pptx, BLUE, GOLD, WHITE);
@@ -3565,7 +3529,6 @@ async function addProjectSlidesToPPTX(pptx, project){
   const etY = computeCenteredY(etRows.length, 12, 1.85, 7.3);
   s4.addTable(etRows, { x: 0.4, y: etY, w: 12.53, colW: [1.7, 2.3, 0.9, 1.5, 1.5, 1.5, 1.5, 1.63], fontSize: 12, border: { pt:1, color:'CCCCCC' }, valign: 'middle' });
 
-  /* ---- Dificultades + Actividades Críticas ---- */
   let s5 = pptx.addSlide();
   s5.background = { color: WHITE };
   addPPTXStandardHeader(s5, project, pptx, BLUE, GOLD, WHITE);
@@ -3588,7 +3551,6 @@ async function addProjectSlidesToPPTX(pptx, project){
   const combY = computeCenteredY(combRows.length, 12, 1.85, 7.3);
   s5.addTable(combRows, { x: 0.4, y: combY, w: 12.53, colW: [2.2, 8.2, 2.13], fontSize: 12, border: { pt:1, color:'CCCCCC' }, valign: 'middle' });
 
-  /* ---- Actividades Programadas ---- */
   let s6 = pptx.addSlide();
   s6.background = { color: WHITE };
   addPPTXStandardHeader(s6, project, pptx, BLUE, GOLD, WHITE);
@@ -3611,7 +3573,6 @@ async function addProjectSlidesToPPTX(pptx, project){
   const actProgY = computeCenteredY(actProgRows.length, 12, 1.85, 7.3);
   s6.addTable(actProgRows, { x: 0.4, y: actProgY, w: 12.53, colW: [1.9, 6.3, 2.4, 1.93], fontSize: 12, border: { pt:1, color:'CCCCCC' }, valign: 'middle' });
 
-  /* ---- Equipo ---- */
   let s6b = pptx.addSlide();
   s6b.background = { color: WHITE };
   addPPTXStandardHeader(s6b, project, pptx, BLUE, GOLD, WHITE);
@@ -3633,7 +3594,6 @@ async function addProjectSlidesToPPTX(pptx, project){
   const teamY = computeCenteredY(teamRows.length, 12, 1.85, 7.3);
   s6b.addTable(teamRows, { x: 0.4, y: teamY, w: 12.53, colW: [1.8, 3.4, 3.6, 3.73], fontSize: 12, border: { pt:1, color:'CCCCCC' }, valign: 'middle' });
 
-  /* ---- Programación Financiera ---- */
   let s7 = pptx.addSlide();
   s7.background = { color: WHITE };
   addPPTXStandardHeader(s7, project, pptx, BLUE, GOLD, WHITE);
@@ -3651,7 +3611,6 @@ async function addProjectSlidesToPPTX(pptx, project){
     }
   }
 
-  /* ---- Terrenos y Servidumbres ---- */
   let s8 = pptx.addSlide();
   s8.background = { color: WHITE };
   addPPTXStandardHeader(s8, project, pptx, BLUE, GOLD, WHITE);
