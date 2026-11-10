@@ -4,9 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Plataforma de Proyectos - AYA</title>
-<script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
@@ -466,6 +463,34 @@ td input::placeholder{color:#bbb;font-style:italic}
 <script>
   const MAX_HISTORY = 20;
 
+/* =========================================================
+   LAZY LOADING de librerías de exportación (pptx, xls, pdf).
+   Chart.js y Supabase se mantienen cargadas desde el <head>.
+========================================================= */
+function loadScript(src){
+  return new Promise((resolve, reject) => {
+    if (document.querySelector(`script[src="${src}"]`)) return resolve();
+    const s = document.createElement('script');
+    s.src = src;
+    s.onload = resolve;
+    s.onerror = reject;
+    document.head.appendChild(s);
+  });
+}
+async function ensureExportLibs(format){
+  const libs = {
+    pptx: 'https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js',
+    xls:  'https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js',
+    pdf:  'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js'
+  };
+  if (format === 'pptx') await loadScript(libs.pptx);
+  if (format === 'xls')  await loadScript(libs.xls);
+  if (format === 'pdf')  await loadScript(libs.pdf);
+}
+
+/* =========================================================
+   SUPABASE: configuración, cliente y estado de sincronización
+========================================================= */
 const SUPABASE_URL = 'https://jgeprdehntvjykpqycxe.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_KRtl61gHhxOcJjo3fPJpqw_k4oubYWG';
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -3089,7 +3114,15 @@ function updatePrintPreview(){
   projects.forEach((p, i) => { body += `<div style="${i < projects.length-1 ? 'page-break-after:always;' : ''}">${renderProjectHTML(p, true)}</div>`; });
   iframe.srcdoc = buildPrintDocument(body, opts);
 }
+
+/* ============ ACTUALIZADO: exportPDFDirect con lazy load ============ */
 async function exportPDFDirect(){
+  try {
+    await ensureExportLibs('pdf');
+  } catch(err){
+    alert('No se pudo cargar la librería de PDF. Verifique su conexión e intente de nuevo.');
+    return;
+  }
   const opts = getPrintOpts();
   const projects = state.projects.filter(p => state.printTarget.includes(p.id));
   if (projects.length === 0) return;
@@ -3264,12 +3297,28 @@ function addProjectConsolidatedSheet(wb, project, prefix=''){
   const base = (prefix ? prefix + ' - ' : '') + (project.name || 'Proyecto');
   XLSX.utils.book_append_sheet(wb, ws, safeSheet(base));
 }
-function exportXLS(project){
+
+/* ============ ACTUALIZADO: exportXLS con lazy load (async) ============ */
+async function exportXLS(project){
+  try {
+    await ensureExportLibs('xls');
+  } catch(err){
+    alert('No se pudo cargar la librería XLS. Verifique su conexión e intente de nuevo.');
+    return;
+  }
   const wb = XLSX.utils.book_new();
   addProjectConsolidatedSheet(wb, project, '');
   XLSX.writeFile(wb, safeName(project.name) + '.xlsx');
 }
-function exportXLSBulk(projects){
+
+/* ============ ACTUALIZADO: exportXLSBulk con lazy load (async) ============ */
+async function exportXLSBulk(projects){
+  try {
+    await ensureExportLibs('xls');
+  } catch(err){
+    alert('No se pudo cargar la librería XLS. Verifique su conexión e intente de nuevo.');
+    return;
+  }
   const wb = XLSX.utils.book_new();
   const resumen = [['Proyecto','BPIP','Categoría','Código Sistema','Población Beneficiada','Líder','Ubicaciones','Etapa Actual','Avance (%)','SPI','Monto Obras','Monto Terrenos (computable)','Monto Global']];
   projects.forEach(p => {
@@ -3628,7 +3677,14 @@ async function addProjectSlidesToPPTX(pptx, project){
   }
 }
 
+/* ============ ACTUALIZADO: exportPPTX con lazy load ============ */
 async function exportPPTX(project){
+  try {
+    await ensureExportLibs('pptx');
+  } catch(err){
+    alert('No se pudo cargar la librería PPTX. Verifique su conexión e intente de nuevo.');
+    return;
+  }
   try {
     const pptx = new PptxGenJS();
     pptx.layout = 'LAYOUT_WIDE';
@@ -3637,7 +3693,15 @@ async function exportPPTX(project){
     await pptx.writeFile({ fileName: safeName(project.name) + '.pptx' });
   } catch(e){ console.error('Error export PPTX:', e); alert('Error al exportar PPTX: ' + (e.message || e)); }
 }
+
+/* ============ ACTUALIZADO: exportPPTXBulk con lazy load ============ */
 async function exportPPTXBulk(projects){
+  try {
+    await ensureExportLibs('pptx');
+  } catch(err){
+    alert('No se pudo cargar la librería PPTX. Verifique su conexión e intente de nuevo.');
+    return;
+  }
   try {
     const pptx = new PptxGenJS();
     pptx.layout = 'LAYOUT_WIDE';
@@ -3654,12 +3718,13 @@ async function exportPPTXBulk(projects){
   } catch(e){ console.error('Error export PPTX bulk:', e); alert('Error al exportar portafolio PPTX: ' + (e.message || e)); }
 }
 
+/* ============ ACTUALIZADO: exportBulk con await en exportXLSBulk ============ */
 async function exportBulk(format, ids){
   const projects = sortProjects(state.projects.filter(p => ids.has(p.id)));
   if (projects.length === 0){ alert('No hay proyectos para exportar.'); return; }
   if (format === 'pdf') openPrintModal([...ids]);
   else if (format === 'doc') await exportDOCBulk(projects);
-  else if (format === 'xls') exportXLSBulk(projects);
+  else if (format === 'xls') await exportXLSBulk(projects);
   else if (format === 'pptx') await exportPPTXBulk(projects);
 }
 function downloadBlob(blob, filename){
@@ -3669,12 +3734,14 @@ function downloadBlob(blob, filename){
   document.body.appendChild(a); a.click();
   setTimeout(()=>{ URL.revokeObjectURL(url); a.remove(); }, 100);
 }
+
+/* ============ ACTUALIZADO: exportSingle con await en exportXLS ============ */
 async function exportSingle(id, format){
   const p = state.projects.find(x => x.id === id);
   if (!p) return;
   if (format === 'pdf') openPrintModal([id]);
   else if (format === 'doc') await exportDOC(p);
-  else if (format === 'xls') exportXLS(p);
+  else if (format === 'xls') await exportXLS(p);
   else if (format === 'pptx') await exportPPTX(p);
 }
 
@@ -3685,6 +3752,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   preloadAyaLogo();
   renderGrid();
 
+  /* Dashboard: SIN CAMBIOS. Chart.js sigue eager, sigue instantáneo. */
   document.getElementById('dashboardDropdown').addEventListener('toggle', (e) => { if (e.target.open) setTimeout(renderDashboard, 30); });
 
   $('#btnNew').addEventListener('click', () => {
