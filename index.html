@@ -93,10 +93,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-s
 .leaders-table .count-badge{display:inline-block;background:var(--aya-dorado);color:#fff;padding:2px 10px;border-radius:10px;font-weight:700;min-width:28px;text-align:center}
 .projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
 .empty{text-align:center;padding:80px 20px;color:#888;font-size:15px;grid-column:1/-1}
-.card{background:var(--aya-blanco);border-radius:10px;padding:0;border-top:none;box-shadow:0 2px 8px rgba(0,0,0,.06);display:block;position:relative;overflow:hidden}
+
+/* ============ FIX: sin overflow:hidden en .card para que el dropdown salga ============ */
+.card{background:var(--aya-blanco);border-radius:10px;padding:0;border-top:none;box-shadow:0 2px 8px rgba(0,0,0,.06);display:block;position:relative}
 .card.selected{box-shadow:0 0 0 2px var(--aya-dorado),0 4px 12px rgba(0,0,0,.1)}
 .card-check{position:absolute;top:12px;right:12px;width:18px;height:18px;cursor:pointer;accent-color:var(--aya-dorado);z-index:3}
-.card-header{background:var(--aya-azul);color:#fff;padding:10px 42px 10px 14px;border-bottom:3px solid var(--aya-dorado);display:flex;align-items:center;justify-content:space-between;gap:10px;position:relative}
+.card-header{background:var(--aya-azul);color:#fff;padding:10px 42px 10px 14px;border-bottom:3px solid var(--aya-dorado);display:flex;align-items:center;justify-content:space-between;gap:10px;position:relative;border-radius:10px 10px 0 0}
 .card-header-left{min-width:0;flex:1;display:flex;flex-direction:column;gap:2px}
 .card-header-bpip{font-size:13px;font-weight:700;color:var(--aya-dorado);letter-spacing:.4px;line-height:1.2}
 .card-header-bpip.bpip-empty{color:rgba(255,255,255,.6);font-style:italic;font-weight:400;font-size:12px;letter-spacing:.2px}
@@ -106,7 +108,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-s
 .mini-light.green.active{background:radial-gradient(circle at 32% 28%,#d6ffd6 0%,#27ae60 42%,#0b4a24 100%);box-shadow:0 0 8px #27ae60,0 0 4px #7fff7f,inset 0 0 2px rgba(255,255,255,.9)}
 .mini-light.orange.active{background:radial-gradient(circle at 32% 28%,#ffeac2 0%,#f39c12 42%,#663a00 100%);box-shadow:0 0 8px #f39c12,0 0 4px #ffd07f,inset 0 0 2px rgba(255,255,255,.9)}
 .mini-light.red.active{background:radial-gradient(circle at 32% 28%,#ffd1d1 0%,#e74c3c 42%,#5a0d05 100%);box-shadow:0 0 8px #e74c3c,0 0 4px #ff8f8f,inset 0 0 2px rgba(255,255,255,.9)}
-.card-body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px}
+.card-body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px;border-radius:0 0 10px 10px}
 .card-cat-badge{display:inline-block;font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:10px;background:var(--aya-dorado);color:#fff;letter-spacing:.3px;text-transform:uppercase;align-self:flex-start;margin-top:2px}
 .card-loc{font-size:11px;color:#888;font-style:italic;line-height:1.35}
 .card-row{display:flex;justify-content:space-between;font-size:12.5px;gap:8px}
@@ -326,9 +328,9 @@ td input::placeholder{color:#bbb;font-style:italic}
     <div style="margin-top:16px;color:#1B294E;font-weight:700;font-size:14px">Cargando proyectos desde Supabase...</div>
   </div>
 
+  <!-- FIX: eliminado el botón "Exportar Seleccionados" -->
   <div class="toolbar">
     <button class="btn btn-primary" id="btnNew">+ Nuevo Proyecto</button>
-    <button class="btn" id="btnExportSel" disabled>Exportar Seleccionados (0)</button>
     <div class="export-menu" id="menuExportAll">
       <button class="btn btn-gold" id="btnExportAll">Exportar ▾</button>
       <div class="export-dropdown">
@@ -465,7 +467,6 @@ td input::placeholder{color:#bbb;font-style:italic}
 
 /* =========================================================
    LAZY LOADING de librerías de exportación (pptx, xls, pdf).
-   Chart.js y Supabase se mantienen cargadas desde el <head>.
 ========================================================= */
 function loadScript(src){
   return new Promise((resolve, reject) => {
@@ -488,9 +489,6 @@ async function ensureExportLibs(format){
   if (format === 'pdf')  await loadScript(libs.pdf);
 }
 
-/* =========================================================
-   SUPABASE: configuración, cliente y estado de sincronización
-========================================================= */
 const SUPABASE_URL = 'https://jgeprdehntvjykpqycxe.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_KRtl61gHhxOcJjo3fPJpqw_k4oubYWG';
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -1609,14 +1607,24 @@ function renderDashboard(){
   });
 }
 
+/* ============ ACTUALIZADO: muestra selección si hay, si no el conteo de filtrados ============ */
 function updateExportAllButton(){
   const btn = document.getElementById('btnExportAll');
   if (!btn) return;
   const filtered = applyFilters();
   const total = state.projects.length;
-  const count = filtered.length;
-  if (count === total) btn.textContent = `Exportar (${count}) ▾`;
-  else btn.textContent = `Exportar (${count}/${total}) ▾`;
+  const selectedCount = state.selected.size;
+  if (selectedCount > 0){
+    btn.textContent = `Exportar (${selectedCount} selec.) ▾`;
+    btn.disabled = false;
+  } else if (filtered.length > 0){
+    if (filtered.length === total) btn.textContent = `Exportar (${filtered.length}) ▾`;
+    else btn.textContent = `Exportar (${filtered.length}/${total}) ▾`;
+    btn.disabled = false;
+  } else {
+    btn.textContent = 'Exportar ▾';
+    btn.disabled = true;
+  }
 }
 
 function renderGrid(){
@@ -1627,14 +1635,13 @@ function renderGrid(){
   const filtered = sortProjects(applyFilters());
   if (state.projects.length === 0){
     grid.innerHTML = '<div class="empty">No hay proyectos registrados.<br><br>Haga clic en <strong>"+ Nuevo Proyecto"</strong> para comenzar.</div>';
-    updateSelButton(); updateExportAllButton(); return;
+    updateExportAllButton(); return;
   }
   if (filtered.length === 0){
     grid.innerHTML = '<div class="empty">Ningún proyecto coincide con los filtros actuales.</div>';
-    updateSelButton(); updateExportAllButton(); return;
+    updateExportAllButton(); return;
   }
   filtered.forEach(p => grid.appendChild(createCard(p)));
-  updateSelButton();
   updateExportAllButton();
   if (document.getElementById('dashboardDropdown')?.open){ setTimeout(renderDashboard, 30); }
 }
@@ -1706,7 +1713,7 @@ function createCard(p){
   el.querySelector('.card-check').addEventListener('change', (e) => {
     if (e.target.checked) state.selected.add(p.id); else state.selected.delete(p.id);
     el.classList.toggle('selected', e.target.checked);
-    updateSelButton();
+    updateExportAllButton();
   });
   el.querySelectorAll('[data-act]').forEach(btn => {
     btn.addEventListener('click', (e) => {
@@ -1726,12 +1733,6 @@ function createCard(p){
     });
   });
   return el;
-}
-function updateSelButton(){
-  const btn = $('#btnExportSel');
-  const n = state.selected.size;
-  btn.textContent = `Exportar Seleccionados (${n})`;
-  btn.disabled = n === 0;
 }
   function buildEtapasTableHTML(p, diff){
   let html = `<div class="view-table-wrap"><table class="view-table"><thead><tr>
@@ -3114,8 +3115,6 @@ function updatePrintPreview(){
   projects.forEach((p, i) => { body += `<div style="${i < projects.length-1 ? 'page-break-after:always;' : ''}">${renderProjectHTML(p, true)}</div>`; });
   iframe.srcdoc = buildPrintDocument(body, opts);
 }
-
-/* ============ ACTUALIZADO: exportPDFDirect con lazy load ============ */
 async function exportPDFDirect(){
   try {
     await ensureExportLibs('pdf');
@@ -3297,8 +3296,6 @@ function addProjectConsolidatedSheet(wb, project, prefix=''){
   const base = (prefix ? prefix + ' - ' : '') + (project.name || 'Proyecto');
   XLSX.utils.book_append_sheet(wb, ws, safeSheet(base));
 }
-
-/* ============ ACTUALIZADO: exportXLS con lazy load (async) ============ */
 async function exportXLS(project){
   try {
     await ensureExportLibs('xls');
@@ -3310,8 +3307,6 @@ async function exportXLS(project){
   addProjectConsolidatedSheet(wb, project, '');
   XLSX.writeFile(wb, safeName(project.name) + '.xlsx');
 }
-
-/* ============ ACTUALIZADO: exportXLSBulk con lazy load (async) ============ */
 async function exportXLSBulk(projects){
   try {
     await ensureExportLibs('xls');
@@ -3677,7 +3672,6 @@ async function addProjectSlidesToPPTX(pptx, project){
   }
 }
 
-/* ============ ACTUALIZADO: exportPPTX con lazy load ============ */
 async function exportPPTX(project){
   try {
     await ensureExportLibs('pptx');
@@ -3693,8 +3687,6 @@ async function exportPPTX(project){
     await pptx.writeFile({ fileName: safeName(project.name) + '.pptx' });
   } catch(e){ console.error('Error export PPTX:', e); alert('Error al exportar PPTX: ' + (e.message || e)); }
 }
-
-/* ============ ACTUALIZADO: exportPPTXBulk con lazy load ============ */
 async function exportPPTXBulk(projects){
   try {
     await ensureExportLibs('pptx');
@@ -3718,7 +3710,6 @@ async function exportPPTXBulk(projects){
   } catch(e){ console.error('Error export PPTX bulk:', e); alert('Error al exportar portafolio PPTX: ' + (e.message || e)); }
 }
 
-/* ============ ACTUALIZADO: exportBulk con await en exportXLSBulk ============ */
 async function exportBulk(format, ids){
   const projects = sortProjects(state.projects.filter(p => ids.has(p.id)));
   if (projects.length === 0){ alert('No hay proyectos para exportar.'); return; }
@@ -3734,8 +3725,6 @@ function downloadBlob(blob, filename){
   document.body.appendChild(a); a.click();
   setTimeout(()=>{ URL.revokeObjectURL(url); a.remove(); }, 100);
 }
-
-/* ============ ACTUALIZADO: exportSingle con await en exportXLS ============ */
 async function exportSingle(id, format){
   const p = state.projects.find(x => x.id === id);
   if (!p) return;
@@ -3752,7 +3741,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   preloadAyaLogo();
   renderGrid();
 
-  /* Dashboard: SIN CAMBIOS. Chart.js sigue eager, sigue instantáneo. */
   document.getElementById('dashboardDropdown').addEventListener('toggle', (e) => { if (e.target.open) setTimeout(renderDashboard, 30); });
 
   $('#btnNew').addEventListener('click', () => {
@@ -3807,23 +3795,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.querySelectorAll('.export-menu.open').forEach(m => { if (m!==menuAll) m.classList.remove('open'); });
     menuAll.classList.toggle('open');
   });
+
+  /* ============ ACTUALIZADO: si hay checkboxes marcados → exporta los seleccionados. Si no, exporta el filtrado. ============ */
   menuAll.querySelectorAll('.export-dropdown button').forEach(b => {
     b.addEventListener('click', (e) => {
       e.stopPropagation();
       menuAll.classList.remove('open');
-      const filtered = applyFilters();
-      const ids = new Set(filtered.map(p => p.id));
+      const ids = state.selected.size > 0
+        ? new Set(state.selected)
+        : new Set(applyFilters().map(p => p.id));
+      if (ids.size === 0){ alert('No hay proyectos para exportar.'); return; }
       exportBulk(b.dataset.fmt, ids);
     });
   });
-  $('#btnExportSel').addEventListener('click', () => {
-    if (state.selected.size === 0) return;
-    const fmt = prompt('Formato para exportar los seleccionados (pdf, doc, xls, pptx):', 'pdf');
-    if (!fmt) return;
-    const f = fmt.toLowerCase();
-    if (!['pdf','doc','xls','pptx'].includes(f)){ alert('Formato no válido'); return; }
-    exportBulk(f, state.selected);
-  });
+
+  /* btnExportSel ya no existe → se elimina su listener */
 
   document.getElementById('printClose').addEventListener('click', () => document.getElementById('printModal').classList.remove('open'));
   document.getElementById('printCancel').addEventListener('click', () => document.getElementById('printModal').classList.remove('open'));
