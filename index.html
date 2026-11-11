@@ -13,6 +13,7 @@
   --aya-blanco:#FFFFFF;--aya-gris:#E0E3EB;--aya-texto:#1a1a1a;
   --aya-peligro:#c0392b;--aya-exito:#27ae60;--aya-warn:#f39c12;
   --aya-verde:#27ae60;--aya-amarillo:#f39c12;--aya-rojo:#e74c3c;
+  --aya-archive:#7f8c8d;
 }
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;background:var(--aya-fondo-claro);color:var(--aya-texto);min-height:100vh}
 .header{background:var(--aya-azul);color:#fff;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:4px solid var(--aya-dorado);position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:12px}
@@ -31,6 +32,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-s
 .btn-gold{background:var(--aya-dorado);color:#fff;border:none}
 .btn-gold:hover{background:#b89b5f}
 .btn-danger{background:var(--aya-peligro);color:#fff;border:none}
+.btn-archive{background:var(--aya-archive);color:#fff;border:none}
+.btn-archive:hover{background:#5e6b6c}
 .btn-sm{padding:5px 10px;font-size:12px}
 .btn-view{background:var(--aya-azul);color:#fff;border:none}
 .btn-view:hover{background:#2a3d6b}
@@ -93,8 +96,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-s
 .leaders-table .count-badge{display:inline-block;background:var(--aya-dorado);color:#fff;padding:2px 10px;border-radius:10px;font-weight:700;min-width:28px;text-align:center}
 .projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
 .empty{text-align:center;padding:80px 20px;color:#888;font-size:15px;grid-column:1/-1}
-
-/* ============ FIX: sin overflow:hidden en .card para que el dropdown salga ============ */
 .card{background:var(--aya-blanco);border-radius:10px;padding:0;border-top:none;box-shadow:0 2px 8px rgba(0,0,0,.06);display:block;position:relative}
 .card.selected{box-shadow:0 0 0 2px var(--aya-dorado),0 4px 12px rgba(0,0,0,.1)}
 .card-check{position:absolute;top:12px;right:12px;width:18px;height:18px;cursor:pointer;accent-color:var(--aya-dorado);z-index:3}
@@ -131,14 +132,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-s
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;z-index:200;overflow-y:auto;padding:20px}
 .modal.open{display:block}
 .modal-content{background:var(--aya-blanco);max-width:1150px;margin:0 auto;border-radius:10px;overflow:hidden;box-shadow:0 10px 40px rgba(0,0,0,.3)}
-.modal-header{background:var(--aya-azul);color:#fff;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid var(--aya-dorado)}
+.modal-header{background:var(--aya-azul);color:#fff;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid var(--aya-dorado);gap:12px}
 .modal-header h2{font-size:17px}
-.modal-close{background:none;border:none;color:#fff;font-size:26px;cursor:pointer;line-height:1}
+.modal-close{background:none;border:none;color:#fff;font-size:26px;cursor:pointer;line-height:1;display:flex;align-items:center;justify-content:center;padding:0 4px}
+.modal-close:hover{color:var(--aya-dorado)}
+#viewModal{z-index:210}
+#viewModal.fullscreen-mode{padding:0}
+#viewModal.fullscreen-mode .modal-content{max-width:100vw;width:100vw;height:100vh;max-height:100vh;margin:0;border-radius:0;display:flex;flex-direction:column}
+#viewModal.fullscreen-mode .view-body{max-height:none;flex:1;overflow-y:auto}
 .view-title-block{display:flex;flex-direction:column;gap:3px;flex:1;min-width:0}
 .view-bpip-header{font-size:11.5px;font-weight:700;letter-spacing:.6px;color:var(--aya-dorado);line-height:1.2}
 .view-bpip-header.bpip-header-empty{color:rgba(255,255,255,0.55);font-style:italic;letter-spacing:.2px}
-.view-bpip-header.diff-changed,
-.view-title-block h2.diff-changed{background-color:#ff8a80;padding:2px 8px;border-radius:4px;border-left:3px solid #e74c3c}
+.view-bpip-header.diff-changed,.view-title-block h2.diff-changed{background-color:#ff8a80;padding:2px 8px;border-radius:4px;border-left:3px solid #e74c3c}
 .view-title-block h2{font-size:17px;line-height:1.2;overflow:hidden;text-overflow:ellipsis}
 .view-version-bar{background:#eef2f9;padding:10px 20px;display:flex;gap:14px;align-items:center;justify-content:center;border-bottom:1px solid var(--aya-gris);flex-wrap:wrap}
 .view-version-bar .view-ver-label{font-size:12.5px;font-weight:600;color:var(--aya-azul);min-width:280px;text-align:center;padding:4px 10px;background:#fff;border-radius:6px;border:1px solid var(--aya-gris)}
@@ -301,6 +306,21 @@ td input::placeholder{color:#bbb;font-style:italic}
 .coord-row{display:flex;gap:10px;align-items:center}
 .coord-row .coord-label{font-weight:700;color:var(--aya-azul);font-size:13px;min-width:22px;text-align:center}
 .coord-row input{flex:1}
+
+/* Confirm modal */
+#confirmModal .modal-content{max-width:520px}
+#confirmModal .confirm-body{padding:20px}
+#confirmModal .confirm-message{font-size:14px;color:#333;line-height:1.5;margin-bottom:16px}
+
+/* Archive modal */
+#archiveModal{z-index:200}
+.archive-list-wrap{padding:20px}
+.archive-empty{text-align:center;padding:40px 20px;color:#888;font-size:14px;font-style:italic}
+.archived-banner{background:#7f8c8d;color:#fff;padding:4px 10px;border-radius:12px;font-size:11px;font-weight:700;display:inline-block;letter-spacing:.3px}
+
+/* Fullscreen button icon */
+.btn-fs{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff;border-radius:6px;width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:background .15s}
+.btn-fs:hover{background:rgba(255,255,255,0.3)}
 </style>
 </head>
 <body>
@@ -328,7 +348,6 @@ td input::placeholder{color:#bbb;font-style:italic}
     <div style="margin-top:16px;color:#1B294E;font-weight:700;font-size:14px">Cargando proyectos desde Supabase...</div>
   </div>
 
-  <!-- FIX: eliminado el botón "Exportar Seleccionados" -->
   <div class="toolbar">
     <button class="btn btn-primary" id="btnNew">+ Nuevo Proyecto</button>
     <div class="export-menu" id="menuExportAll">
@@ -340,6 +359,7 @@ td input::placeholder{color:#bbb;font-style:italic}
         <button data-fmt="pptx">PPTX</button>
       </div>
     </div>
+    <button class="btn btn-archive" id="btnArchived" style="margin-left:auto" title="Ver proyectos archivados">📁 Archivado</button>
   </div>
 
   <details class="project-list-dropdown" id="projectListDropdown">
@@ -386,7 +406,12 @@ td input::placeholder{color:#bbb;font-style:italic}
         <div id="viewBpipHeader" class="view-bpip-header"></div>
         <h2 id="viewTitle">Ver Proyecto</h2>
       </div>
-      <button class="modal-close" id="viewClose">×</button>
+      <div style="display:flex;align-items:center;gap:8px">
+        <button class="btn-fs" id="viewFullscreen" title="Pantalla completa">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+        </button>
+        <button class="modal-close" id="viewClose">×</button>
+      </div>
     </div>
     <div class="view-version-bar" id="viewVersionBar" style="display:none">
       <button class="btn btn-sm" id="viewPrevVer" title="Ver versión anterior">← Anterior</button>
@@ -422,7 +447,7 @@ td input::placeholder{color:#bbb;font-style:italic}
     </div>
     <div class="tab-content" id="tabContent"></div>
     <div class="actions-footer">
-      <button class="btn btn-danger" id="btnDelete">Eliminar Proyecto</button>
+      <button class="btn btn-archive" id="btnDelete" title="Archivar el proyecto">Archivar Proyecto</button>
       <button class="btn btn-primary" id="btnSaveClose">Guardar y Cerrar</button>
     </div>
   </div>
@@ -445,6 +470,43 @@ td input::placeholder{color:#bbb;font-style:italic}
       <button class="btn" id="printCancel">Cancelar</button>
       <button class="btn btn-primary" id="printExportDirect">PDF Directo</button>
       <button class="btn btn-gold" id="printPrint">Imprimir / Guardar PDF</button>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm dialog (used for create/save/archive) -->
+<div class="modal" id="confirmModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 id="confirmTitle">Confirmar</h2>
+      <button class="modal-close" id="confirmClose">×</button>
+    </div>
+    <div class="confirm-body">
+      <p class="confirm-message" id="confirmMessage"></p>
+      <div class="form-group" id="confirmNameGroup">
+        <label>Nombre de la persona</label>
+        <input type="text" class="form-control" id="confirmName" placeholder="Ingrese su nombre completo">
+      </div>
+    </div>
+    <div class="actions-footer">
+      <button class="btn" id="confirmNo">No</button>
+      <button class="btn btn-primary" id="confirmYes">Sí</button>
+    </div>
+  </div>
+</div>
+
+<!-- Archive modal -->
+<div class="modal" id="archiveModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="view-title-block">
+        <h2>Proyectos Archivados</h2>
+      </div>
+      <button class="modal-close" id="archiveClose">×</button>
+    </div>
+    <div class="archive-list-wrap" id="archiveBody"></div>
+    <div class="actions-footer">
+      <button class="btn" id="archiveCloseBtn">Cerrar</button>
     </div>
   </div>
 </div>
@@ -684,10 +746,13 @@ const CR_LOC = {
 };
 
 const state = {
-  projects: [], editingId: null, selected: new Set(), printTarget: [], dirty: false, editorSnapshot: null, viewVersion: 0
+  projects: [], editingId: null, selected: new Set(), printTarget: [],
+  dirty: false, editorSnapshot: null, viewVersion: 0,
+  isNewProject: false, viewFullscreen: false
 };
 let currentZoom = 1;
 let dashboardCharts = {};
+let confirmCallback = null;
 
 let AYA_LOGO_BASE64 = null;
 let AYA_LOGO_PROMISE = null;
@@ -942,6 +1007,12 @@ function migrateProject(p){
   if (p.lastActivitiesUpdate === undefined) p.lastActivitiesUpdate = p.updatedAt || nowDateTimeStr();
   if (p.coordX === undefined) p.coordX = '';
   if (p.coordY === undefined) p.coordY = '';
+  // Nuevos campos (archivado y auditoría)
+  if (p.archived === undefined) p.archived = false;
+  if (p.archivedAt === undefined) p.archivedAt = '';
+  if (p.archivedBy === undefined) p.archivedBy = '';
+  if (p.createdBy === undefined) p.createdBy = '';
+  if (p.lastModifiedBy === undefined) p.lastModifiedBy = '';
 }
 
 function save(){
@@ -969,7 +1040,9 @@ function createEmptyProject(){
     mideplanDate: '',
     lastProgressUpdate: nowDateTimeStr(),
     lastActivitiesUpdate: nowDateTimeStr(),
-    createdAt: todayStr(), updatedAt: nowDateTimeStr()
+    createdAt: todayStr(), updatedAt: nowDateTimeStr(),
+    archived: false, archivedAt: '', archivedBy: '',
+    createdBy: '', lastModifiedBy: ''
   };
 }
 function getActiveEtapas(p){
@@ -1237,12 +1310,12 @@ function getAvanceGlobal(p){
 
 function getAllLeaders(){
   const set = new Set();
-  state.projects.forEach(p => { const l = (p.leader || '').trim(); if (l) set.add(l); });
+  state.projects.filter(p => !p.archived).forEach(p => { const l = (p.leader || '').trim(); if (l) set.add(l); });
   return [...set].sort((a,b) => a.localeCompare(b, 'es'));
 }
 function getAllTeamNames(){
   const set = new Set();
-  state.projects.forEach(p => {
+  state.projects.filter(p => !p.archived).forEach(p => {
     if (!p.team) return;
     (p.team.internos || []).forEach(r => { if (r.nombre) set.add(r.nombre.trim()); });
     (p.team.externos || []).forEach(r => { if (r.nombre) set.add(r.nombre.trim()); });
@@ -1251,7 +1324,7 @@ function getAllTeamNames(){
 }
 function getAllTeamResponsabilidades(){
   const set = new Set();
-  state.projects.forEach(p => {
+  state.projects.filter(p => !p.archived).forEach(p => {
     if (!p.team) return;
     (p.team.internos || []).forEach(r => { if (r.responsabilidad) set.add(r.responsabilidad.trim()); });
     (p.team.externos || []).forEach(r => { if (r.responsabilidad) set.add(r.responsabilidad.trim()); });
@@ -1260,7 +1333,7 @@ function getAllTeamResponsabilidades(){
 }
 function getAllTeamEmails(){
   const set = new Set();
-  state.projects.forEach(p => {
+  state.projects.filter(p => !p.archived).forEach(p => {
     if (!p.team) return;
     (p.team.internos || []).forEach(r => { if (r.email) set.add(r.email.trim()); });
     (p.team.externos || []).forEach(r => { if (r.email) set.add(r.email.trim()); });
@@ -1445,6 +1518,7 @@ function applyFilters(){
   const leader = $('#filterLeader').value;
   const spiF = $('#filterSPI').value;
   return state.projects.filter(p => {
+    if (p.archived) return false; // excluir archivados
     if (q){
       const hay = [p.name, p.bpip, p.categoria, p.codigoSistema, p.leader, p.description, locationsToString(p), p.coordX, p.coordY].join(' ').toLowerCase();
       if (!hay.includes(q)) return false;
@@ -1471,7 +1545,7 @@ function populateFilterOptions(){
     etapaSel.innerHTML += `<option value="${et.key}">${FASE_LABEL[fase]} / ${et.label}</option>`;
   }
   etapaSel.value = curE;
-  const leaders = [...new Set(state.projects.map(p => p.leader).filter(Boolean))].sort();
+  const leaders = [...new Set(state.projects.filter(p => !p.archived).map(p => p.leader).filter(Boolean))].sort();
   leaderSel.innerHTML = '<option value="">Todos los líderes</option>' + leaders.map(l => `<option value="${escapeHtml(l)}">${escapeHtml(l)}</option>`).join('');
   leaderSel.value = curL;
 }
@@ -1502,7 +1576,7 @@ function renderProjectList(){
   const body = document.getElementById('projectListBody');
   const count = document.getElementById('projectListCount');
   if (!body || !count) return;
-  const sorted = sortProjects(state.projects);
+  const sorted = sortProjects(state.projects.filter(p => !p.archived));
   count.textContent = sorted.length;
   if (sorted.length === 0){
     body.innerHTML = '<div style="text-align:center;padding:20px;color:#888;font-size:13px">No hay proyectos registrados</div>';
@@ -1558,6 +1632,7 @@ function renderDashboard(){
     </div>
     <div class="dashboard-grid">
       <div class="chart-card"><h4>Distribución por Semáforo SPI</h4><div class="chart-canvas"><canvas id="chartSPI"></canvas></div></div>
+      <div class="chart-card"><h4>Semáforo Última Actualización MIDEPLAN</h4><div class="chart-canvas"><canvas id="chartMideplan"></canvas></div></div>
       <div class="chart-card"><h4>Proyectos por Etapa en Curso</h4><div class="chart-canvas"><canvas id="chartEtapas"></canvas></div></div>
       <div class="chart-card" style="grid-column:1/-1"><h4>Avance Global por Proyecto</h4><div class="chart-canvas"><canvas id="chartAvance"></canvas></div></div>
       <div class="chart-card"><h4>Asignación de Proyectos por Líder</h4>${buildLeadersListHTML(leaderCounts)}</div>
@@ -1566,6 +1641,8 @@ function renderDashboard(){
   `;
   Object.values(dashboardCharts).forEach(c => { try { c.destroy(); } catch(e){} });
   dashboardCharts = {};
+
+  // SPI donut
   const spiCounts = { ok:0, warn:0, bad:0, na:0 };
   filtered.forEach(p => {
     const cls = spiClass(calcSPI(p));
@@ -1582,6 +1659,24 @@ function renderDashboard(){
     },
     options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { font: { size: 11 }, padding: 10 } } } }
   });
+
+  // MIDEPLAN semaphore donut
+  const midCounts = { green: 0, orange: 0, red: 0, na: 0 };
+  filtered.forEach(p => {
+    const st = getMideplanStatus(p);
+    if (!st) midCounts.na++;
+    else midCounts[st]++;
+  });
+  dashboardCharts.mideplan = new Chart(document.getElementById('chartMideplan'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Al día (≤3m)', 'Seguimiento (3-6m)', 'Atrasado (≥6m)', 'Sin fecha'],
+      datasets: [{ data: [midCounts.green, midCounts.orange, midCounts.red, midCounts.na], backgroundColor: ['#27ae60','#f39c12','#e74c3c','#bdc3c7'], borderWidth: 2, borderColor: '#fff' }]
+    },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { font: { size: 11 }, padding: 10 } } } }
+  });
+
+  // Etapas bar
   const etapaCounts = {};
   for (const fase in STAGES) for (const et of STAGES[fase]){
     etapaCounts[et.key] = { label: `${FASE_LABEL[fase]} / ${et.label}`, count: 0 };
@@ -1596,23 +1691,50 @@ function renderDashboard(){
     },
     options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true, ticks: { stepSize: 1 } } } }
   });
-  const avanceEntries = filtered.slice(0, 10).map(p => ({ name: p.name.length > 25 ? p.name.slice(0,25)+'…' : p.name, avance: getAvanceGlobal(p) }));
+
+  // Avance chart — usa BPIP como etiqueta y nombre completo como tooltip
+  const avanceEntries = filtered.slice(0, 10).map(p => ({
+    bpip: (p.bpip || '').trim() || '(Sin BPIP)',
+    fullName: p.name || '(Sin nombre)',
+    avance: getAvanceGlobal(p)
+  }));
   dashboardCharts.avance = new Chart(document.getElementById('chartAvance'), {
     type: 'bar',
     data: {
-      labels: avanceEntries.map(e => e.name),
-      datasets: [{ label: 'Avance %', data: avanceEntries.map(e => e.avance), backgroundColor: avanceEntries.map(e => e.avance >= 90 ? '#27ae60' : e.avance >= 50 ? '#f39c12' : '#e74c3c'), borderRadius: 4 }]
+      labels: avanceEntries.map(e => e.bpip),
+      datasets: [{
+        label: 'Avance %',
+        data: avanceEntries.map(e => e.avance),
+        backgroundColor: avanceEntries.map(e => e.avance >= 90 ? '#27ae60' : e.avance >= 50 ? '#f39c12' : '#e74c3c'),
+        borderRadius: 4
+      }]
     },
-    options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%' } } } }
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      indexAxis: 'y',
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            title: (items) => avanceEntries[items[0].dataIndex].fullName,
+            label: (item) => 'Avance: ' + item.parsed.x.toFixed(1) + '%'
+          }
+        }
+      },
+      scales: {
+        x: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%' } },
+        y: { ticks: { font: { size: 11 } } }
+      }
+    }
   });
 }
 
-/* ============ ACTUALIZADO: muestra selección si hay, si no el conteo de filtrados ============ */
 function updateExportAllButton(){
   const btn = document.getElementById('btnExportAll');
   if (!btn) return;
   const filtered = applyFilters();
-  const total = state.projects.length;
+  const total = state.projects.filter(p => !p.archived).length;
   const selectedCount = state.selected.size;
   if (selectedCount > 0){
     btn.textContent = `Exportar (${selectedCount} selec.) ▾`;
@@ -1633,7 +1755,7 @@ function renderGrid(){
   const grid = $('#projectsGrid');
   grid.innerHTML = '';
   const filtered = sortProjects(applyFilters());
-  if (state.projects.length === 0){
+  if (state.projects.filter(p => !p.archived).length === 0){
     grid.innerHTML = '<div class="empty">No hay proyectos registrados.<br><br>Haga clic en <strong>"+ Nuevo Proyecto"</strong> para comenzar.</div>';
     updateExportAllButton(); return;
   }
@@ -1734,7 +1856,8 @@ function createCard(p){
   });
   return el;
 }
-  function buildEtapasTableHTML(p, diff){
+
+function buildEtapasTableHTML(p, diff){
   let html = `<div class="view-table-wrap"><table class="view-table"><thead><tr>
       <th>Fase</th><th>Etapa</th><th>Peso</th><th>Inicio Prog.</th><th>Fin Prog.</th><th>Inicio Real</th><th>Fin Real</th><th style="text-align:right">% Avance</th>
     </tr></thead><tbody>`;
@@ -1998,6 +2121,9 @@ function openViewModal(id, versionIndex = 0){
   const body = document.getElementById('viewBody');
   body.innerHTML = `
     ${diffLegend}
+    ${p.archived ? `<div style="background:#7f8c8d;color:#fff;padding:10px 14px;border-radius:6px;margin-bottom:12px;font-size:13px;font-weight:600">
+      📁 PROYECTO ARCHIVADO — ${fmtDateTime(p.archivedAt)} por ${escapeHtml(p.archivedBy) || '—'} (no editable)
+    </div>` : ''}
     ${stale.show ? `
       <div class="diff-legend" style="background:#fff7d6;border-color:#f39c12;color:#856404">
         <strong>⚠️ Proyecto requiere actualización:</strong>
@@ -2013,8 +2139,8 @@ function openViewModal(id, versionIndex = 0){
       ${showCodigoSistema ? `<div${cls(diff && diff.general.codigoSistema)}>Código del Sistema: <strong>${escapeHtml(p.codigoSistema) || '—'}</strong></div>` : ''}
       ${showPoblacion ? `<div${cls(diff && diff.general.poblacionBeneficiada)}>Población Beneficiada: <strong>${p.poblacionBeneficiada ? fmtInt(p.poblacionBeneficiada) : '—'}</strong></div>` : ''}
       ${p.mideplanDate ? `<div${cls(diff && diff.mideplan)}>Última aprobación MIDEPLAN: <strong>${fmtDate(p.mideplanDate)}</strong> <span style="display:inline-block;width:10px;height:10px;border-radius:50%;margin-left:6px;vertical-align:middle;background:${midStatus==='green'?'#27ae60':midStatus==='orange'?'#f39c12':midStatus==='red'?'#e74c3c':'#bbb'};box-shadow:0 0 6px ${midStatus==='green'?'#27ae60':midStatus==='orange'?'#f39c12':midStatus==='red'?'#e74c3c':'transparent'}"></span></div>` : ''}
-      <div>Registro: <strong>${fmtDate(p.createdAt)}</strong></div>
-      <div>Última actualización: <strong>${fmtDateTime(p.updatedAt)}</strong></div>
+      <div>Registro: <strong>${fmtDate(p.createdAt)}</strong>${p.createdBy ? ` por <strong>${escapeHtml(p.createdBy)}</strong>` : ''}</div>
+      <div>Última actualización: <strong>${fmtDateTime(p.updatedAt)}</strong>${p.lastModifiedBy ? ` por <strong>${escapeHtml(p.lastModifiedBy)}</strong>` : ''}</div>
     </div>
     <div class="view-kpis">
       <div class="kpi-card ${spiCls}">
@@ -2153,20 +2279,63 @@ function zoomImage(delta){
 }
 function updateZoomDisplay(){ const el = document.getElementById('zoomLevelDisplay'); if (el) el.textContent = Math.round(currentZoom * 100) + '%'; }
 
+/* =========================================================
+   CONFIRM DIALOG
+========================================================= */
+function showConfirm(opts){
+  document.getElementById('confirmTitle').textContent = opts.title;
+  document.getElementById('confirmMessage').textContent = opts.message || '';
+  const nameGroup = document.getElementById('confirmNameGroup');
+  nameGroup.style.display = opts.needsName ? 'block' : 'none';
+  document.getElementById('confirmName').value = '';
+  document.getElementById('confirmName').style.borderColor = '';
+  document.getElementById('confirmYes').textContent = opts.confirmText || 'Sí';
+  document.getElementById('confirmNo').textContent = opts.cancelText || 'No';
+  confirmCallback = opts;
+  document.getElementById('confirmModal').classList.add('open');
+  if (opts.needsName) setTimeout(() => document.getElementById('confirmName').focus(), 100);
+}
+function closeConfirm(){
+  confirmCallback = null;
+  document.getElementById('confirmModal').classList.remove('open');
+  document.getElementById('confirmName').style.borderColor = '';
+}
+
+/* =========================================================
+   EDITOR
+========================================================= */
 let currentTab = 'general';
-function openEditor(id){
+function openEditor(id, isNew = false){
   state.editingId = id;
+  state.isNewProject = !!isNew;
   currentTab = 'general';
   state.dirty = false;
   const p = getEditingProject();
   if (p){ const snap = JSON.parse(JSON.stringify(p)); delete snap.history; state.editorSnapshot = snap; }
   else { state.editorSnapshot = null; }
   $('#editorModal').classList.add('open');
+  updateArchiveButton();
   renderTab();
 }
-function closeEditor(){ state.editingId = null; state.dirty = false; state.editorSnapshot = null; $('#editorModal').classList.remove('open'); }
+function closeEditor(){
+  state.editingId = null; state.dirty = false; state.editorSnapshot = null; state.isNewProject = false;
+  $('#editorModal').classList.remove('open');
+}
 function getEditingProject(){ return state.projects.find(p => p.id === state.editingId); }
 function persist(){ const p = getEditingProject(); if (p){ state.dirty = true; save(); renderGrid(); } }
+
+function updateArchiveButton(){
+  const btn = document.getElementById('btnDelete');
+  if (!btn) return;
+  if (state.isNewProject){
+    btn.disabled = true;
+    btn.title = 'Debe guardar el proyecto primero para archivarlo';
+  } else {
+    btn.disabled = false;
+    btn.title = 'Archivar el proyecto';
+  }
+}
+
 function renderTab(){
   const p = getEditingProject();
   if (!p) return;
@@ -2176,7 +2345,7 @@ function renderTab(){
     if (bpipClean){ bpipEl.textContent = 'BPIP: ' + bpipClean; bpipEl.classList.remove('bpip-header-empty'); }
     else { bpipEl.textContent = 'Sin BPIP'; bpipEl.classList.add('bpip-header-empty'); }
   }
-  $('#modalTitle').textContent = p.name || 'Nuevo Proyecto';
+  $('#modalTitle').textContent = p.name || (state.isNewProject ? 'Nuevo Proyecto' : 'Proyecto sin nombre');
   $$('#tabsNav .tab').forEach(t => t.classList.toggle('active', t.dataset.tab === currentTab));
   const c = $('#tabContent');
   c.innerHTML = '';
@@ -2189,6 +2358,7 @@ function renderTab(){
   else if (currentTab === 'terrenos') c.appendChild(renderTerrenosTab(p));
   else if (currentTab === 'financiero') c.appendChild(renderFinancieroTab(p));
   bindDateInputs(c);
+  updateArchiveButton();
 }
 
 function renderGeneralTab(p){
@@ -2898,6 +3068,9 @@ function resizeImage(file, maxWidth){
   });
 }
 
+/* =========================================================
+   RENDER HTML PARA EXPORT/PRINT
+========================================================= */
 function renderProjectHTML(p, forPrint, options = {}){
   const { isDOC = false, imgDims = null } = options;
   const tot = getFinancialManualTotals(p);
@@ -2929,6 +3102,9 @@ function renderProjectHTML(p, forPrint, options = {}){
   const subtitle = (text) => isDOC ? `<div style="${docSubtitle}">${text}</div>` : `<h2 style="${styleH2}">${text}</h2>`;
 
   let html = `<div style="font-family:Arial,sans-serif;color:#1a1a1a;">`;
+  if (p.archived){
+    html += `<div style="background:#7f8c8d;color:#fff;padding:8px 12px;margin:0 0 10px 0;border-radius:4px;font-size:11pt;font-weight:bold;">📁 PROYECTO ARCHIVADO — ${fmtDateTime(p.archivedAt)} por ${escapeHtml(p.archivedBy)||'—'} (no editable)</div>`;
+  }
   if (stale.show){
     html += `<div style="background:#fff7d6;border-left:4px solid #f39c12;padding:10px 14px;margin:8px 0;border-radius:4px;color:#856404;font-size:11pt;"><strong>⚠️ ALERTA DE ACTUALIZACIÓN:</strong> ${stale.progressStale?'Porcentaje de avance sin actualizar'+((stale.daysSinceProgress!==null)?` (${stale.daysSinceProgress} días)`:''):''}${stale.progressStale&&stale.activitiesStale?' · ':''}${stale.activitiesStale?'Actividades programadas sin actualizar'+((stale.daysSinceActivities!==null)?` (${stale.daysSinceActivities} días)`:''):''}</div>`;
   }
@@ -2940,7 +3116,7 @@ function renderProjectHTML(p, forPrint, options = {}){
   if (p.coordX || p.coordY) html += `<p style="margin:4px 0;font-size:11pt"><strong>Coordenadas CRTM 05:</strong> X: ${escapeHtml(p.coordX)||'—'} / Y: ${escapeHtml(p.coordY)||'—'}</p>`;
   if (p.codigoSistema) html += `<p style="margin:4px 0;font-size:11pt"><strong>Código del Sistema:</strong> ${escapeHtml(p.codigoSistema)}</p>`;
   if (p.poblacionBeneficiada) html += `<p style="margin:4px 0;font-size:11pt"><strong>Población Beneficiada:</strong> ${fmtInt(p.poblacionBeneficiada)}</p>`;
-  html += `<p style="margin:4px 0;font-size:11pt"><strong>Fecha de registro:</strong> ${fmtDate(p.createdAt)} &nbsp;&nbsp; <strong>Última actualización:</strong> ${fmtDateTime(p.updatedAt)}</p>`;
+  html += `<p style="margin:4px 0;font-size:11pt"><strong>Fecha de registro:</strong> ${fmtDate(p.createdAt)}${p.createdBy?` por ${escapeHtml(p.createdBy)}`:''} &nbsp;&nbsp; <strong>Última actualización:</strong> ${fmtDateTime(p.updatedAt)}${p.lastModifiedBy?` por ${escapeHtml(p.lastModifiedBy)}`:''}</p>`;
   html += `<p style="margin:4px 0;font-size:11pt"><strong>Etapas actuales:</strong> ${currentsTxt} &nbsp;&nbsp; <strong>Avance global:</strong> ${avance}% &nbsp;&nbsp; <strong>SPI:</strong> ${spiTxt}</p>`;
 
   if (p.description){ html += subtitle('Descripción'); html += `<p style="font-size:11pt;margin:3px 0;">${escapeHtml(p.description)}</p>`; }
@@ -3203,6 +3379,7 @@ function addProjectConsolidatedSheet(wb, project, prefix=''){
   const loc = locationsToString(project);
   const rows = [];
   rows.push(['DATOS GENERALES']);
+  if (project.archived) rows.push(['ESTADO', `ARCHIVADO — ${fmtDateTime(project.archivedAt)} por ${project.archivedBy || '—'}`]);
   rows.push(['Nombre', project.name || '—']);
   rows.push(['BPIP', project.bpip || '—']);
   rows.push(['Categoría', project.categoria || '—']);
@@ -3213,7 +3390,9 @@ function addProjectConsolidatedSheet(wb, project, prefix=''){
   rows.push(['Código del Sistema', project.codigoSistema || '—']);
   rows.push(['Población Beneficiada', Number(project.poblacionBeneficiada)||0]);
   rows.push(['Fecha de registro', project.createdAt || '—']);
+  if (project.createdBy) rows.push(['Creado por', project.createdBy]);
   rows.push(['Última Actualización', fmtDateTime(project.updatedAt)]);
+  if (project.lastModifiedBy) rows.push(['Última modificación por', project.lastModifiedBy]);
   rows.push(['Descripción', project.description || '—']);
   rows.push(['Componentes', project.components || '—']);
   rows.push([]);
@@ -3315,14 +3494,15 @@ async function exportXLSBulk(projects){
     return;
   }
   const wb = XLSX.utils.book_new();
-  const resumen = [['Proyecto','BPIP','Categoría','Código Sistema','Población Beneficiada','Líder','Ubicaciones','Etapa Actual','Avance (%)','SPI','Monto Obras','Monto Terrenos (computable)','Monto Global']];
+  const resumen = [['Proyecto','BPIP','Categoría','Código Sistema','Población Beneficiada','Líder','Ubicaciones','Etapa Actual','Avance (%)','SPI','Monto Obras','Monto Terrenos (computable)','Monto Global','Archivado','Archivado Por','Archivado En']];
   projects.forEach(p => {
     const currents = getCurrentEtapas(p);
     const spi = calcSPI(p);
     resumen.push([p.name, p.bpip, p.categoria||'', p.codigoSistema||'', Number(p.poblacionBeneficiada)||0, p.leader, locationsToString(p),
       currents.map(c => FASE_LABEL[c.fase]+'/'+c.label).join(' + ') || '—',
       getAvanceGlobal(p).toFixed(1), spi===null?'N/D':spi.toFixed(2),
-      getMontoObras(p), getLandTotal(p), getMontoGlobal(p)]);
+      getMontoObras(p), getLandTotal(p), getMontoGlobal(p),
+      p.archived?'Sí':'No', p.archivedBy||'', fmtDateTime(p.archivedAt)]);
   });
   XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(resumen), 'Resumen Portafolio');
   const nameCount = {};
@@ -3485,17 +3665,20 @@ async function addProjectSlidesToPPTX(pptx, project){
   addLogo(s1, 11.9, 0.9, 1.0, 0.4);
   s1.addText('UEN PROGRAMACIÓN Y CONTROL', { x:0.5, y:1.05, w:12.33, h:0.35, fontSize:14, color:GOLD, bold:true, align:'center', charSpacing:2 });
   s1.addShape(pptx.ShapeType.rect, { x:4.67, y:1.45, w:4, h:0.06, fill:{color:GOLD}, line:{color:GOLD} });
-  s1.addText(project.name || 'Proyecto sin nombre', { x:0.5, y:1.7, w:12.33, h:1.0, fontSize:28, color:WHITE, bold:true, align:'center', valign:'middle' });
-  s1.addText(`Líder: ${project.leader||'—'}`, { x:0.5, y:2.8, w:12.33, h:0.4, fontSize:16, color:GOLD, align:'center' });
+  if (project.archived){
+    s1.addText('📁 PROYECTO ARCHIVADO', { x:0.5, y:1.55, w:12.33, h:0.35, fontSize:14, color:'ffccbc', bold:true, align:'center' });
+  }
+  s1.addText(project.name || 'Proyecto sin nombre', { x:0.5, y:1.85, w:12.33, h:1.0, fontSize:28, color:WHITE, bold:true, align:'center', valign:'middle' });
+  s1.addText(`Líder: ${project.leader||'—'}`, { x:0.5, y:2.95, w:12.33, h:0.4, fontSize:16, color:GOLD, align:'center' });
   const extraInfo = [];
   if (project.categoria) extraInfo.push(`Categoría: ${project.categoria}`);
   if (project.codigoSistema) extraInfo.push(`Código Sistema: ${project.codigoSistema}`);
   if (project.poblacionBeneficiada) extraInfo.push(`Población Beneficiada: ${fmtInt(project.poblacionBeneficiada)}`);
   if (project.mideplanDate) extraInfo.push(`MIDEPLAN: ${fmtDate(project.mideplanDate)}`);
-  if (loc) s1.addText(loc, { x:0.5, y:3.2, w:12.33, h:0.5, fontSize:13, color:'CCCCCC', align:'center' });
-  if (extraInfo.length) s1.addText(extraInfo.join('   |   '), { x:0.5, y:3.6, w:12.33, h:0.35, fontSize:12, color:'CCCCCC', align:'center' });
+  if (loc) s1.addText(loc, { x:0.5, y:3.35, w:12.33, h:0.5, fontSize:13, color:'CCCCCC', align:'center' });
+  if (extraInfo.length) s1.addText(extraInfo.join('   |   '), { x:0.5, y:3.75, w:12.33, h:0.35, fontSize:12, color:'CCCCCC', align:'center' });
   const now = new Date();
-  s1.addText(`${getSpanishMonth(now)} ${now.getFullYear()}`, { x:0.5, y:4.0, w:12.33, h:0.4, fontSize:16, color:WHITE, align:'center' });
+  s1.addText(`${getSpanishMonth(now)} ${now.getFullYear()}`, { x:0.5, y:4.15, w:12.33, h:0.4, fontSize:16, color:WHITE, align:'center' });
   const kpis = [
     { label:'SPI', value: spi === null ? 'N/D' : spi.toFixed(2), sub: spiLabel(spi), color: spiColor },
     { label:'AVANCE GLOBAL', value: avance.toFixed(1)+'%', sub:'Ponderado por peso de etapa', color: GOLD },
@@ -3503,11 +3686,11 @@ async function addProjectSlidesToPPTX(pptx, project){
   ];
   kpis.forEach((k,i)=>{
     const x = 0.5 + i*4.15;
-    s1.addShape(pptx.ShapeType.rect, { x, y:4.5, w:3.9, h:2.3, fill:{color:'243A68'}, line:{color:'243A68'} });
-    s1.addShape(pptx.ShapeType.rect, { x, y:4.5, w:3.9, h:0.12, fill:{color:k.color}, line:{color:k.color} });
-    s1.addText(k.label, { x:x+0.2, y:4.75, w:3.5, h:0.35, fontSize:14, color:GOLD, bold:true, align:'center' });
-    s1.addText(k.value, { x:x+0.2, y:5.15, w:3.5, h:0.75, fontSize:26, color:WHITE, bold:true, align:'center', valign:'middle' });
-    s1.addText(k.sub, { x:x+0.2, y:6.0, w:3.5, h:0.65, fontSize:13, color:'CCCCCC', align:'center' });
+    s1.addShape(pptx.ShapeType.rect, { x, y:4.65, w:3.9, h:2.15, fill:{color:'243A68'}, line:{color:'243A68'} });
+    s1.addShape(pptx.ShapeType.rect, { x, y:4.65, w:3.9, h:0.12, fill:{color:k.color}, line:{color:k.color} });
+    s1.addText(k.label, { x:x+0.2, y:4.85, w:3.5, h:0.35, fontSize:14, color:GOLD, bold:true, align:'center' });
+    s1.addText(k.value, { x:x+0.2, y:5.25, w:3.5, h:0.75, fontSize:26, color:WHITE, bold:true, align:'center', valign:'middle' });
+    s1.addText(k.sub, { x:x+0.2, y:6.1, w:3.5, h:0.65, fontSize:13, color:'CCCCCC', align:'center' });
   });
 
   if (stale.show){
@@ -3734,6 +3917,164 @@ async function exportSingle(id, format){
   else if (format === 'pptx') await exportPPTX(p);
 }
 
+/* =========================================================
+   ARCHIVE MODAL
+========================================================= */
+function renderArchiveList(){
+  const body = document.getElementById('archiveBody');
+  const archived = sortProjects(state.projects.filter(p => p.archived));
+  if (archived.length === 0){
+    body.innerHTML = '<div class="archive-empty">No hay proyectos archivados.</div>';
+    return;
+  }
+  let html = `<div style="margin-bottom:12px;color:#666;font-size:13px;font-weight:600">${archived.length} proyecto(s) archivado(s) — solo lectura y exportación</div>`;
+  html += `<div class="projects-grid">`;
+  archived.forEach(p => {
+    const sp = calcSPI(p);
+    const spText = sp === null ? 'N/A' : sp.toFixed(2);
+    const bpipClean = (p.bpip || '').trim();
+    html += `
+      <div class="card" style="border-left:4px solid #7f8c8d">
+        <div class="card-header" style="background:#4a5568">
+          <div class="card-header-left">
+            <div class="card-header-bpip" style="color:#fff">${bpipClean ? 'BPIP: ' + escapeHtml(bpipClean) : 'Sin BPIP'}</div>
+            <div class="card-header-name">${escapeHtml(p.name) || '(Sin nombre)'}</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="archived-banner">📁 ARCHIVADO</div>
+          <div style="font-size:11.5px;color:#666;margin-top:8px;line-height:1.5">
+            <div><strong>Archivado:</strong> ${fmtDateTime(p.archivedAt)}</div>
+            <div><strong>Por:</strong> ${escapeHtml(p.archivedBy) || '—'}</div>
+            ${p.createdBy ? `<div><strong>Creado por:</strong> ${escapeHtml(p.createdBy)}</div>` : ''}
+            ${p.lastModifiedBy ? `<div><strong>Última modificación:</strong> ${escapeHtml(p.lastModifiedBy)}</div>` : ''}
+          </div>
+          <div class="card-row" style="margin-top:8px"><span class="lbl">SPI:</span><span class="val">${spText}</span></div>
+          <div class="card-row"><span class="lbl">Avance:</span><span class="val">${getAvanceGlobal(p).toFixed(1)}%</span></div>
+          <div class="card-row"><span class="lbl">Monto global:</span><span class="val">${fmtCRC(getMontoGlobal(p))}</span></div>
+          <div class="card-actions">
+            <button class="btn btn-sm btn-view" data-arch-act="view" data-id="${p.id}">Ver</button>
+            <div class="export-menu">
+              <button class="btn btn-sm" data-arch-act="export-toggle">Exportar ▾</button>
+              <div class="export-dropdown">
+                <button data-arch-act="export" data-id="${p.id}" data-fmt="pdf">PDF</button>
+                <button data-arch-act="export" data-id="${p.id}" data-fmt="doc">DOC</button>
+                <button data-arch-act="export" data-id="${p.id}" data-fmt="xls">XLS</button>
+                <button data-arch-act="export" data-id="${p.id}" data-fmt="pptx">PPTX</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+  html += `</div>`;
+  body.innerHTML = html;
+  body.querySelectorAll('[data-arch-act="view"]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      openViewModal(btn.dataset.id);
+    });
+  });
+  body.querySelectorAll('[data-arch-act="export"]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      document.querySelectorAll('.export-menu.open').forEach(m => m.classList.remove('open'));
+      exportSingle(btn.dataset.id, btn.dataset.fmt);
+    });
+  });
+  body.querySelectorAll('[data-arch-act="export-toggle"]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const menu = btn.parentElement;
+      const wasOpen = menu.classList.contains('open');
+      document.querySelectorAll('.export-menu.open').forEach(m => m.classList.remove('open'));
+      if (!wasOpen) menu.classList.add('open');
+    });
+  });
+}
+function openArchiveModal(){
+  renderArchiveList();
+  document.getElementById('archiveModal').classList.add('open');
+}
+
+/* =========================================================
+   EDITOR CLOSE LOGIC (con confirmaciones)
+========================================================= */
+function handleEditorClose(){
+  const p = getEditingProject();
+  if (!p){ closeEditor(); return; }
+
+  // Caso 1: Nuevo proyecto
+  if (state.isNewProject){
+    showConfirm({
+      title: '¿Está seguro de crear este proyecto?',
+      message: 'Se guardará el proyecto con los datos ingresados. Ingrese su nombre para registrar la creación.',
+      needsName: true,
+      confirmText: 'Sí, crear',
+      cancelText: 'No, descartar',
+      onConfirm: (name) => {
+        p.createdBy = name;
+        p.lastModifiedBy = name;
+        p.updatedAt = nowDateTimeStr();
+        save();
+        closeEditor();
+        renderGrid();
+      },
+      onCancel: () => {
+        // Descartar: eliminar el proyecto por completo
+        state.projects = state.projects.filter(x => x.id !== p.id);
+        state.selected.delete(p.id);
+        save();
+        closeEditor();
+        renderGrid();
+      }
+    });
+    return;
+  }
+
+  // Caso 2: Proyecto existente con cambios
+  if (state.dirty){
+    showConfirm({
+      title: '¿Está seguro que quiere guardar cambios?',
+      message: 'Los cambios serán guardados permanentemente. Ingrese su nombre para registrar la modificación.',
+      needsName: true,
+      confirmText: 'Sí, guardar',
+      cancelText: 'No, descartar',
+      onConfirm: (name) => {
+        // Snapshot en historial
+        if (state.editorSnapshot){
+          const snap = state.editorSnapshot;
+          const isEmpty = !snap.name && !snap.bpip && !snap.leader && !snap.description;
+          if (!isEmpty){
+            const snapCopy = JSON.parse(JSON.stringify(snap));
+            snapCopy.mapImage = '';
+            delete snapCopy.history;
+            p.history = p.history || [];
+            p.history.unshift(snapCopy);
+            if (p.history.length > MAX_HISTORY) p.history = p.history.slice(0, MAX_HISTORY);
+          }
+        }
+        p.updatedAt = nowDateTimeStr();
+        p.lastModifiedBy = name;
+        save();
+        closeEditor();
+        renderGrid();
+      },
+      onCancel: () => {
+        closeEditor();
+        renderGrid();
+      }
+    });
+    return;
+  }
+
+  // Caso 3: Sin cambios: cerrar directamente
+  closeEditor();
+}
+
+/* =========================================================
+   EVENTOS
+========================================================= */
 document.addEventListener('DOMContentLoaded', async () => {
   await load();
   const overlay = document.getElementById('loadingOverlay');
@@ -3745,37 +4086,69 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   $('#btnNew').addEventListener('click', () => {
     const p = createEmptyProject();
-    state.projects.push(p); save(); renderGrid(); openEditor(p.id);
+    state.projects.push(p); save(); renderGrid();
+    openEditor(p.id, true);
   });
-  $('#modalClose').addEventListener('click', closeEditor);
-  $('#btnSaveClose').addEventListener('click', () => {
-    const p = getEditingProject();
-    if (p && state.dirty){
-      if (state.editorSnapshot){
-        const snap = state.editorSnapshot;
-        const isEmpty = !snap.name && !snap.bpip && !snap.leader && !snap.description;
-        if (!isEmpty){
-          const snapCopy = JSON.parse(JSON.stringify(snap));
-          snapCopy.mapImage = '';
-          delete snapCopy.history;
-          p.history = p.history || [];
-          p.history.unshift(snapCopy);
-          if (p.history.length > MAX_HISTORY) p.history = p.history.slice(0, MAX_HISTORY);
-        }
-      }
-      p.updatedAt = nowDateTimeStr();
-      save();
-    }
-    closeEditor();
-    renderGrid();
-  });
+  $('#modalClose').addEventListener('click', handleEditorClose);
+  $('#btnSaveClose').addEventListener('click', handleEditorClose);
+
   $('#btnDelete').addEventListener('click', () => {
-    if (!state.editingId) return;
-    if (!confirm('¿Eliminar este proyecto? Esta acción no se puede deshacer.')) return;
-    state.projects = state.projects.filter(p => p.id !== state.editingId);
-    state.selected.delete(state.editingId);
-    save(); closeEditor(); renderGrid();
+    if (!state.editingId || state.isNewProject) return;
+    const p = getEditingProject();
+    if (!p) return;
+    showConfirm({
+      title: '¿Está seguro de archivar el proyecto?',
+      message: 'El proyecto será movido al archivo. Podrá consultarse y exportarse, pero no podrá editarse. Ingrese su nombre para registrar el archivado.',
+      needsName: true,
+      confirmText: 'Sí, archivar',
+      cancelText: 'No, cancelar',
+      onConfirm: (name) => {
+        p.archived = true;
+        p.archivedAt = nowDateTimeStr();
+        p.archivedBy = name;
+        p.lastModifiedBy = name;
+        p.updatedAt = nowDateTimeStr();
+        state.selected.delete(p.id);
+        save();
+        closeEditor();
+        renderGrid();
+      }
+    });
   });
+
+  // Confirm dialog buttons
+  document.getElementById('confirmYes').addEventListener('click', () => {
+    if (!confirmCallback) return;
+    const needsName = !!confirmCallback.needsName;
+    let name = '';
+    if (needsName){
+      name = document.getElementById('confirmName').value.trim();
+      if (!name){
+        document.getElementById('confirmName').focus();
+        document.getElementById('confirmName').style.borderColor = '#e74c3c';
+        return;
+      }
+    }
+    const cb = confirmCallback;
+    closeConfirm();
+    if (cb.onConfirm) cb.onConfirm(name);
+  });
+  document.getElementById('confirmNo').addEventListener('click', () => {
+    if (!confirmCallback) return;
+    const cb = confirmCallback;
+    closeConfirm();
+    if (cb.onCancel) cb.onCancel();
+  });
+  document.getElementById('confirmClose').addEventListener('click', closeConfirm);
+  document.getElementById('confirmName').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter'){ e.preventDefault(); document.getElementById('confirmYes').click(); }
+  });
+
+  // Archive modal buttons
+  document.getElementById('btnArchived').addEventListener('click', openArchiveModal);
+  document.getElementById('archiveClose').addEventListener('click', () => document.getElementById('archiveModal').classList.remove('open'));
+  document.getElementById('archiveCloseBtn').addEventListener('click', () => document.getElementById('archiveModal').classList.remove('open'));
+
   $$('#tabsNav .tab').forEach(t => { t.addEventListener('click', () => { currentTab = t.dataset.tab; renderTab(); }); });
   document.addEventListener('click', (e) => { if (!e.target.closest('.export-menu')) document.querySelectorAll('.export-menu.open').forEach(m => m.classList.remove('open')); });
 
@@ -3795,8 +4168,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.querySelectorAll('.export-menu.open').forEach(m => { if (m!==menuAll) m.classList.remove('open'); });
     menuAll.classList.toggle('open');
   });
-
-  /* ============ ACTUALIZADO: si hay checkboxes marcados → exporta los seleccionados. Si no, exporta el filtrado. ============ */
   menuAll.querySelectorAll('.export-dropdown button').forEach(b => {
     b.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -3809,16 +4180,26 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   });
 
-  /* btnExportSel ya no existe → se elimina su listener */
-
   document.getElementById('printClose').addEventListener('click', () => document.getElementById('printModal').classList.remove('open'));
   document.getElementById('printCancel').addEventListener('click', () => document.getElementById('printModal').classList.remove('open'));
   ['printPaper','printOrient','printMargin'].forEach(id => { document.getElementById(id).addEventListener('change', updatePrintPreview); });
   document.getElementById('printExportDirect').addEventListener('click', exportPDFDirect);
   document.getElementById('printPrint').addEventListener('click', printWindow);
 
-  document.getElementById('viewClose').addEventListener('click', () => document.getElementById('viewModal').classList.remove('open'));
-  document.getElementById('viewCloseBtn').addEventListener('click', () => document.getElementById('viewModal').classList.remove('open'));
+  document.getElementById('viewClose').addEventListener('click', () => {
+    document.getElementById('viewModal').classList.remove('open');
+    document.getElementById('viewModal').classList.remove('fullscreen-mode');
+    state.viewFullscreen = false;
+  });
+  document.getElementById('viewCloseBtn').addEventListener('click', () => {
+    document.getElementById('viewModal').classList.remove('open');
+    document.getElementById('viewModal').classList.remove('fullscreen-mode');
+    state.viewFullscreen = false;
+  });
+  document.getElementById('viewFullscreen').addEventListener('click', () => {
+    state.viewFullscreen = !state.viewFullscreen;
+    document.getElementById('viewModal').classList.toggle('fullscreen-mode', state.viewFullscreen);
+  });
   document.getElementById('viewExportPdf').addEventListener('click', () => { const id = document.getElementById('viewModal').dataset.projectId; if (id) openPrintModal([id]); });
   document.getElementById('viewPrevVer').addEventListener('click', () => { const id = document.getElementById('viewModal').dataset.projectId; if (!id) return; const p = state.projects.find(x => x.id === id); if (!p) return; const histLen = (p.history || []).length; if (state.viewVersion < histLen){ openViewModal(id, state.viewVersion + 1); } });
   document.getElementById('viewNextVer').addEventListener('click', () => { const id = document.getElementById('viewModal').dataset.projectId; if (!id) return; if (state.viewVersion > 0){ openViewModal(id, state.viewVersion - 1); } });
