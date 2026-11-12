@@ -148,8 +148,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-s
 .card-sc-indicator.sc-elaboracion{background:#ffeacc;color:#b86000;border-left:3px solid #e67e22}
 .card-sc-indicator.sc-enviada{background:#e3f0ff;color:#0c4a8a;border-left:3px solid #3498db}
 .card-sc-indicator.sc-aprobada{background:#d4edda;color:#155724;border-left:3px solid #27ae60}
-
-/* NUEVO: notificación Requiere Actualizar Delphos (solo MIDEPLAN rojo) */
 .card-delphos-alert{
   display:flex;align-items:center;gap:6px;
   padding:6px 10px;border-radius:6px;
@@ -160,7 +158,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-s
   letter-spacing:.2px;
 }
 .card-delphos-alert .alert-icon{font-size:15px;line-height:1}
-
 .card-delayed-stages{padding:8px 10px;border-radius:6px;background:#fef4f4;border-left:3px solid #e74c3c;margin-top:4px}
 .card-delayed-stages .cds-title{font-size:11px;font-weight:700;color:#721c24;text-transform:uppercase;letter-spacing:.3px;margin-bottom:5px}
 .card-delayed-stages .cds-item{display:flex;justify-content:space-between;font-size:11.5px;color:#333;padding:2px 0;gap:8px;align-items:center;cursor:help}
@@ -2150,10 +2147,11 @@ function renderGrid(){
   if (document.getElementById('dashboardDropdown')?.open){ setTimeout(renderDashboard, 30); }
 }
 
+// ─── CAMBIO: umbral de auto-SC ahora es SPI < 0.70 ───
 function shouldSuggestSC(p){
   const spi = calcSPI(p);
   const midStatus = getMideplanStatus(p);
-  return (spi !== null && spi < 0.65) || midStatus === 'red';
+  return (spi !== null && spi < 0.70) || midStatus === 'red';
 }
 
 function createCard(p){
@@ -2183,7 +2181,6 @@ function createCard(p){
     </div>
   ` : '';
 
-  // NUEVO: notificación Requiere Actualizar Delphos (solo MIDEPLAN rojo)
   const delphosAlertHtml = midStatus === 'red' ? `
     <div class="card-delphos-alert">
       <span class="alert-icon">⚠️</span>
@@ -2280,7 +2277,6 @@ function createCard(p){
   return el;
 }
 
-// NUEVA: Etapas table con columna "Peso Actual" calculada como weight × progress/100
 function buildEtapasTableHTML(p, diff){
   let html = `<div class="view-table-wrap"><table class="view-table"><thead><tr>
       <th>Fase</th><th>Etapa</th><th>Peso</th><th class="col-peso-actual">Peso Actual</th><th>Inicio Prog.</th><th>Fin Prog.</th><th>Inicio Real</th><th>Fin Real</th><th style="text-align:right">% Avance</th>
@@ -2806,6 +2802,7 @@ function closeConfirm(){
 
 let currentTab = 'general';
 
+// ─── CAMBIO: auto-SC ahora dispara con SPI < 0.70 ───
 function openEditor(id, isNew = false){
   state.editingId = id;
   state.isNewProject = !!isNew;
@@ -2816,7 +2813,7 @@ function openEditor(id, isNew = false){
     if (!isNew){
       const spi = calcSPI(p);
       const midStatus = getMideplanStatus(p);
-      const shouldAutoSC = (spi !== null && spi < 0.65) || midStatus === 'red';
+      const shouldAutoSC = (spi !== null && spi < 0.70) || midStatus === 'red';
       if (shouldAutoSC && !p.requiereSC){
         p.requiereSC = true;
         if (!p.scEstado) p.scEstado = 'Requiere SC';
@@ -2883,7 +2880,8 @@ function renderGeneralTab(p){
   const allLeaders = getAllLeaders();
   const midStatus = getMideplanStatus(p);
   const spiNow = calcSPI(p);
-  const autoSCTxt = (spiNow !== null && spiNow < 0.65) ? 'SPI < 0.65' : (midStatus === 'red' ? 'MIDEPLAN en rojo' : '');
+  // ─── CAMBIO: texto de la pista ahora dice "SPI < 0.70" ───
+  const autoSCTxt = (spiNow !== null && spiNow < 0.70) ? 'SPI < 0.70' : (midStatus === 'red' ? 'MIDEPLAN en rojo' : '');
   const showAutoSCHint = !!autoSCTxt && p.requiereSC;
   wrap.innerHTML = `
     <div class="row">
