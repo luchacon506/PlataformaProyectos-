@@ -83,21 +83,54 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-s
 }
 .dashboard-body{padding:16px}
 .dashboard-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:14px}
-.dash-stat{background:var(--aya-fondo-claro);border-radius:8px;padding:12px;text-align:center;border-left:4px solid var(--aya-dorado)}
-.dash-stat .num{font-size:22px;font-weight:700;color:var(--aya-azul);line-height:1.1}
-.dash-stat .lbl{font-size:10.5px;color:#666;text-transform:uppercase;letter-spacing:.4px;font-weight:700;margin-top:4px}
+.dash-stat{background:var(--aya-fondo-claro);border-radius:8px;padding:12px;text-align:center;border-left:4px solid var(--aya-dorado);min-width:0;overflow:hidden}
+
+/* ─── Números responsivos en el primer segmento del dashboard ─── */
+.dash-stat .num{
+  font-weight:700;
+  color:var(--aya-azul);
+  line-height:1.15;
+  font-size:clamp(14px, 2.2vw, 22px);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.dash-stat .num.num-md{ font-size:clamp(11px, 1.7vw, 16px); }
+.dash-stat .num.num-sm{ font-size:clamp(9px, 1.35vw, 13px); }
+.dash-stat .num.num-xs{ font-size:clamp(8px, 1.1vw, 11px); }
+.dash-stat .lbl{font-size:10.5px;color:#666;text-transform:uppercase;letter-spacing:.4px;font-weight:700;margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+@media (max-width: 600px) {
+  .dashboard-summary { grid-template-columns: repeat(2, 1fr); }
+  .dash-stat { padding: 10px 8px; }
+  .dash-stat .num { font-size: 15px; }
+  .dash-stat .num.num-md { font-size: 12px; }
+  .dash-stat .num.num-sm { font-size: 10.5px; }
+  .dash-stat .num.num-xs { font-size: 9.5px; }
+  .dash-stat .lbl { font-size: 9.5px; }
+}
+
 .dashboard-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 @media(max-width:800px){.dashboard-grid{grid-template-columns:1fr}}
 .chart-card{background:white;border:1px solid var(--aya-gris);border-radius:8px;padding:12px}
 .chart-card h4{font-size:11px;color:var(--aya-azul);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid var(--aya-dorado);font-weight:700}
 .chart-canvas{position:relative;width:100%;height:220px}
-.leaders-table-wrap{max-height:300px;overflow-y:auto}
+.leaders-table-wrap{max-height:420px;overflow-y:auto}
 .leaders-table{width:100%;border-collapse:collapse;font-size:12px}
-.leaders-table thead th{background:var(--aya-azul);color:#fff;padding:8px 10px;text-align:left;font-size:10.5px;text-transform:uppercase;letter-spacing:.4px;font-weight:700;position:sticky;top:0;z-index:1}
+.leaders-table thead th{background:var(--aya-azul);color:#fff;padding:8px 10px;text-align:left;font-size:10.5px;text-transform:uppercase;letter-spacing:.4px;font-weight:700;position:sticky;top:0;z-index:2}
 .leaders-table tbody td{padding:7px 10px;border-bottom:1px solid var(--aya-gris);font-size:12px}
 .leaders-table tbody tr:hover{background:var(--aya-fondo-claro)}
 .leaders-table tfoot td{padding:8px 10px;background:var(--aya-fondo-claro);font-weight:700;border-top:2px solid var(--aya-dorado)}
 .leaders-table .count-badge{display:inline-block;background:var(--aya-dorado);color:#fff;padding:2px 10px;border-radius:10px;font-weight:700;min-width:28px;text-align:center}
+
+/* ─── Filas expandibles de responsables ─── */
+.resp-row{cursor:pointer;user-select:none;transition:background .1s}
+.resp-row:hover{background:#e8eef7 !important}
+.resp-toggle{display:inline-block;width:12px;color:var(--aya-dorado);font-weight:900;transition:transform .2s;transform-origin:center}
+.resp-row.expanded .resp-toggle{transform:rotate(90deg)}
+.resp-projects-row td{border-bottom:1px solid var(--aya-gris) !important}
+.resp-project-item:last-child{border-bottom:none !important}
+
 .projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
 .empty{text-align:center;padding:80px 20px;color:#888;font-size:15px;grid-column:1/-1}
 .card{background:var(--aya-blanco);border-radius:10px;padding:0;border-top:none;box-shadow:0 2px 8px rgba(0,0,0,.06);display:block;position:relative}
@@ -664,6 +697,10 @@ const FUNDS = [
 const FIGURAS_NO_COMPUTABLES = ['Convenio', 'Donación'];
 const AUTO_GOLD_COLOR = '#a8843e';
 
+// ─── NUEVO: hitos del rango "Perfil → Envío a UEN AP" (= fin de Diseño Final) ───
+const AVANCE_HITOS = ['perfil', 'prefactibilidad', 'factibilidad', 'diseno'];
+const AVANCE_HITOS_LABEL = 'Perfil → Envío a UEN AP';
+
 function scClass(estado){
   if (estado === 'SC Aprobada') return 'aprobada';
   if (estado === 'SC Enviada') return 'enviada';
@@ -775,7 +812,8 @@ const CR_LOC = {
 const state = {
   projects: [], editingId: null, selected: new Set(), printTarget: [],
   dirty: false, editorSnapshot: null, viewVersion: 0,
-  isNewProject: false, viewFullscreen: false
+  isNewProject: false, viewFullscreen: false,
+  expandedResponsables: new Set()
 };
 let currentZoom = 1;
 let dashboardCharts = {};
@@ -1099,8 +1137,6 @@ function getCurrentEtapas(p){
   return out;
 }
 
-// ─── NUEVA: Etapas con retraso (solo se activa cuando SPI < 0.90) ───
-// Compara % planificado vs % real de cada etapa activa con peso > 0.
 function getDelayedEtapas(p){
   const spi = calcSPI(p);
   if (spi === null || spi >= 0.90) return [];
@@ -1115,7 +1151,6 @@ function getDelayedEtapas(p){
     const progress = Number(d.progress) || 0;
     if (progress >= 100) continue;
 
-    // Calcular % planificado a la fecha de hoy
     let planned = 0;
     if (d.inicioProg && d.finProg){
       const s = new Date(d.inicioProg + 'T00:00:00');
@@ -1135,7 +1170,6 @@ function getDelayedEtapas(p){
     const hasFinProg = d.finProg && /^\d{4}-\d{2}-\d{2}$/.test(d.finProg);
     const pastDue = hasFinProg && new Date(d.finProg + 'T00:00:00') < today;
 
-    // Solo cuenta como retraso si hay brecha positiva o ya venció el fin programado
     if (gap > 1 || pastDue){
       let daysLate = 0;
       if (hasFinProg){
@@ -1394,6 +1428,23 @@ function getAvanceGlobal(p){
   return totalW > 0 ? weighted / totalW : 0;
 }
 
+// ─── NUEVO: Avance desde Perfil hasta Envío a UEN AP (fin de Diseño Final) ───
+// Solo considera etapas activas con peso dentro del rango: perfil → diseno.
+// Si una etapa del rango no está activa, cuenta como 0% (aún no iniciada).
+function getAvancePerfilToDiseno(p){
+  let totalW = 0, weighted = 0;
+  for (const fase in STAGES) for (const et of STAGES[fase]){
+    if (!p.fases?.[fase]) continue;
+    if (!AVANCE_HITOS.includes(et.key)) continue;
+    if (et.weight <= 0) continue;
+    totalW += et.weight;
+    const d = p.etapas?.[et.key];
+    const prog = (d?.active) ? (Number(d.progress)||0) : 0;
+    weighted += et.weight * prog;
+  }
+  return totalW > 0 ? weighted / totalW : 0;
+}
+
 function getAllLeaders(){
   const set = new Set();
   state.projects.filter(p => !p.archived).forEach(p => { const l = (p.leader || '').trim(); if (l) set.add(l); });
@@ -1426,6 +1477,8 @@ function getAllTeamEmails(){
   });
   return [...set].sort((a,b) => a.localeCompare(b, 'es'));
 }
+
+// ─── NUEVO: estructura con proyectos por responsable (para expandir) ───
 function countProjectsByResponsable(projects){
   const data = {};
   projects.forEach(p => {
@@ -1433,27 +1486,62 @@ function countProjectsByResponsable(projects){
     const seenInProject = new Set();
     p.team.internos.forEach(r => {
       const name = (r.nombre || '').trim(); if (!name) return;
-      if (!data[name]) data[name] = { count: 0, responsabilidades: new Set() };
+      if (!data[name]) data[name] = { count: 0, responsabilidades: new Set(), projects: [] };
       const resp = (r.responsabilidad || '').trim();
       if (resp) data[name].responsabilidades.add(resp);
-      if (!seenInProject.has(name)){ seenInProject.add(name); data[name].count += 1; }
+      if (!seenInProject.has(name)){
+        seenInProject.add(name);
+        data[name].count += 1;
+        data[name].projects.push(p);
+      }
     });
   });
   const out = {};
   Object.entries(data).forEach(([name, d]) => {
-    out[name] = { count: d.count, responsabilidades: [...d.responsabilidades] };
+    out[name] = { count: d.count, responsabilidades: [...d.responsabilidades], projects: d.projects };
   });
   return out;
 }
+
+// ─── NUEVO: lista de responsables con filas expandibles y proyectos clickeables ───
 function buildResponsablesListHTML(data){
   const entries = Object.entries(data).sort((a, b) => b[1].count - a[1].count);
   if (entries.length === 0) return '<div class="alert-empty">Sin responsables registrados</div>';
   let total = 0;
   let html = '<div class="leaders-table-wrap"><table class="leaders-table"><thead><tr><th>Responsable</th><th>Responsabilidad</th><th style="text-align:right">Proyectos</th></tr></thead><tbody>';
-  entries.forEach(([name, d]) => {
+  entries.forEach(([name, d], idx) => {
     total += d.count;
+    const isExpanded = state.expandedResponsables.has(name);
     const respTxt = d.responsabilidades.length > 0 ? d.responsabilidades.join(', ') : '—';
-    html += `<tr><td>${escapeHtml(name)}</td><td style="font-size:11px;color:#555">${escapeHtml(respTxt)}</td><td style="text-align:right"><span class="count-badge">${d.count}</span></td></tr>`;
+    const safeNameHtml = escapeHtml(name);
+    html += `<tr class="resp-row${isExpanded ? ' expanded' : ''}" data-resp-key="${idx}" style="cursor:pointer;user-select:none;">
+      <td style="font-weight:600">
+        <span class="resp-toggle">▸</span>
+        ${safeNameHtml}
+      </td>
+      <td style="font-size:11px;color:#555">${escapeHtml(respTxt)}</td>
+      <td style="text-align:right"><span class="count-badge">${d.count}</span></td>
+    </tr>
+    <tr class="resp-projects-row" data-resp-parent-key="${idx}" style="display:${isExpanded?'table-row':'none'}">
+      <td colspan="3" style="padding:0;background:#f0f4fa;border-bottom:1px solid var(--aya-gris)">
+        <div style="padding:6px 10px 8px 26px;">
+          ${d.projects.length === 0
+            ? '<div style="font-size:11px;color:#999;font-style:italic;padding:6px">Sin proyectos</div>'
+            : d.projects.map(proj => {
+                const spi = calcSPI(proj);
+                const cls = spiClass(spi);
+                const spText = spi === null ? 'N/D' : spi.toFixed(2);
+                const bpip = (proj.bpip || '').trim();
+                return `<div class="resp-project-item" data-proj-id="${proj.id}" style="display:flex;align-items:center;gap:10px;padding:6px 10px;border-radius:4px;cursor:pointer;font-size:12px;border-bottom:1px solid #e0e3eb;transition:background .1s;">
+                  <span style="font-family:'Courier New',monospace;font-size:11px;color:var(--aya-dorado);font-weight:700;min-width:75px;${bpip?'':'font-style:italic;color:#aaa;'}">${bpip || 'Sin BPIP'}</span>
+                  <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--aya-azul);font-weight:600;">${escapeHtml(proj.name) || '(Sin nombre)'}</span>
+                  <span class="${cls}" style="font-size:10.5px;padding:2px 8px;border-radius:10px;font-weight:700;white-space:nowrap;">${spText}</span>
+                </div>`;
+              }).join('')
+          }
+        </div>
+      </td>
+    </tr>`;
   });
   html += `</tbody><tfoot><tr><td colspan="2">TOTAL ASIGNACIONES</td><td style="text-align:right">${total}</td></tr></tfoot></table></div>`;
   return html;
@@ -1702,6 +1790,22 @@ function renderProjectList(){
   });
 }
 
+// ─── NUEVO helper: clase CSS del número según longitud para que quepa en la celda ───
+function statNumClass(val){
+  const len = String(val).length;
+  if (len > 20) return ' num-xs';
+  if (len > 14) return ' num-sm';
+  if (len > 10) return ' num-md';
+  return '';
+}
+
+// ─── NUEVO helper: construye una celda del primer segmento del dashboard ───
+function statCardHTML(num, lbl, title){
+  const cls = statNumClass(num);
+  const titleAttr = title ? ` title="${escapeHtml(title)}"` : '';
+  return `<div class="dash-stat"${titleAttr}><div class="num${cls}">${num}</div><div class="lbl">${lbl}</div></div>`;
+}
+
 function renderDashboard(){
   const body = document.getElementById('dashboardBody');
   const countEl = document.getElementById('dashboardCount');
@@ -1712,32 +1816,73 @@ function renderDashboard(){
     body.innerHTML = '<div style="text-align:center;padding:20px;color:#888;font-size:13px">No hay proyectos que coincidan con los filtros activos</div>';
     return;
   }
+
   const totalGlobal = filtered.reduce((s,p) => s + getMontoGlobal(p), 0);
   const totalObras = filtered.reduce((s,p) => s + getMontoObras(p), 0);
   const totalTerr = filtered.reduce((s,p) => s + getLandTotal(p), 0);
-  const avgAvance = filtered.reduce((s,p) => s + getAvanceGlobal(p), 0) / filtered.length;
+
+  // ─── NUEVO: promedio usa Perfil → fin de Diseño ───
+  const avgAvance = filtered.length > 0
+    ? filtered.reduce((s,p) => s + getAvancePerfilToDiseno(p), 0) / filtered.length
+    : 0;
+
   const spiValues = filtered.map(p => calcSPI(p)).filter(v => v !== null);
   const avgSpi = spiValues.length > 0 ? spiValues.reduce((s,v) => s+v, 0) / spiValues.length : null;
   const leaderCounts = countProjectsByLeader(filtered);
   const respData = countProjectsByResponsable(filtered);
+
   body.innerHTML = `
     <div class="dashboard-summary">
-      <div class="dash-stat"><div class="num">${filtered.length}</div><div class="lbl">Proyectos</div></div>
-      <div class="dash-stat"><div class="num">${fmtCRC(totalGlobal)}</div><div class="lbl">Monto Global</div></div>
-      <div class="dash-stat"><div class="num">${fmtCRC(totalObras)}</div><div class="lbl">Obras</div></div>
-      <div class="dash-stat"><div class="num">${fmtCRC(totalTerr)}</div><div class="lbl">Terrenos</div></div>
-      <div class="dash-stat"><div class="num">${avgAvance.toFixed(1)}%</div><div class="lbl">Avance Prom.</div></div>
-      <div class="dash-stat"><div class="num">${avgSpi === null ? 'N/D' : avgSpi.toFixed(2)}</div><div class="lbl">SPI Promedio</div></div>
+      ${statCardHTML(String(filtered.length), 'Proyectos')}
+      ${statCardHTML(fmtCRC(totalGlobal), 'Monto Global')}
+      ${statCardHTML(fmtCRC(totalObras), 'Obras')}
+      ${statCardHTML(fmtCRC(totalTerr), 'Terrenos')}
+      ${statCardHTML(avgAvance.toFixed(1) + '%', 'Avance Prom.', 'Es el avance desde Perfil hasta Envío a UEN AP (promedio de los hitos: Perfil, Prefactibilidad, Factibilidad y Diseño Final)')}
+      ${statCardHTML(avgSpi === null ? 'N/D' : avgSpi.toFixed(2), 'SPI Promedio')}
     </div>
     <div class="dashboard-grid">
       <div class="chart-card"><h4>Distribución por Semáforo SPI</h4><div class="chart-canvas"><canvas id="chartSPI"></canvas></div></div>
       <div class="chart-card"><h4>Semáforo Última Actualización MIDEPLAN</h4><div class="mideplan-traffic" id="mideplanTraffic"></div></div>
       <div class="chart-card"><h4>Proyectos por Etapa en Curso</h4><div class="chart-canvas"><canvas id="chartEtapas"></canvas></div></div>
-      <div class="chart-card" style="grid-column:1/-1"><h4>Avance Global por Proyecto</h4><div class="chart-canvas"><canvas id="chartAvance"></canvas></div></div>
+      <div class="chart-card" style="grid-column:1/-1">
+        <h4>Avance Global por Proyecto (${AVANCE_HITOS_LABEL})</h4>
+        <div style="max-height:520px;overflow-y:auto;overflow-x:hidden;padding-right:4px;">
+          <div class="chart-canvas" id="avanceCanvasWrap" style="height:220px;"><canvas id="chartAvance"></canvas></div>
+        </div>
+      </div>
       <div class="chart-card"><h4>Asignación de Proyectos por Líder</h4>${buildLeadersListHTML(leaderCounts)}</div>
       <div class="chart-card"><h4>Responsables</h4>${buildResponsablesListHTML(respData)}</div>
     </div>
   `;
+
+  // ─── Bind eventos de responsables expandibles ───
+  body.querySelectorAll('.resp-row').forEach(row => {
+    row.addEventListener('click', () => {
+      const key = row.dataset.respKey;
+      const projRow = body.querySelector(`.resp-projects-row[data-resp-parent-key="${key}"]`);
+      if (!projRow) return;
+      const isExpanded = row.classList.contains('expanded');
+      if (isExpanded){
+        row.classList.remove('expanded');
+        projRow.style.display = 'none';
+        const nameTxt = row.querySelector('td').textContent.replace('▸', '').trim();
+        state.expandedResponsables.delete(nameTxt);
+      } else {
+        row.classList.add('expanded');
+        projRow.style.display = 'table-row';
+        const nameTxt = row.querySelector('td').textContent.replace('▸', '').trim();
+        state.expandedResponsables.add(nameTxt);
+      }
+    });
+  });
+  body.querySelectorAll('.resp-project-item').forEach(item => {
+    item.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const pid = item.dataset.projId;
+      if (pid) openViewModal(pid);
+    });
+  });
+
   Object.values(dashboardCharts).forEach(c => { try { c.destroy(); } catch(e){} });
   dashboardCharts = {};
 
@@ -1798,11 +1943,20 @@ function renderDashboard(){
     options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true, ticks: { stepSize: 1 } } } }
   });
 
-  const avanceEntries = filtered.slice(0, 10).map(p => ({
-    bpip: (p.bpip || '').trim() || '(Sin BPIP)',
-    fullName: p.name || '(Sin nombre)',
-    avance: getAvanceGlobal(p)
-  }));
+  // ─── NUEVO: chart de Avance Global por proyecto, TODOS los proyectos, tope 100% y etiqueta "Envío a UEN AP" ───
+  const avanceEntries = filtered
+    .map(p => ({
+      bpip: (p.bpip || '').trim() || '(Sin BPIP)',
+      fullName: p.name || '(Sin nombre)',
+      avance: Math.min(100, getAvancePerfilToDiseno(p))
+    }))
+    .sort((a, b) => b.avance - a.avance);
+
+  const avanceWrap = document.getElementById('avanceCanvasWrap');
+  if (avanceWrap){
+    avanceWrap.style.height = Math.max(220, avanceEntries.length * 32 + 60) + 'px';
+  }
+
   dashboardCharts.avance = new Chart(document.getElementById('chartAvance'), {
     type: 'bar',
     data: {
@@ -1810,7 +1964,11 @@ function renderDashboard(){
       datasets: [{
         label: 'Avance %',
         data: avanceEntries.map(e => e.avance),
-        backgroundColor: avanceEntries.map(e => e.avance >= 90 ? '#27ae60' : e.avance >= 50 ? '#f39c12' : '#e74c3c'),
+        backgroundColor: avanceEntries.map(e =>
+          e.avance >= 100 ? '#27ae60' :
+          e.avance >= 75  ? '#3498db' :
+          e.avance >= 50  ? '#f39c12' : '#e74c3c'
+        ),
         borderRadius: 4
       }]
     },
@@ -1818,18 +1976,33 @@ function renderDashboard(){
       responsive: true,
       maintainAspectRatio: false,
       indexAxis: 'y',
+      layout: { padding: { bottom: 20 } },
       plugins: {
         legend: { display: false },
         tooltip: {
           callbacks: {
             title: (items) => avanceEntries[items[0].dataIndex].fullName,
-            label: (item) => 'Avance: ' + item.parsed.x.toFixed(1) + '%'
+            label: (item) => 'Avance: ' + item.parsed.x.toFixed(1) + '%',
+            afterLabel: (item) => item.parsed.x >= 99.9 ? '✓ Envío a UEN AP alcanzado' : ''
           }
         }
       },
       scales: {
-        x: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%' } },
-        y: { ticks: { font: { size: 11 } } }
+        x: {
+          beginAtZero: true,
+          max: 100,
+          ticks: {
+            autoSkip: false,
+            maxRotation: 0,
+            callback: function(v){
+              if (v === 100) return ['100%', 'Envío a UEN AP'];
+              return v + '%';
+            }
+          }
+        },
+        y: {
+          ticks: { font: { size: 11 }, autoSkip: false }
+        }
       }
     }
   });
@@ -1873,7 +2046,6 @@ function renderGrid(){
   if (document.getElementById('dashboardDropdown')?.open){ setTimeout(renderDashboard, 30); }
 }
 
-// Helper: indica si se debe sugerir SC por condición (para mostrar en card sin editar aún)
 function shouldSuggestSC(p){
   const spi = calcSPI(p);
   const midStatus = getMideplanStatus(p);
@@ -1907,7 +2079,6 @@ function createCard(p){
     </div>
   ` : '';
 
-  // SC indicator: se muestra si requiereSC o si las condiciones lo sugieren
   const autoSuggest = !p.requiereSC && shouldSuggestSC(p);
   const showSC = p.requiereSC || autoSuggest;
   const scDisplayState = p.requiereSC ? (p.scEstado || 'Requiere SC') : 'Requiere SC';
@@ -1919,7 +2090,6 @@ function createCard(p){
     </div>
   ` : '';
 
-  // Etapas con retraso (nueva lógica: solo cuando SPI < 0.90)
   const delayed = getDelayedEtapas(p);
   const delayedHtml = delayed.length > 0 ? `
     <div class="card-delayed-stages">
@@ -2524,8 +2694,6 @@ function openEditor(id, isNew = false){
   state.dirty = false;
   const p = getEditingProject();
   if (p){
-    // ─── Auto-check "Requiere SC" si SPI < 0.65 o MIDEPLAN rojo ───
-    // Se hace ANTES del snapshot para que sea parte del estado base del editor.
     if (!isNew){
       const spi = calcSPI(p);
       const midStatus = getMideplanStatus(p);
@@ -2533,10 +2701,9 @@ function openEditor(id, isNew = false){
       if (shouldAutoSC && !p.requiereSC){
         p.requiereSC = true;
         if (!p.scEstado) p.scEstado = 'Requiere SC';
-        save(); // persistir el auto-check (queda como parte del estado del proyecto)
+        save();
       }
     }
-    // Snapshot DESPUÉS del auto-check
     const snap = JSON.parse(JSON.stringify(p));
     delete snap.history;
     state.editorSnapshot = snap;
@@ -3776,6 +3943,7 @@ function addProjectConsolidatedSheet(wb, project, prefix=''){
   rows.push(['INDICADORES']);
   rows.push(['SPI', spi === null ? 'N/D' : spi.toFixed(2)]);
   rows.push(['Avance Global (%)', getAvanceGlobal(project).toFixed(1)]);
+  rows.push(['Avance ' + AVANCE_HITOS_LABEL + ' (%)', getAvancePerfilToDiseno(project).toFixed(1)]);
   rows.push(['Monto Obras', getMontoObras(project)]);
   rows.push(['Monto Terrenos (computable)', landTotal]);
   rows.push(['Monto Global', getMontoGlobal(project)]);
@@ -4434,7 +4602,6 @@ function handleEditorClose(){
         renderGrid();
       },
       onCancel: () => {
-        // ─── REVERTIR al estado del snapshot (descartar cambios de esta apertura) ───
         if (state.editorSnapshot){
           const preservedHistory = p.history;
           Object.keys(p).forEach(k => { delete p[k]; });
