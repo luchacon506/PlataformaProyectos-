@@ -64,17 +64,23 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-s
 .project-list-dropdown[open] summary::before,.dashboard-dropdown[open] summary::before{transform:rotate(90deg)}
 .project-list-dropdown summary:hover,.dashboard-dropdown summary:hover{background:#ebeef5}
 .summary-count{background:var(--aya-dorado);color:#fff;padding:2px 10px;border-radius:12px;font-size:11px;font-weight:700;margin-left:auto}
-.project-list-body{max-height:45vh;overflow-y:auto;padding:4px}
-.project-list-header-row{display:grid;grid-template-columns:130px 1fr 160px 70px;gap:10px;padding:8px 12px;font-size:10.5px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.4px;border-bottom:1px solid var(--aya-gris);position:sticky;top:0;background:white;z-index:1}
-.project-list-item{display:grid;grid-template-columns:130px 1fr 160px 70px;gap:10px;padding:9px 12px;border-radius:5px;align-items:center;font-size:13px;cursor:pointer;transition:background .1s;border-bottom:1px solid #f5f5f5}
+
+/* ─── LISTA PROYECTOS: 5 columnas con MIDEPLAN ─── */
+.project-list-body{max-height:45vh;overflow-y:auto;overflow-x:hidden;padding:4px}
+.project-list-header-row{display:grid;grid-template-columns:130px 1fr 160px 70px 80px;gap:10px;padding:8px 12px;font-size:10.5px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.4px;border-bottom:1px solid var(--aya-gris);position:sticky;top:0;background:white;z-index:1}
+.project-list-item{display:grid;grid-template-columns:130px 1fr 160px 70px 80px;gap:10px;padding:9px 12px;border-radius:5px;align-items:center;font-size:13px;cursor:pointer;transition:background .1s;border-bottom:1px solid #f5f5f5}
 .project-list-item:hover{background:var(--aya-fondo-claro)}
+.project-list-item > *{min-width:0}
 .project-list-item .bpip-col{font-family:'Courier New',monospace;font-size:12px;color:var(--aya-azul);font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.project-list-item .bpip-col.bpip-empty{color:#aaa;font-style:italic;font-weight:400;font-family:inherit;padding:0;margin:0;height:auto;grid-column:auto;text-align:left;line-height:inherit}
+.project-list-item .bpip-col.bpip-empty{color:#aaa;font-style:italic;font-weight:400;font-family:inherit}
 .project-list-item .name-col{font-weight:600;color:var(--aya-azul);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .project-list-item .leader-col{color:#666;font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .project-list-item .spi-mini{font-size:11px;padding:3px 8px;border-radius:10px;text-align:center;font-weight:700;white-space:nowrap}
+.project-list-item .mid-col{display:flex;justify-content:center;align-items:center}
+.project-list-item .mid-col .card-mideplan-mini{padding:3px 6px;gap:3px}
+.project-list-item .mid-col .mini-light{width:8px;height:8px}
 @media(max-width:750px){
-  .project-list-header-row,.project-list-item{grid-template-columns:90px 1fr 60px}
+  .project-list-header-row,.project-list-item{grid-template-columns:80px 1fr 55px 65px}
   .project-list-header-row .leader-col,.project-list-item .leader-col{display:none}
 }
 .dashboard-body{padding:16px}
@@ -120,6 +126,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-s
 .spi-warn{background:#fff3cd;color:#856404}
 .spi-bad{background:#f8d7da;color:#721c24}
 .spi-na{background:#e9ecef;color:#6c757d}
+
+/* ─── SC INDICATOR en tarjeta ─── */
+.card-sc-indicator{display:flex;align-items:center;gap:6px;padding:6px 10px;border-radius:6px;font-size:11.5px;font-weight:700;margin-top:4px}
+.card-sc-indicator .sc-consec{margin-left:auto;font-family:'Courier New',monospace;font-size:11px;opacity:.85}
+.card-sc-indicator.sc-requiere{background:#fff3cd;color:#856404;border-left:3px solid #f39c12}
+.card-sc-indicator.sc-elaboracion{background:#ffeacc;color:#b86000;border-left:3px solid #e67e22}
+.card-sc-indicator.sc-enviada{background:#e3f0ff;color:#0c4a8a;border-left:3px solid #3498db}
+.card-sc-indicator.sc-aprobada{background:#d4edda;color:#155724;border-left:3px solid #27ae60}
+
+/* ─── ETAPAS CON RETRASO bajo SPI ─── */
+.card-delayed-stages{padding:8px 10px;border-radius:6px;background:#fef4f4;border-left:3px solid #e74c3c;margin-top:4px}
+.card-delayed-stages .cds-title{font-size:11px;font-weight:700;color:#721c24;text-transform:uppercase;letter-spacing:.3px;margin-bottom:5px}
+.card-delayed-stages .cds-item{display:flex;justify-content:space-between;font-size:11.5px;color:#333;padding:2px 0;gap:8px;align-items:center}
+.card-delayed-stages .cds-item .cds-label{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0}
+.card-delayed-stages .cds-item .cds-info{color:#721c24;font-weight:700;flex-shrink:0;font-size:11px}
+
 .card-actions{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
 .export-menu{position:relative;display:inline-block}
 .export-dropdown{display:none;position:absolute;right:0;top:100%;background:#fff;border-radius:6px;box-shadow:0 4px 16px rgba(0,0,0,.18);min-width:170px;z-index:50;overflow:hidden;border:1px solid var(--aya-gris)}
@@ -153,7 +175,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-s
 .diff-changed.view-text{padding:6px 10px}
 .view-header-info > div.diff-changed{padding:4px 8px;border-radius:4px;border-left:3px solid #e74c3c !important}
 .view-table tbody td.diff-changed-cell{background-color:#ffd6d6 !important;border-left:2px solid #e74c3c}
-.view-table tbody td.diff-changed-cell:first-child{border-left:3px solid #e74c3c}
 .diff-legend{font-size:11.5px;background:#fff3f3;border-left:3px solid #e74c3c;padding:8px 12px;border-radius:4px;margin-bottom:12px;color:#721c24;line-height:1.4}
 .diff-legend strong{color:#c0392b}
 .land-non-computable{background:#fffbf0 !important}
@@ -204,6 +225,7 @@ td input::placeholder{color:#bbb;font-style:italic}
 .img-preview{max-width:100%;max-height:200px;border-radius:6px;border:1px solid var(--aya-gris);margin-top:8px;display:block}
 .add-row-btn{margin-top:6px}
 .check-inline{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--aya-azul);cursor:pointer}
+.check-inline input[type=checkbox]{width:16px;height:16px;accent-color:var(--aya-azul);cursor:pointer}
 .sub-section{background:#fff;border:1px solid var(--aya-gris);border-radius:8px;padding:14px;margin-bottom:16px}
 .sub-section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px}
 .sub-section-title{font-size:14px;font-weight:700;color:var(--aya-azul);text-transform:uppercase;letter-spacing:.4px}
@@ -306,23 +328,15 @@ td input::placeholder{color:#bbb;font-style:italic}
 .coord-row{display:flex;gap:10px;align-items:center}
 .coord-row .coord-label{font-weight:700;color:var(--aya-azul);font-size:13px;min-width:22px;text-align:center}
 .coord-row input{flex:1}
-
-/* Confirm modal */
 #confirmModal .modal-content{max-width:520px}
 #confirmModal .confirm-body{padding:20px}
 #confirmModal .confirm-message{font-size:14px;color:#333;line-height:1.5;margin-bottom:16px}
-
-/* Archive modal */
 #archiveModal{z-index:200}
 .archive-list-wrap{padding:20px}
 .archive-empty{text-align:center;padding:40px 20px;color:#888;font-size:14px;font-style:italic}
 .archived-banner{background:#7f8c8d;color:#fff;padding:4px 10px;border-radius:12px;font-size:11px;font-weight:700;display:inline-block;letter-spacing:.3px}
-
-/* Fullscreen button icon */
 .btn-fs{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff;border-radius:6px;width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:background .15s}
 .btn-fs:hover{background:rgba(255,255,255,0.3)}
-
-/* MIDEPLAN traffic light (3 circles) */
 .mideplan-traffic{display:flex;justify-content:center;align-items:center;gap:28px;height:220px;flex-wrap:wrap;padding:10px 0}
 .mideplan-circle{display:flex;flex-direction:column;align-items:center;gap:8px}
 .mideplan-circle .circle{width:82px;height:82px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:700;color:#fff;box-shadow:0 3px 10px rgba(0,0,0,.15);transition:transform .2s}
@@ -333,6 +347,13 @@ td input::placeholder{color:#bbb;font-style:italic}
 .mideplan-circle .circle.zero{opacity:.35;filter:grayscale(0.7)}
 .mideplan-circle .lbl{font-size:11px;color:#666;font-weight:700;text-transform:uppercase;letter-spacing:.3px;text-align:center;max-width:110px;line-height:1.3}
 .mideplan-na-note{font-size:11px;color:#999;text-align:center;width:100%;margin-top:6px;font-style:italic}
+
+/* ─── SC BADGE en VER ─── */
+.sc-badge-view{display:inline-block;padding:6px 14px;border-radius:16px;font-size:12.5px;font-weight:700;border:2px solid}
+.sc-badge-view.sc-requiere{background:#fff3cd;color:#856404;border-color:#f39c12}
+.sc-badge-view.sc-elaboracion{background:#ffeacc;color:#b86000;border-color:#e67e22}
+.sc-badge-view.sc-enviada{background:#e3f0ff;color:#0c4a8a;border-color:#3498db}
+.sc-badge-view.sc-aprobada{background:#d4edda;color:#155724;border-color:#27ae60}
 </style>
 </head>
 <body>
@@ -486,7 +507,6 @@ td input::placeholder{color:#bbb;font-style:italic}
   </div>
 </div>
 
-<!-- Confirm dialog (used for create/save/archive) -->
 <div class="modal" id="confirmModal">
   <div class="modal-content">
     <div class="modal-header">
@@ -507,7 +527,6 @@ td input::placeholder{color:#bbb;font-style:italic}
   </div>
 </div>
 
-<!-- Archive modal -->
 <div class="modal" id="archiveModal">
   <div class="modal-content">
     <div class="modal-header">
@@ -539,9 +558,6 @@ td input::placeholder{color:#bbb;font-style:italic}
 <script>
   const MAX_HISTORY = 20;
 
-/* =========================================================
-   LAZY LOADING de librerías de exportación (pptx, xls, pdf).
-========================================================= */
 function loadScript(src){
   return new Promise((resolve, reject) => {
     if (document.querySelector(`script[src="${src}"]`)) return resolve();
@@ -647,6 +663,7 @@ const FIGURAS = ['Administrativa','Expropiación','Donación','Convenio'];
 const PRIORIDADES = ['Alta','Media','Baja'];
 const ESTADOS_ACT = ['Logrado','En proceso','Pendiente'];
 const CATEGORIAS = ['Abastecimiento','Edificaciones','Saneamiento'];
+const SC_ESTADOS = ['Requiere SC','Elaboración de SC','SC Enviada','SC Aprobada'];
 const FUNDS = [
   { key:'propios',      label:'Fondos Propios' },
   { key:'especificos',  label:'Fondos Específicos' },
@@ -655,6 +672,14 @@ const FUNDS = [
 ];
 const FIGURAS_NO_COMPUTABLES = ['Convenio', 'Donación'];
 const AUTO_GOLD_COLOR = '#a8843e';
+
+// Helper para clase CSS del estado SC
+function scClass(estado){
+  if (estado === 'SC Aprobada') return 'aprobada';
+  if (estado === 'SC Enviada') return 'enviada';
+  if (estado === 'Elaboración de SC') return 'elaboracion';
+  return 'requiere';
+}
 
 const CR_LOC = {
   "San José": {
@@ -1024,6 +1049,13 @@ function migrateProject(p){
   if (p.archivedBy === undefined) p.archivedBy = '';
   if (p.createdBy === undefined) p.createdBy = '';
   if (p.lastModifiedBy === undefined) p.lastModifiedBy = '';
+  // SC fields (nuevos)
+  if (p.requiereSC === undefined) p.requiereSC = false;
+  if (p.scEstado === undefined) p.scEstado = '';
+  if (p.requiereSC && !p.scEstado) p.scEstado = 'Requiere SC';
+  if (p.scConsecutivo === undefined) p.scConsecutivo = '';
+  if (p.scFechaAprobacion === undefined) p.scFechaAprobacion = '';
+  if (!Array.isArray(p.scRegistros)) p.scRegistros = [];
 }
 
 function save(){
@@ -1053,7 +1085,8 @@ function createEmptyProject(){
     lastActivitiesUpdate: nowDateTimeStr(),
     createdAt: todayStr(), updatedAt: nowDateTimeStr(),
     archived: false, archivedAt: '', archivedBy: '',
-    createdBy: '', lastModifiedBy: ''
+    createdBy: '', lastModifiedBy: '',
+    requiereSC: false, scEstado: '', scConsecutivo: '', scFechaAprobacion: '', scRegistros: []
   };
 }
 function getActiveEtapas(p){
@@ -1072,6 +1105,26 @@ function getCurrentEtapas(p){
     const prog = Number(d?.progress)||0;
     if (d?.active && prog > 0 && prog < 100){
       out.push({ fase, label: et.label, key: et.key, progress: prog, weight: et.weight });
+    }
+  }
+  return out;
+}
+
+// NUEVA: Etapas con retraso (fin programado ya pasó y avance < 100%)
+function getDelayedEtapas(p){
+  const today = new Date(); today.setHours(0,0,0,0);
+  const out = [];
+  for (const fase in STAGES) for (const et of STAGES[fase]){
+    if (!p.fases?.[fase]) continue;
+    const d = p.etapas?.[et.key];
+    if (!d?.active) continue;
+    if (Number(d.progress) >= 100) continue;
+    if (!d.finProg) continue;
+    const fin = new Date(d.finProg + 'T00:00:00');
+    if (isNaN(fin)) continue;
+    if (today > fin){
+      const daysLate = Math.floor((today - fin) / 86400000);
+      out.push({ fase, label: et.label, key: et.key, progress: Number(d.progress)||0, daysLate });
     }
   }
   return out;
@@ -1414,7 +1467,12 @@ function computeDiff(viewed, newer) {
     financial: {},
     estado: _normStr(viewed.estadoProyecto) !== _normStr(newer.estadoProyecto),
     meta: _normStr(viewed.metaAnual) !== _normStr(newer.metaAnual),
-    mideplan: _normStr(viewed.mideplanDate) !== _normStr(newer.mideplanDate)
+    mideplan: _normStr(viewed.mideplanDate) !== _normStr(newer.mideplanDate),
+    sc: {
+      requiereSC: (viewed.requiereSC ? 1 : 0) !== (newer.requiereSC ? 1 : 0),
+      estado: _normStr(viewed.scEstado) !== _normStr(newer.scEstado),
+      registros: JSON.stringify(viewed.scRegistros || []) !== JSON.stringify(newer.scRegistros || [])
+    }
   };
   for (const fase in STAGES) for (const et of STAGES[fase]) {
     const a = viewed.etapas?.[et.key] || {};
@@ -1593,7 +1651,8 @@ function renderProjectList(){
     body.innerHTML = '<div style="text-align:center;padding:20px;color:#888;font-size:13px">No hay proyectos registrados</div>';
     return;
   }
-  let html = `<div class="project-list-header-row"><span>BPIP</span><span>Nombre del Proyecto</span><span>Líder</span><span style="text-align:center">SPI</span></div>`;
+  // NUEVA estructura: 5 columnas (BPIP | Nombre | Líder | SPI | Semáforo MIDEPLAN)
+  let html = `<div class="project-list-header-row"><span>BPIP</span><span>Nombre del Proyecto</span><span class="leader-col">Líder</span><span style="text-align:center">SPI</span><span style="text-align:center">Semáforo</span></div>`;
   html += sorted.map(p => {
     const spi = calcSPI(p);
     const cls = spiClass(spi);
@@ -1601,11 +1660,19 @@ function renderProjectList(){
     const bpipClean = (p.bpip || '').trim();
     const bpipList = bpipClean ? escapeHtml(bpipClean) : 'Sin BPIP';
     const bpipCls = bpipClean ? '' : 'bpip-empty';
+    const midStatus = getMideplanStatus(p);
     return `<div class="project-list-item" data-id="${p.id}">
       <div class="bpip-col ${bpipCls}">${bpipList}</div>
       <div class="name-col">${escapeHtml(p.name) || '(Sin nombre)'}</div>
       <div class="leader-col">${escapeHtml(p.leader) || '—'}</div>
       <div class="spi-mini ${cls}">${spText}</div>
+      <div class="mid-col">
+        <div class="card-mideplan-mini" title="Semáforo MIDEPLAN: ${getMideplanLabel(midStatus)}">
+          <span class="mini-light red ${midStatus==='red'?'active':''}"></span>
+          <span class="mini-light orange ${midStatus==='orange'?'active':''}"></span>
+          <span class="mini-light green ${midStatus==='green'?'active':''}"></span>
+        </div>
+      </div>
     </div>`;
   }).join('');
   body.innerHTML = html;
@@ -1653,7 +1720,6 @@ function renderDashboard(){
   Object.values(dashboardCharts).forEach(c => { try { c.destroy(); } catch(e){} });
   dashboardCharts = {};
 
-  // SPI donut
   const spiCounts = { ok:0, warn:0, bad:0, na:0 };
   filtered.forEach(p => {
     const cls = spiClass(calcSPI(p));
@@ -1671,7 +1737,6 @@ function renderDashboard(){
     options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { font: { size: 11 }, padding: 10 } } } }
   });
 
-  // MIDEPLAN traffic light (3 circles)
   const midCounts = { green: 0, orange: 0, red: 0, na: 0 };
   filtered.forEach(p => {
     const st = getMideplanStatus(p);
@@ -1697,7 +1762,6 @@ function renderDashboard(){
     `;
   }
 
-  // Etapas bar
   const etapaCounts = {};
   for (const fase in STAGES) for (const et of STAGES[fase]){
     etapaCounts[et.key] = { label: `${FASE_LABEL[fase]} / ${et.label}`, count: 0 };
@@ -1713,7 +1777,6 @@ function renderDashboard(){
     options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true, ticks: { stepSize: 1 } } } }
   });
 
-  // Avance chart — BPIP labels with full name tooltip
   const avanceEntries = filtered.slice(0, 10).map(p => ({
     bpip: (p.bpip || '').trim() || '(Sin BPIP)',
     fullName: p.name || '(Sin nombre)',
@@ -1816,6 +1879,29 @@ function createCard(p){
     </div>
   ` : '';
 
+  // SC indicator (sobre SPI, solo si requiereSC)
+  const scIndicatorHtml = p.requiereSC ? `
+    <div class="card-sc-indicator sc-${scClass(p.scEstado)}">
+      <span>📋</span>
+      <span>${escapeHtml(p.scEstado || 'Requiere SC')}</span>
+      ${(p.scRegistros && p.scRegistros[0] && p.scRegistros[0].consecutivo) ? `<span class="sc-consec">#${escapeHtml(p.scRegistros[0].consecutivo)}</span>` : ''}
+    </div>
+  ` : '';
+
+  // Etapas con retraso (debajo de SPI)
+  const delayed = getDelayedEtapas(p);
+  const delayedHtml = delayed.length > 0 ? `
+    <div class="card-delayed-stages">
+      <div class="cds-title">⏱ Etapas con retraso</div>
+      ${delayed.map(ds => `
+        <div class="cds-item">
+          <span class="cds-label">${FASE_LABEL[ds.fase]} / ${ds.label}</span>
+          <span class="cds-info">${ds.progress}% · ${ds.daysLate}d</span>
+        </div>
+      `).join('')}
+    </div>
+  ` : '';
+
   el.innerHTML = `
     <input type="checkbox" class="card-check" data-id="${p.id}" ${state.selected.has(p.id)?'checked':''}>
     <div class="card-header">
@@ -1823,7 +1909,7 @@ function createCard(p){
         <div class="card-header-bpip${bpipEmptyClass}">${bpipDisplay}</div>
         <div class="card-header-name">${escapeHtml(p.name) || '(Sin nombre)'}</div>
       </div>
-      <div class="card-mideplan-mini" title="Semáforo MIDEPLAN: Verde ≤3m · Naranja 3-6m · Rojo >6m">
+      <div class="card-mideplan-mini" title="Semáforo MIDEPLAN: ${getMideplanLabel(midStatus)}">
         <span class="mini-light red ${midStatus==='red'?'active':''}"></span>
         <span class="mini-light orange ${midStatus==='orange'?'active':''}"></span>
         <span class="mini-light green ${midStatus==='green'?'active':''}"></span>
@@ -1836,7 +1922,9 @@ function createCard(p){
       <div class="card-row"><span class="lbl">Etapa actual:</span><span class="val" style="max-width:60%;font-size:11.5px">${etapaTxt}</span></div>
       <div class="card-row"><span class="lbl">Avance global:</span><span class="val">${avance}%</span></div>
       <div class="card-row"><span class="lbl">Monto global:</span><span class="val">${fmtCRC(getMontoGlobal(p))}</span></div>
+      ${scIndicatorHtml}
       <div class="card-spi ${spClass}">${spText}</div>
+      ${delayedHtml}
       ${staleHtml}
       <div class="card-actions">
         <button class="btn btn-sm btn-view" data-act="view" data-id="${p.id}">Ver</button>
@@ -2041,6 +2129,39 @@ function buildTeamViewHTML(team, diff){
   return html;
 }
 
+// NUEVA: HTML de la sección SC en la ventana VER
+function buildSCViewHTML(p, diff){
+  if (!p.requiereSC) return '';
+  const scDiff = diff && diff.sc;
+  const registros = p.scRegistros || [];
+  const badgeCls = scClass(p.scEstado);
+  const badgeDiff = scDiff && (scDiff.requiereSC || scDiff.estado) ? ' diff-changed' : '';
+  let html = `<div class="view-section">
+    <h3>Solicitud de Cambio</h3>
+    <div style="margin-bottom:12px">
+      <span class="sc-badge-view sc-${badgeCls}${badgeDiff}">${escapeHtml(p.scEstado || 'Requiere SC')}</span>
+    </div>
+    <div style="font-size:11px;color:#666;margin:8px 0 4px;font-weight:700;text-transform:uppercase">Consecutivos de Aprobación Registrados</div>`;
+  if (registros.length === 0){
+    html += `<div class="alert-empty${scDiff && scDiff.registros ? ' diff-changed' : ''}">Sin SC aprobadas registradas aún</div>`;
+  } else {
+    html += `<div class="view-table-wrap"><table class="view-table">
+      <thead><tr><th>Consecutivo</th><th>Fecha Aprobación</th><th>Registrado</th></tr></thead>
+      <tbody>
+        ${registros.map(r => `
+          <tr${scDiff && scDiff.registros ? ' class="diff-changed-cell-row"' : ''}>
+            <td style="font-family:'Courier New',monospace;font-weight:700">${escapeHtml(r.consecutivo||'—')}</td>
+            <td>${fmtDate(r.fecha) || '—'}</td>
+            <td style="font-size:11px;color:#888">${fmtDateTime(r.fechaRegistro) || '—'}</td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table></div>`;
+  }
+  html += `</div>`;
+  return html;
+}
+
 function openViewModal(id, versionIndex = 0){
   const pOrig = state.projects.find(x => x.id === id);
   if (!pOrig) return;
@@ -2183,6 +2304,7 @@ function openViewModal(id, versionIndex = 0){
         </div>
       </div>
     </div>
+    ${buildSCViewHTML(p, diff)}
     <div class="view-main">
       <div class="view-left">
         <div class="view-section">
@@ -2300,26 +2422,17 @@ function zoomImage(delta){
 }
 function updateZoomDisplay(){ const el = document.getElementById('zoomLevelDisplay'); if (el) el.textContent = Math.round(currentZoom * 100) + '%'; }
 
-/* =========================================================
-   PRESENTATION MODE (Fullscreen API)
-========================================================= */
 function isFullscreenActive(){
   return !!(document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement);
 }
-
 async function enterPresentationMode(){
   const el = document.getElementById('viewModalContent');
   if (!el) return;
   try {
-    if (el.requestFullscreen) {
-      await el.requestFullscreen({ navigationUI: 'hide' });
-    } else if (el.webkitRequestFullscreen) {
-      el.webkitRequestFullscreen();
-    } else if (el.msRequestFullscreen) {
-      el.msRequestFullscreen();
-    } else {
-      throw new Error('Fullscreen API no soportada');
-    }
+    if (el.requestFullscreen) { await el.requestFullscreen({ navigationUI: 'hide' }); }
+    else if (el.webkitRequestFullscreen) { el.webkitRequestFullscreen(); }
+    else if (el.msRequestFullscreen) { el.msRequestFullscreen(); }
+    else { throw new Error('Fullscreen API no soportada'); }
     state.viewFullscreen = true;
     document.getElementById('viewModal').classList.add('fullscreen-mode');
     updateFullscreenButton(true);
@@ -2330,32 +2443,20 @@ async function enterPresentationMode(){
     updateFullscreenButton(true);
   }
 }
-
 async function exitPresentationMode(){
   try {
-    if (document.exitFullscreen) {
-      await document.exitFullscreen();
-    } else if (document.webkitExitFullscreen) {
-      document.webkitExitFullscreen();
-    } else if (document.msExitFullscreen) {
-      document.msExitFullscreen();
-    }
-  } catch (e) {
-    console.warn('Error al salir de fullscreen:', e);
-  }
+    if (document.exitFullscreen) { await document.exitFullscreen(); }
+    else if (document.webkitExitFullscreen) { document.webkitExitFullscreen(); }
+    else if (document.msExitFullscreen) { document.msExitFullscreen(); }
+  } catch (e) { console.warn('Error al salir de fullscreen:', e); }
   state.viewFullscreen = false;
   document.getElementById('viewModal').classList.remove('fullscreen-mode');
   updateFullscreenButton(false);
 }
-
 function togglePresentationMode(){
-  if (isFullscreenActive() || state.viewFullscreen) {
-    exitPresentationMode();
-  } else {
-    enterPresentationMode();
-  }
+  if (isFullscreenActive() || state.viewFullscreen) { exitPresentationMode(); }
+  else { enterPresentationMode(); }
 }
-
 function updateFullscreenButton(isFs){
   const btn = document.getElementById('viewFullscreen');
   if (!btn) return;
@@ -2365,9 +2466,6 @@ function updateFullscreenButton(isFs){
     : '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>';
 }
 
-/* =========================================================
-   CONFIRM DIALOG
-========================================================= */
 function showConfirm(opts){
   document.getElementById('confirmTitle').textContent = opts.title;
   document.getElementById('confirmMessage').textContent = opts.message || '';
@@ -2387,9 +2485,6 @@ function closeConfirm(){
   document.getElementById('confirmName').style.borderColor = '';
 }
 
-/* =========================================================
-   EDITOR
-========================================================= */
 let currentTab = 'general';
 function openEditor(id, isNew = false){
   state.editingId = id;
@@ -2475,7 +2570,62 @@ function renderGeneralTab(p){
         <input class="form-control" value="${fmtDateTime(p.updatedAt)}" disabled title="Se actualiza al presionar 'Guardar y Cerrar' con cambios realizados">
       </div>
     </div>
+
+    <!-- NUEVA SECCIÓN: SOLICITUD DE CAMBIO -->
+    <div class="section-title" style="font-size:13px;margin-top:8px">Solicitud de Cambio (SC)</div>
     <div class="row">
+      <div class="form-group" style="margin-bottom:8px">
+        <label class="check-inline" style="text-transform:none;font-size:13px;font-weight:600;color:var(--aya-texto)">
+          <input type="checkbox" id="f-requiere-sc" ${p.requiereSC?'checked':''}>
+          Requiere Solicitud de Cambio
+        </label>
+      </div>
+      <div class="form-group" id="sc-estado-group" style="margin-bottom:8px;display:${p.requiereSC?'block':'none'}">
+        <label>Estado de la Solicitud</label>
+        <select class="form-control" id="f-sc-estado">
+          ${SC_ESTADOS.map(s => `<option value="${s}" ${p.scEstado===s?'selected':''}>${s}</option>`).join('')}
+        </select>
+      </div>
+    </div>
+    <div id="sc-detalles" style="display:${p.requiereSC?'block':'none'}">
+      <div class="sub-section" style="margin-bottom:12px;background:#fafbfc">
+        <div class="row" id="sc-aprobada-fields" style="display:${p.scEstado==='SC Aprobada'?'grid':'none'}">
+          <div class="form-group" style="margin-bottom:10px">
+            <label>Consecutivo de Aprobación</label>
+            <input type="text" class="form-control" id="f-sc-consec" value="${escapeHtml(p.scConsecutivo||'')}" placeholder="Ej: SC-2024-001">
+          </div>
+          <div class="form-group" style="margin-bottom:10px">
+            <label>Fecha de Aprobación</label>
+            ${dateInputHTML('f-sc-fecha', p.scFechaAprobacion||'')}
+          </div>
+        </div>
+        <div class="form-group" id="sc-registrar-group" style="display:${p.scEstado==='SC Aprobada'?'block':'none'};margin-bottom:0">
+          <button type="button" class="btn btn-sm btn-primary" id="btnRegistrarSC">+ Registrar Aprobación</button>
+          <span class="hint" style="margin-left:8px;display:inline-block">Se agregará al historial de SC aprobadas.</span>
+        </div>
+        <div id="sc-sin-aprobada-msg" style="display:${p.scEstado!=='SC Aprobada'?'block':'none'};color:#888;font-size:12px;font-style:italic">
+          Cuando el estado sea "SC Aprobada", aparecerán los campos para registrar el consecutivo y la fecha.
+        </div>
+      </div>
+      ${(p.scRegistros||[]).length > 0 ? `
+        <div class="section-title" style="font-size:12px;margin-top:8px">Historial de SC Aprobadas</div>
+        <table style="font-size:12px">
+          <thead><tr><th>Consecutivo</th><th>Fecha Aprobación</th><th>Registrado</th><th style="width:50px"></th></tr></thead>
+          <tbody>
+            ${(p.scRegistros||[]).map((r,i) => `
+              <tr>
+                <td style="font-family:'Courier New',monospace;font-weight:700">${escapeHtml(r.consecutivo||'—')}</td>
+                <td>${fmtDate(r.fecha) || '—'}</td>
+                <td style="color:#888;font-size:11px">${fmtDateTime(r.fechaRegistro) || '—'}</td>
+                <td><button type="button" class="btn btn-sm btn-danger" data-del-sc="${i}">×</button></td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      ` : ''}
+    </div>
+
+    <div class="row" style="margin-top:8px">
       <div class="form-group">
         <label>Última aprobación de MIDEPLAN</label>
         <div class="mideplan-group">
@@ -2621,6 +2771,83 @@ function renderGeneralTab(p){
   });
   const rm = wrap.querySelector('#mapRemove');
   if (rm) rm.addEventListener('click', () => { p.mapImage = ''; persist(); renderTab(); });
+
+  // ─── SC: Checkbox "Requiere SC" ───
+  const reqEl = wrap.querySelector('#f-requiere-sc');
+  if (reqEl){
+    reqEl.addEventListener('change', e => {
+      p.requiereSC = e.target.checked;
+      if (p.requiereSC && !p.scEstado) p.scEstado = 'Requiere SC';
+      persist();
+      renderTab();
+    });
+  }
+
+  // ─── SC: Selector de estado ───
+  const estadoEl = wrap.querySelector('#f-sc-estado');
+  if (estadoEl){
+    estadoEl.addEventListener('change', e => {
+      p.scEstado = e.target.value;
+      persist();
+      renderTab();
+    });
+  }
+
+  // ─── SC: Consecutivo (input, sin re-render) ───
+  const consecEl = wrap.querySelector('#f-sc-consec');
+  if (consecEl){
+    consecEl.addEventListener('input', e => {
+      p.scConsecutivo = e.target.value;
+      state.dirty = true;
+      save();
+    });
+  }
+
+  // ─── SC: Fecha (datechange, sin re-render) ───
+  const fechaEl = wrap.querySelector('#f-sc-fecha');
+  if (fechaEl){
+    fechaEl.addEventListener('datechange', () => {
+      p.scFechaAprobacion = fechaEl.dataset.iso || '';
+      state.dirty = true;
+      save();
+    });
+  }
+
+  // ─── SC: Registrar aprobación ───
+  const btnReg = wrap.querySelector('#btnRegistrarSC');
+  if (btnReg){
+    btnReg.addEventListener('click', () => {
+      const consec = (p.scConsecutivo || '').trim();
+      const fecha = p.scFechaAprobacion || '';
+      if (!consec){ alert('Ingrese el consecutivo de aprobación antes de registrar.'); return; }
+      if (!fecha){ alert('Ingrese la fecha de aprobación antes de registrar.'); return; }
+      p.scRegistros = p.scRegistros || [];
+      // Evitar duplicado exacto del consecutivo
+      if (p.scRegistros.some(r => (r.consecutivo||'').trim().toLowerCase() === consec.toLowerCase())){
+        if (!confirm('Ya existe un registro con el consecutivo "' + consec + '". ¿Desea agregarlo de nuevo?')) return;
+      }
+      p.scRegistros.unshift({
+        consecutivo: consec,
+        fecha: fecha,
+        fechaRegistro: nowDateTimeStr()
+      });
+      p.scConsecutivo = '';
+      p.scFechaAprobacion = '';
+      persist();
+      renderTab();
+    });
+  }
+
+  // ─── SC: Eliminar registro del historial ───
+  wrap.querySelectorAll('[data-del-sc]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const idx = Number(btn.dataset.delSc);
+      if (!confirm('¿Eliminar este registro de SC aprobada del historial?')) return;
+      p.scRegistros.splice(idx, 1);
+      persist();
+      renderTab();
+    });
+  });
 
   const mideplanEl = wrap.querySelector('#f-mideplan');
   if (mideplanEl){
@@ -3155,7 +3382,7 @@ function resizeImage(file, maxWidth){
 }
 
 /* =========================================================
-   RENDER HTML PARA EXPORT/PRINT
+   EXPORT / PRINT
 ========================================================= */
 function renderProjectHTML(p, forPrint, options = {}){
   const { isDOC = false, imgDims = null } = options;
@@ -3204,6 +3431,13 @@ function renderProjectHTML(p, forPrint, options = {}){
   if (p.poblacionBeneficiada) html += `<p style="margin:4px 0;font-size:11pt"><strong>Población Beneficiada:</strong> ${fmtInt(p.poblacionBeneficiada)}</p>`;
   html += `<p style="margin:4px 0;font-size:11pt"><strong>Fecha de registro:</strong> ${fmtDate(p.createdAt)}${p.createdBy?` por ${escapeHtml(p.createdBy)}`:''} &nbsp;&nbsp; <strong>Última actualización:</strong> ${fmtDateTime(p.updatedAt)}${p.lastModifiedBy?` por ${escapeHtml(p.lastModifiedBy)}`:''}</p>`;
   html += `<p style="margin:4px 0;font-size:11pt"><strong>Etapas actuales:</strong> ${currentsTxt} &nbsp;&nbsp; <strong>Avance global:</strong> ${avance}% &nbsp;&nbsp; <strong>SPI:</strong> ${spiTxt}</p>`;
+  if (p.requiereSC){
+    html += `<p style="margin:4px 0;font-size:11pt"><strong>Solicitud de Cambio:</strong> ${escapeHtml(p.scEstado||'Requiere SC')}`;
+    if ((p.scRegistros||[]).length > 0){
+      html += ` &nbsp;&nbsp; <strong>Consecutivos:</strong> ${p.scRegistros.map(r => escapeHtml(r.consecutivo)+' ('+fmtDate(r.fecha)+')').join(', ')}`;
+    }
+    html += `</p>`;
+  }
 
   if (p.description){ html += subtitle('Descripción'); html += `<p style="font-size:11pt;margin:3px 0;">${escapeHtml(p.description)}</p>`; }
   if (p.components){ html += subtitle('Componentes'); html += `<p style="font-size:11pt;margin:3px 0;">${escapeHtml(p.components)}</p>`; }
@@ -3481,6 +3715,17 @@ function addProjectConsolidatedSheet(wb, project, prefix=''){
   if (project.lastModifiedBy) rows.push(['Última modificación por', project.lastModifiedBy]);
   rows.push(['Descripción', project.description || '—']);
   rows.push(['Componentes', project.components || '—']);
+  if (project.requiereSC){
+    rows.push([]);
+    rows.push(['SOLICITUD DE CAMBIO']);
+    rows.push(['Estado', project.scEstado || 'Requiere SC']);
+    if ((project.scRegistros||[]).length > 0){
+      rows.push(['Consecutivo','Fecha Aprobación','Registrado']);
+      project.scRegistros.forEach(r => rows.push([r.consecutivo||'—', fmtDate(r.fecha), fmtDateTime(r.fechaRegistro)]));
+    } else {
+      rows.push(['Sin SC aprobadas registradas']);
+    }
+  }
   rows.push([]);
   rows.push(['INDICADORES']);
   rows.push(['SPI', spi === null ? 'N/D' : spi.toFixed(2)]);
@@ -3562,25 +3807,17 @@ function addProjectConsolidatedSheet(wb, project, prefix=''){
   XLSX.utils.book_append_sheet(wb, ws, safeSheet(base));
 }
 async function exportXLS(project){
-  try {
-    await ensureExportLibs('xls');
-  } catch(err){
-    alert('No se pudo cargar la librería XLS. Verifique su conexión e intente de nuevo.');
-    return;
-  }
+  try { await ensureExportLibs('xls'); }
+  catch(err){ alert('No se pudo cargar la librería XLS. Verifique su conexión e intente de nuevo.'); return; }
   const wb = XLSX.utils.book_new();
   addProjectConsolidatedSheet(wb, project, '');
   XLSX.writeFile(wb, safeName(project.name) + '.xlsx');
 }
 async function exportXLSBulk(projects){
-  try {
-    await ensureExportLibs('xls');
-  } catch(err){
-    alert('No se pudo cargar la librería XLS. Verifique su conexión e intente de nuevo.');
-    return;
-  }
+  try { await ensureExportLibs('xls'); }
+  catch(err){ alert('No se pudo cargar la librería XLS. Verifique su conexión e intente de nuevo.'); return; }
   const wb = XLSX.utils.book_new();
-  const resumen = [['Proyecto','BPIP','Categoría','Código Sistema','Población Beneficiada','Líder','Ubicaciones','Etapa Actual','Avance (%)','SPI','Monto Obras','Monto Terrenos (computable)','Monto Global','Archivado','Archivado Por','Archivado En']];
+  const resumen = [['Proyecto','BPIP','Categoría','Código Sistema','Población Beneficiada','Líder','Ubicaciones','Etapa Actual','Avance (%)','SPI','Monto Obras','Monto Terrenos (computable)','Monto Global','SC Estado','SC Consecutivos','Archivado','Archivado Por','Archivado En']];
   projects.forEach(p => {
     const currents = getCurrentEtapas(p);
     const spi = calcSPI(p);
@@ -3588,6 +3825,8 @@ async function exportXLSBulk(projects){
       currents.map(c => FASE_LABEL[c.fase]+'/'+c.label).join(' + ') || '—',
       getAvanceGlobal(p).toFixed(1), spi===null?'N/D':spi.toFixed(2),
       getMontoObras(p), getLandTotal(p), getMontoGlobal(p),
+      p.requiereSC ? (p.scEstado||'Requiere SC') : '',
+      (p.scRegistros||[]).map(r => r.consecutivo).join(', '),
       p.archived?'Sí':'No', p.archivedBy||'', fmtDateTime(p.archivedAt)]);
   });
   XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(resumen), 'Resumen Portafolio');
@@ -3939,15 +4178,34 @@ async function addProjectSlidesToPPTX(pptx, project){
       s8.addText(`Nota: los registros con figura Convenio o Donación no se suman a la programación financiera. Excluido: ${fmtCRC(landNC)}`, { x:0.4, y:7.15, w:12.53, h:0.3, fontSize:9, color:GRAY, italic:true });
     }
   }
+
+  // Slide SC si aplica
+  if (project.requiereSC){
+    let sSC = pptx.addSlide();
+    sSC.background = { color: WHITE };
+    addPPTXStandardHeader(sSC, project, pptx, BLUE, GOLD, WHITE);
+    sSC.addText('Solicitud de Cambio', { x:0.5, y:0.95, w:12.33, h:0.55, fontSize:24, color:DARK, bold:true });
+    sSC.addShape(pptx.ShapeType.rect, { x:0.5, y:1.55, w:3, h:0.06, fill:{color:GOLD}, line:{color:GOLD} });
+    sSC.addText(`Estado actual: ${project.scEstado || 'Requiere SC'}`, { x:0.5, y:1.85, w:12.33, h:0.5, fontSize:16, color:'1B294E', bold:true });
+    const regs = project.scRegistros || [];
+    if (regs.length === 0){
+      sSC.addText('Sin SC aprobadas registradas aún.', { x:0.5, y:3.5, w:12.33, h:0.5, fontSize:14, color:GRAY, italic:true, align:'center' });
+    } else {
+      const scRows = [[
+        { text:'Consecutivo', options:{bold:true, fill:BLUE, color:WHITE, align:'center'} },
+        { text:'Fecha Aprobación', options:{bold:true, fill:BLUE, color:WHITE, align:'center'} },
+        { text:'Fecha Registro', options:{bold:true, fill:BLUE, color:WHITE, align:'center'} }
+      ]];
+      regs.forEach(r => scRows.push([r.consecutivo||'—', fmtDate(r.fecha), fmtDateTime(r.fechaRegistro)]));
+      const scY = computeCenteredY(scRows.length, 12, 2.5, 7.3);
+      sSC.addTable(scRows, { x: 0.4, y: scY, w: 12.53, colW: [3, 4, 5.53], fontSize: 12, border: { pt:1, color:'CCCCCC' }, valign: 'middle' });
+    }
+  }
 }
 
 async function exportPPTX(project){
-  try {
-    await ensureExportLibs('pptx');
-  } catch(err){
-    alert('No se pudo cargar la librería PPTX. Verifique su conexión e intente de nuevo.');
-    return;
-  }
+  try { await ensureExportLibs('pptx'); }
+  catch(err){ alert('No se pudo cargar la librería PPTX. Verifique su conexión e intente de nuevo.'); return; }
   try {
     const pptx = new PptxGenJS();
     pptx.layout = 'LAYOUT_WIDE';
@@ -3957,12 +4215,8 @@ async function exportPPTX(project){
   } catch(e){ console.error('Error export PPTX:', e); alert('Error al exportar PPTX: ' + (e.message || e)); }
 }
 async function exportPPTXBulk(projects){
-  try {
-    await ensureExportLibs('pptx');
-  } catch(err){
-    alert('No se pudo cargar la librería PPTX. Verifique su conexión e intente de nuevo.');
-    return;
-  }
+  try { await ensureExportLibs('pptx'); }
+  catch(err){ alert('No se pudo cargar la librería PPTX. Verifique su conexión e intente de nuevo.'); return; }
   try {
     const pptx = new PptxGenJS();
     pptx.layout = 'LAYOUT_WIDE';
@@ -4003,9 +4257,6 @@ async function exportSingle(id, format){
   else if (format === 'pptx') await exportPPTX(p);
 }
 
-/* =========================================================
-   ARCHIVE MODAL
-========================================================= */
 function renderArchiveList(){
   const body = document.getElementById('archiveBody');
   const archived = sortProjects(state.projects.filter(p => p.archived));
@@ -4057,9 +4308,7 @@ function renderArchiveList(){
   html += `</div>`;
   body.innerHTML = html;
   body.querySelectorAll('[data-arch-act="view"]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      openViewModal(btn.dataset.id);
-    });
+    btn.addEventListener('click', () => { openViewModal(btn.dataset.id); });
   });
   body.querySelectorAll('[data-arch-act="export"]').forEach(btn => {
     btn.addEventListener('click', (e) => {
@@ -4083,9 +4332,6 @@ function openArchiveModal(){
   document.getElementById('archiveModal').classList.add('open');
 }
 
-/* =========================================================
-   EDITOR CLOSE LOGIC (con confirmaciones)
-========================================================= */
 function handleEditorClose(){
   const p = getEditingProject();
   if (!p){ closeEditor(); return; }
@@ -4153,9 +4399,6 @@ function handleEditorClose(){
   closeEditor();
 }
 
-/* =========================================================
-   EVENTOS
-========================================================= */
 document.addEventListener('DOMContentLoaded', async () => {
   await load();
   const overlay = document.getElementById('loadingOverlay');
@@ -4278,7 +4521,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('viewPrevVer').addEventListener('click', () => { const id = document.getElementById('viewModal').dataset.projectId; if (!id) return; const p = state.projects.find(x => x.id === id); if (!p) return; const histLen = (p.history || []).length; if (state.viewVersion < histLen){ openViewModal(id, state.viewVersion + 1); } });
   document.getElementById('viewNextVer').addEventListener('click', () => { const id = document.getElementById('viewModal').dataset.projectId; if (!id) return; if (state.viewVersion > 0){ openViewModal(id, state.viewVersion - 1); } });
 
-  // Fullscreen change listener para sincronizar estado
   ['fullscreenchange','webkitfullscreenchange','msfullscreenchange'].forEach(evt => {
     document.addEventListener(evt, () => {
       const active = isFullscreenActive();
