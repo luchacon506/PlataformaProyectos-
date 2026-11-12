@@ -321,18 +321,6 @@ td input::placeholder{color:#bbb;font-style:italic}
 /* Fullscreen button icon */
 .btn-fs{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff;border-radius:6px;width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:background .15s}
 .btn-fs:hover{background:rgba(255,255,255,0.3)}
-
-/* MIDEPLAN traffic light (3 circles) */
-.mideplan-traffic{display:flex;justify-content:center;align-items:center;gap:28px;height:220px;flex-wrap:wrap;padding:10px 0}
-.mideplan-circle{display:flex;flex-direction:column;align-items:center;gap:8px}
-.mideplan-circle .circle{width:82px;height:82px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:700;color:#fff;box-shadow:0 3px 10px rgba(0,0,0,.15);transition:transform .2s}
-.mideplan-circle .circle:hover{transform:scale(1.06)}
-.mideplan-circle .circle.green{background:radial-gradient(circle at 32% 28%,#a8f0c4 0%,#27ae60 45%,#0b4a24 100%)}
-.mideplan-circle .circle.orange{background:radial-gradient(circle at 32% 28%,#ffe6b3 0%,#f39c12 45%,#663a00 100%)}
-.mideplan-circle .circle.red{background:radial-gradient(circle at 32% 28%,#ffb3b3 0%,#e74c3c 45%,#5a0d05 100%)}
-.mideplan-circle .circle.zero{opacity:.35;filter:grayscale(0.7)}
-.mideplan-circle .lbl{font-size:11px;color:#666;font-weight:700;text-transform:uppercase;letter-spacing:.3px;text-align:center;max-width:110px;line-height:1.3}
-.mideplan-na-note{font-size:11px;color:#999;text-align:center;width:100%;margin-top:6px;font-style:italic}
 </style>
 </head>
 <body>
@@ -412,14 +400,14 @@ td input::placeholder{color:#bbb;font-style:italic}
 </main>
 
 <div class="modal" id="viewModal">
-  <div class="modal-content" id="viewModalContent">
+  <div class="modal-content">
     <div class="modal-header">
       <div class="view-title-block">
         <div id="viewBpipHeader" class="view-bpip-header"></div>
         <h2 id="viewTitle">Ver Proyecto</h2>
       </div>
       <div style="display:flex;align-items:center;gap:8px">
-        <button class="btn-fs" id="viewFullscreen" title="Modo presentación">
+        <button class="btn-fs" id="viewFullscreen" title="Pantalla completa">
           <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
         </button>
         <button class="modal-close" id="viewClose">×</button>
@@ -1019,6 +1007,7 @@ function migrateProject(p){
   if (p.lastActivitiesUpdate === undefined) p.lastActivitiesUpdate = p.updatedAt || nowDateTimeStr();
   if (p.coordX === undefined) p.coordX = '';
   if (p.coordY === undefined) p.coordY = '';
+  // Nuevos campos (archivado y auditoría)
   if (p.archived === undefined) p.archived = false;
   if (p.archivedAt === undefined) p.archivedAt = '';
   if (p.archivedBy === undefined) p.archivedBy = '';
@@ -1529,7 +1518,7 @@ function applyFilters(){
   const leader = $('#filterLeader').value;
   const spiF = $('#filterSPI').value;
   return state.projects.filter(p => {
-    if (p.archived) return false;
+    if (p.archived) return false; // excluir archivados
     if (q){
       const hay = [p.name, p.bpip, p.categoria, p.codigoSistema, p.leader, p.description, locationsToString(p), p.coordX, p.coordY].join(' ').toLowerCase();
       if (!hay.includes(q)) return false;
@@ -1643,7 +1632,7 @@ function renderDashboard(){
     </div>
     <div class="dashboard-grid">
       <div class="chart-card"><h4>Distribución por Semáforo SPI</h4><div class="chart-canvas"><canvas id="chartSPI"></canvas></div></div>
-      <div class="chart-card"><h4>Semáforo Última Actualización MIDEPLAN</h4><div class="mideplan-traffic" id="mideplanTraffic"></div></div>
+      <div class="chart-card"><h4>Semáforo Última Actualización MIDEPLAN</h4><div class="chart-canvas"><canvas id="chartMideplan"></canvas></div></div>
       <div class="chart-card"><h4>Proyectos por Etapa en Curso</h4><div class="chart-canvas"><canvas id="chartEtapas"></canvas></div></div>
       <div class="chart-card" style="grid-column:1/-1"><h4>Avance Global por Proyecto</h4><div class="chart-canvas"><canvas id="chartAvance"></canvas></div></div>
       <div class="chart-card"><h4>Asignación de Proyectos por Líder</h4>${buildLeadersListHTML(leaderCounts)}</div>
@@ -1671,31 +1660,21 @@ function renderDashboard(){
     options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { font: { size: 11 }, padding: 10 } } } }
   });
 
-  // MIDEPLAN traffic light (3 circles)
+  // MIDEPLAN semaphore donut
   const midCounts = { green: 0, orange: 0, red: 0, na: 0 };
   filtered.forEach(p => {
     const st = getMideplanStatus(p);
     if (!st) midCounts.na++;
     else midCounts[st]++;
   });
-  const trafficEl = document.getElementById('mideplanTraffic');
-  if (trafficEl){
-    trafficEl.innerHTML = `
-      <div class="mideplan-circle">
-        <div class="circle green ${midCounts.green === 0 ? 'zero' : ''}" title="${getMideplanLabel('green')}">${midCounts.green}</div>
-        <div class="lbl">Al día<br>(≤3 meses)</div>
-      </div>
-      <div class="mideplan-circle">
-        <div class="circle orange ${midCounts.orange === 0 ? 'zero' : ''}" title="${getMideplanLabel('orange')}">${midCounts.orange}</div>
-        <div class="lbl">Seguimiento<br>(3-6 meses)</div>
-      </div>
-      <div class="mideplan-circle">
-        <div class="circle red ${midCounts.red === 0 ? 'zero' : ''}" title="${getMideplanLabel('red')}">${midCounts.red}</div>
-        <div class="lbl">Atrasado<br>(≥6 meses)</div>
-      </div>
-      ${midCounts.na > 0 ? `<div class="mideplan-na-note">Sin fecha MIDEPLAN: ${midCounts.na}</div>` : ''}
-    `;
-  }
+  dashboardCharts.mideplan = new Chart(document.getElementById('chartMideplan'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Al día (≤3m)', 'Seguimiento (3-6m)', 'Atrasado (≥6m)', 'Sin fecha'],
+      datasets: [{ data: [midCounts.green, midCounts.orange, midCounts.red, midCounts.na], backgroundColor: ['#27ae60','#f39c12','#e74c3c','#bdc3c7'], borderWidth: 2, borderColor: '#fff' }]
+    },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { font: { size: 11 }, padding: 10 } } } }
+  });
 
   // Etapas bar
   const etapaCounts = {};
@@ -1713,7 +1692,7 @@ function renderDashboard(){
     options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true, ticks: { stepSize: 1 } } } }
   });
 
-  // Avance chart — BPIP labels with full name tooltip
+  // Avance chart — usa BPIP como etiqueta y nombre completo como tooltip
   const avanceEntries = filtered.slice(0, 10).map(p => ({
     bpip: (p.bpip || '').trim() || '(Sin BPIP)',
     fullName: p.name || '(Sin nombre)',
@@ -2299,71 +2278,6 @@ function zoomImage(delta){
   updateZoomDisplay();
 }
 function updateZoomDisplay(){ const el = document.getElementById('zoomLevelDisplay'); if (el) el.textContent = Math.round(currentZoom * 100) + '%'; }
-
-/* =========================================================
-   PRESENTATION MODE (Fullscreen API)
-========================================================= */
-function isFullscreenActive(){
-  return !!(document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement);
-}
-
-async function enterPresentationMode(){
-  const el = document.getElementById('viewModalContent');
-  if (!el) return;
-  try {
-    if (el.requestFullscreen) {
-      await el.requestFullscreen({ navigationUI: 'hide' });
-    } else if (el.webkitRequestFullscreen) {
-      el.webkitRequestFullscreen();
-    } else if (el.msRequestFullscreen) {
-      el.msRequestFullscreen();
-    } else {
-      throw new Error('Fullscreen API no soportada');
-    }
-    state.viewFullscreen = true;
-    document.getElementById('viewModal').classList.add('fullscreen-mode');
-    updateFullscreenButton(true);
-  } catch (err) {
-    console.warn('Fullscreen API rechazada, usando fallback CSS:', err);
-    state.viewFullscreen = true;
-    document.getElementById('viewModal').classList.add('fullscreen-mode');
-    updateFullscreenButton(true);
-  }
-}
-
-async function exitPresentationMode(){
-  try {
-    if (document.exitFullscreen) {
-      await document.exitFullscreen();
-    } else if (document.webkitExitFullscreen) {
-      document.webkitExitFullscreen();
-    } else if (document.msExitFullscreen) {
-      document.msExitFullscreen();
-    }
-  } catch (e) {
-    console.warn('Error al salir de fullscreen:', e);
-  }
-  state.viewFullscreen = false;
-  document.getElementById('viewModal').classList.remove('fullscreen-mode');
-  updateFullscreenButton(false);
-}
-
-function togglePresentationMode(){
-  if (isFullscreenActive() || state.viewFullscreen) {
-    exitPresentationMode();
-  } else {
-    enterPresentationMode();
-  }
-}
-
-function updateFullscreenButton(isFs){
-  const btn = document.getElementById('viewFullscreen');
-  if (!btn) return;
-  btn.title = isFs ? 'Salir del modo presentación' : 'Modo presentación';
-  btn.innerHTML = isFs
-    ? '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/></svg>'
-    : '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>';
-}
 
 /* =========================================================
    CONFIRM DIALOG
@@ -4090,6 +4004,7 @@ function handleEditorClose(){
   const p = getEditingProject();
   if (!p){ closeEditor(); return; }
 
+  // Caso 1: Nuevo proyecto
   if (state.isNewProject){
     showConfirm({
       title: '¿Está seguro de crear este proyecto?',
@@ -4106,6 +4021,7 @@ function handleEditorClose(){
         renderGrid();
       },
       onCancel: () => {
+        // Descartar: eliminar el proyecto por completo
         state.projects = state.projects.filter(x => x.id !== p.id);
         state.selected.delete(p.id);
         save();
@@ -4116,6 +4032,7 @@ function handleEditorClose(){
     return;
   }
 
+  // Caso 2: Proyecto existente con cambios
   if (state.dirty){
     showConfirm({
       title: '¿Está seguro que quiere guardar cambios?',
@@ -4124,6 +4041,7 @@ function handleEditorClose(){
       confirmText: 'Sí, guardar',
       cancelText: 'No, descartar',
       onConfirm: (name) => {
+        // Snapshot en historial
         if (state.editorSnapshot){
           const snap = state.editorSnapshot;
           const isEmpty = !snap.name && !snap.bpip && !snap.leader && !snap.description;
@@ -4150,6 +4068,7 @@ function handleEditorClose(){
     return;
   }
 
+  // Caso 3: Sin cambios: cerrar directamente
   closeEditor();
 }
 
@@ -4197,6 +4116,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   });
 
+  // Confirm dialog buttons
   document.getElementById('confirmYes').addEventListener('click', () => {
     if (!confirmCallback) return;
     const needsName = !!confirmCallback.needsName;
@@ -4224,6 +4144,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (e.key === 'Enter'){ e.preventDefault(); document.getElementById('confirmYes').click(); }
   });
 
+  // Archive modal buttons
   document.getElementById('btnArchived').addEventListener('click', openArchiveModal);
   document.getElementById('archiveClose').addEventListener('click', () => document.getElementById('archiveModal').classList.remove('open'));
   document.getElementById('archiveCloseBtn').addEventListener('click', () => document.getElementById('archiveModal').classList.remove('open'));
@@ -4266,27 +4187,22 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('printPrint').addEventListener('click', printWindow);
 
   document.getElementById('viewClose').addEventListener('click', () => {
-    if (isFullscreenActive() || state.viewFullscreen) exitPresentationMode();
     document.getElementById('viewModal').classList.remove('open');
+    document.getElementById('viewModal').classList.remove('fullscreen-mode');
+    state.viewFullscreen = false;
   });
   document.getElementById('viewCloseBtn').addEventListener('click', () => {
-    if (isFullscreenActive() || state.viewFullscreen) exitPresentationMode();
     document.getElementById('viewModal').classList.remove('open');
+    document.getElementById('viewModal').classList.remove('fullscreen-mode');
+    state.viewFullscreen = false;
   });
-  document.getElementById('viewFullscreen').addEventListener('click', togglePresentationMode);
+  document.getElementById('viewFullscreen').addEventListener('click', () => {
+    state.viewFullscreen = !state.viewFullscreen;
+    document.getElementById('viewModal').classList.toggle('fullscreen-mode', state.viewFullscreen);
+  });
   document.getElementById('viewExportPdf').addEventListener('click', () => { const id = document.getElementById('viewModal').dataset.projectId; if (id) openPrintModal([id]); });
   document.getElementById('viewPrevVer').addEventListener('click', () => { const id = document.getElementById('viewModal').dataset.projectId; if (!id) return; const p = state.projects.find(x => x.id === id); if (!p) return; const histLen = (p.history || []).length; if (state.viewVersion < histLen){ openViewModal(id, state.viewVersion + 1); } });
   document.getElementById('viewNextVer').addEventListener('click', () => { const id = document.getElementById('viewModal').dataset.projectId; if (!id) return; if (state.viewVersion > 0){ openViewModal(id, state.viewVersion - 1); } });
-
-  // Fullscreen change listener para sincronizar estado
-  ['fullscreenchange','webkitfullscreenchange','msfullscreenchange'].forEach(evt => {
-    document.addEventListener(evt, () => {
-      const active = isFullscreenActive();
-      state.viewFullscreen = active;
-      document.getElementById('viewModal').classList.toggle('fullscreen-mode', active);
-      updateFullscreenButton(active);
-    });
-  });
 
   document.getElementById('zoomImageEl').addEventListener('wheel', (e) => { e.preventDefault(); zoomImage(e.deltaY < 0 ? 1 : -1); }, { passive: false });
 
@@ -4308,11 +4224,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
   document.addEventListener('mouseup', () => { isDragging = false; });
 
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape'){
-      if (document.getElementById('imageZoomOverlay').classList.contains('open')) closeImageZoom();
-    }
-  });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape'){ if (document.getElementById('imageZoomOverlay').classList.contains('open')) closeImageZoom(); } });
 
   const syncEl = document.getElementById('syncStatus');
   if (syncEl){
