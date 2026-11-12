@@ -84,22 +84,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-s
 .dashboard-body{padding:16px}
 .dashboard-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:14px}
 .dash-stat{background:var(--aya-fondo-claro);border-radius:8px;padding:12px;text-align:center;border-left:4px solid var(--aya-dorado);min-width:0;overflow:hidden}
-
-/* ─── Números responsivos en el primer segmento del dashboard ─── */
-.dash-stat .num{
-  font-weight:700;
-  color:var(--aya-azul);
-  line-height:1.15;
-  font-size:clamp(14px, 2.2vw, 22px);
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
+.dash-stat .num{font-weight:700;color:var(--aya-azul);line-height:1.15;font-size:clamp(14px, 2.2vw, 22px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .dash-stat .num.num-md{ font-size:clamp(11px, 1.7vw, 16px); }
 .dash-stat .num.num-sm{ font-size:clamp(9px, 1.35vw, 13px); }
 .dash-stat .num.num-xs{ font-size:clamp(8px, 1.1vw, 11px); }
 .dash-stat .lbl{font-size:10.5px;color:#666;text-transform:uppercase;letter-spacing:.4px;font-weight:700;margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-
 @media (max-width: 600px) {
   .dashboard-summary { grid-template-columns: repeat(2, 1fr); }
   .dash-stat { padding: 10px 8px; }
@@ -109,7 +98,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-s
   .dash-stat .num.num-xs { font-size: 9.5px; }
   .dash-stat .lbl { font-size: 9.5px; }
 }
-
 .dashboard-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 @media(max-width:800px){.dashboard-grid{grid-template-columns:1fr}}
 .chart-card{background:white;border:1px solid var(--aya-gris);border-radius:8px;padding:12px}
@@ -122,15 +110,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-s
 .leaders-table tbody tr:hover{background:var(--aya-fondo-claro)}
 .leaders-table tfoot td{padding:8px 10px;background:var(--aya-fondo-claro);font-weight:700;border-top:2px solid var(--aya-dorado)}
 .leaders-table .count-badge{display:inline-block;background:var(--aya-dorado);color:#fff;padding:2px 10px;border-radius:10px;font-weight:700;min-width:28px;text-align:center}
-
-/* ─── Filas expandibles de responsables ─── */
-.resp-row{cursor:pointer;user-select:none;transition:background .1s}
-.resp-row:hover{background:#e8eef7 !important}
+.resp-row, .leader-row{cursor:pointer;user-select:none;transition:background .1s}
+.resp-row:hover, .leader-row:hover{background:#e8eef7 !important}
 .resp-toggle{display:inline-block;width:12px;color:var(--aya-dorado);font-weight:900;transition:transform .2s;transform-origin:center}
-.resp-row.expanded .resp-toggle{transform:rotate(90deg)}
-.resp-projects-row td{border-bottom:1px solid var(--aya-gris) !important}
+.resp-row.expanded .resp-toggle, .leader-row.expanded .resp-toggle{transform:rotate(90deg)}
+.resp-projects-row td, .leader-projects-row td{border-bottom:1px solid var(--aya-gris) !important}
 .resp-project-item:last-child{border-bottom:none !important}
-
 .projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
 .empty{text-align:center;padding:80px 20px;color:#888;font-size:15px;grid-column:1/-1}
 .card{background:var(--aya-blanco);border-radius:10px;padding:0;border-top:none;box-shadow:0 2px 8px rgba(0,0,0,.06);display:block;position:relative}
@@ -163,9 +148,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-s
 .card-sc-indicator.sc-elaboracion{background:#ffeacc;color:#b86000;border-left:3px solid #e67e22}
 .card-sc-indicator.sc-enviada{background:#e3f0ff;color:#0c4a8a;border-left:3px solid #3498db}
 .card-sc-indicator.sc-aprobada{background:#d4edda;color:#155724;border-left:3px solid #27ae60}
+
+/* NUEVO: notificación Requiere Actualizar Delphos (solo MIDEPLAN rojo) */
+.card-delphos-alert{
+  display:flex;align-items:center;gap:6px;
+  padding:6px 10px;border-radius:6px;
+  font-size:11.5px;font-weight:800;margin-top:4px;
+  background:linear-gradient(90deg,#f9d4d4 0%,#f5b8b8 100%);
+  color:#5a0d05;border-left:3px solid #c0392b;
+  box-shadow:0 1px 3px rgba(192,57,43,.2);
+  letter-spacing:.2px;
+}
+.card-delphos-alert .alert-icon{font-size:15px;line-height:1}
+
 .card-delayed-stages{padding:8px 10px;border-radius:6px;background:#fef4f4;border-left:3px solid #e74c3c;margin-top:4px}
 .card-delayed-stages .cds-title{font-size:11px;font-weight:700;color:#721c24;text-transform:uppercase;letter-spacing:.3px;margin-bottom:5px}
-.card-delayed-stages .cds-item{display:flex;justify-content:space-between;font-size:11.5px;color:#333;padding:2px 0;gap:8px;align-items:center}
+.card-delayed-stages .cds-item{display:flex;justify-content:space-between;font-size:11.5px;color:#333;padding:2px 0;gap:8px;align-items:center;cursor:help}
 .card-delayed-stages .cds-item .cds-label{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0}
 .card-delayed-stages .cds-item .cds-info{color:#721c24;font-weight:700;flex-shrink:0;font-size:11px}
 .card-actions{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
@@ -329,6 +327,8 @@ td input::placeholder{color:#bbb;font-style:italic}
 .view-table tbody tr.land-non-computable:nth-child(even){background:#fffbf0}
 .view-table tfoot td{padding:9px 8px;border-top:2px solid var(--aya-dorado);background:var(--aya-fondo-claro);font-weight:700}
 .view-table-wrap{overflow-x:auto;margin-top:4px}
+.view-table td.col-peso-actual{ text-align:right; font-weight:700; color:#a8843e; font-family:'Courier New',monospace; }
+.view-table th.col-peso-actual{ text-align:right; }
 .aggregated-note{font-size:11px;color:#856404;background:#fffbe6;border-left:3px solid var(--aya-amarillo);padding:6px 10px;border-radius:4px;margin-top:8px;font-style:italic}
 .image-zoom-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:400;flex-direction:column}
 .image-zoom-overlay.open{display:flex}
@@ -351,6 +351,7 @@ td input::placeholder{color:#bbb;font-style:italic}
 .etapa-ejecucion-fields{background:#eef8f0;border:1px solid #b8dfc3;border-radius:7px;padding:12px;margin-top:10px}
 .etapa-ejecucion-fields .row-3{margin-bottom:0}
 .etapa-ejecucion-fields label{font-size:11px;font-weight:700;color:#1B294E;text-transform:uppercase}
+.etapa-tipo-ejecucion-row{background:#e8f4ec;border:1px solid #b8dfc3;border-radius:7px;padding:12px;margin-bottom:10px}
 .coord-row{display:flex;gap:10px;align-items:center}
 .coord-row .coord-label{font-weight:700;color:var(--aya-azul);font-size:13px;min-width:22px;text-align:center}
 .coord-row input{flex:1}
@@ -688,6 +689,10 @@ const PRIORIDADES = ['Alta','Media','Baja'];
 const ESTADOS_ACT = ['Logrado','En proceso','Pendiente'];
 const CATEGORIAS = ['Abastecimiento','Edificaciones','Saneamiento'];
 const SC_ESTADOS = ['Requiere SC','Elaboración de SC','SC Enviada','SC Aprobada'];
+const TIPOS_EJECUCION = [
+  { key: 'construccion',        label: 'Construcción' },
+  { key: 'diseno_construccion', label: 'Diseño + Construcción' }
+];
 const FUNDS = [
   { key:'propios',      label:'Fondos Propios' },
   { key:'especificos',  label:'Fondos Específicos' },
@@ -697,7 +702,6 @@ const FUNDS = [
 const FIGURAS_NO_COMPUTABLES = ['Convenio', 'Donación'];
 const AUTO_GOLD_COLOR = '#a8843e';
 
-// ─── NUEVO: hitos del rango "Perfil → Envío a UEN AP" (= fin de Diseño Final) ───
 const AVANCE_HITOS = ['perfil', 'prefactibilidad', 'factibilidad', 'diseno'];
 const AVANCE_HITOS_LABEL = 'Perfil → Envío a UEN AP';
 
@@ -706,6 +710,11 @@ function scClass(estado){
   if (estado === 'SC Enviada') return 'enviada';
   if (estado === 'Elaboración de SC') return 'elaboracion';
   return 'requiere';
+}
+
+function getTipoEjecucionLabel(key){
+  const found = TIPOS_EJECUCION.find(t => t.key === key);
+  return found ? found.label : 'Construcción';
 }
 
 const CR_LOC = {
@@ -813,7 +822,8 @@ const state = {
   projects: [], editingId: null, selected: new Set(), printTarget: [],
   dirty: false, editorSnapshot: null, viewVersion: 0,
   isNewProject: false, viewFullscreen: false,
-  expandedResponsables: new Set()
+  expandedResponsables: new Set(),
+  expandedLeaders: new Set()
 };
 let currentZoom = 1;
 let dashboardCharts = {};
@@ -1042,10 +1052,16 @@ function migrateProject(p){
   if (!p.etapas) p.etapas = {};
   for (const fase in STAGES) for (const et of STAGES[fase]){
     if (!p.etapas[et.key]) {
-      p.etapas[et.key] = { active:false, inicioProg:'', finProg:'', inicioReal:'', finReal:'', progress:0, montoEtapa:0, montoEjecucion:0, fondoEjecucion:'propios' };
+      p.etapas[et.key] = {
+        active:false, inicioProg:'', finProg:'', inicioReal:'', finReal:'', progress:0,
+        montoEtapa:0, montoEjecucion:0, fondoEjecucion:'propios',
+        tipoEjecucion:'construccion', finDiseno:''
+      };
     } else {
       if (p.etapas[et.key].montoEjecucion === undefined) p.etapas[et.key].montoEjecucion = 0;
       if (p.etapas[et.key].fondoEjecucion === undefined) p.etapas[et.key].fondoEjecucion = 'propios';
+      if (p.etapas[et.key].tipoEjecucion === undefined) p.etapas[et.key].tipoEjecucion = 'construccion';
+      if (p.etapas[et.key].finDiseno === undefined) p.etapas[et.key].finDiseno = '';
     }
   }
   if (!p.difficulties) p.difficulties = [];
@@ -1094,7 +1110,11 @@ function save(){
 function createEmptyProject(){
   const etapas = {};
   for (const fase in STAGES) for (const et of STAGES[fase]){
-    etapas[et.key] = { active:false, inicioProg:'', finProg:'', inicioReal:'', finReal:'', progress:0, montoEtapa:0, montoEjecucion:0, fondoEjecucion:'propios' };
+    etapas[et.key] = {
+      active:false, inicioProg:'', finProg:'', inicioReal:'', finReal:'', progress:0,
+      montoEtapa:0, montoEjecucion:0, fondoEjecucion:'propios',
+      tipoEjecucion:'construccion', finDiseno:''
+    };
   }
   return {
     id: uid(),
@@ -1258,6 +1278,16 @@ function getStaleAlert(p){
   };
 }
 
+function monthsBetween(startD, endD){
+  return (endD.getFullYear() - startD.getFullYear()) * 12 + (endD.getMonth() - startD.getMonth()) + 1;
+}
+function addMonthsToPerYear(perYear, startDate, months, monthlyAmount){
+  for (let i = 0; i < months; i++){
+    const d = new Date(startDate.getFullYear(), startDate.getMonth() + i, 1);
+    const y = d.getFullYear();
+    perYear[y] = (perYear[y] || 0) + monthlyAmount;
+  }
+}
 function calcEjecucionDistribution(ejec){
   if (!ejec) return null;
   const monto = Number(ejec.montoEjecucion) || 0;
@@ -1269,17 +1299,52 @@ function calcEjecucionDistribution(ejec){
   const startD = new Date(inicio + 'T00:00:00');
   const endD   = new Date(fin + 'T00:00:00');
   if (isNaN(startD) || isNaN(endD) || endD < startD) return null;
-  const months = (endD.getFullYear() - startD.getFullYear()) * 12 + (endD.getMonth() - startD.getMonth()) + 1;
+
+  const tipoEjecucion = ejec.tipoEjecucion || 'construccion';
+  const finDiseno = ejec.finDiseno;
+
+  if (tipoEjecucion === 'diseno_construccion' && finDiseno && /^\d{4}-\d{2}-\d{2}$/.test(finDiseno)){
+    const finDisenoD = new Date(finDiseno + 'T00:00:00');
+    if (!isNaN(finDisenoD) && finDisenoD >= startD && finDisenoD <= endD){
+      const designMonths = monthsBetween(startD, finDisenoD);
+      const constructionStart = new Date(finDisenoD.getFullYear(), finDisenoD.getMonth() + 1, 1);
+      const constructionMonths = monthsBetween(constructionStart, endD);
+
+      if (designMonths > 0 && constructionMonths > 0){
+        const designAmount = monto * 0.30;
+        const constructionAmount = monto * 0.70;
+        const designMonthly = designAmount / designMonths;
+        const constructionMonthly = constructionAmount / constructionMonths;
+        const perYear = {};
+        addMonthsToPerYear(perYear, startD, designMonths, designMonthly);
+        addMonthsToPerYear(perYear, constructionStart, constructionMonths, constructionMonthly);
+        return {
+          perYear, monto,
+          fund: ejec.fondoEjecucion || 'propios',
+          inicio, fin,
+          tipoEjecucion: 'diseno_construccion',
+          finDiseno,
+          designAmount, constructionAmount,
+          designMonths, constructionMonths,
+          designMonthly, constructionMonthly
+        };
+      }
+    }
+  }
+
+  const months = monthsBetween(startD, endD);
   if (months <= 0) return null;
   const monthly = monto / months;
   const perYear = {};
-  for (let i = 0; i < months; i++){
-    const d = new Date(startD.getFullYear(), startD.getMonth() + i, 1);
-    const y = d.getFullYear();
-    perYear[y] = (perYear[y] || 0) + monthly;
-  }
-  return { monthly, perYear, months, monto, fund: ejec.fondoEjecucion || 'propios', inicio, fin };
+  addMonthsToPerYear(perYear, startD, months, monthly);
+  return {
+    perYear, monto, monthly, months,
+    fund: ejec.fondoEjecucion || 'propios',
+    inicio, fin,
+    tipoEjecucion: 'construccion'
+  };
 }
+
 function getEjecucionDistribution(p){ return calcEjecucionDistribution(p.etapas?.ejecucion); }
 function getEjecucionForYear(p, year){ const d = getEjecucionDistribution(p); return d ? (d.perYear[year] || 0) : 0; }
 function getEjecucionForYearView(p, year, info){
@@ -1297,7 +1362,12 @@ function getEjecucionFundLabel(p){
   return found ? found.label : 'Fondos Propios';
 }
 function getEjecucionFundArrowLabel(p){
-  return `${getEjecucionFundLabel(p)} → Ejecución (auto)`;
+  const f = getEjecucionFundLabel(p);
+  const ejec = p.etapas?.ejecucion;
+  if (ejec?.tipoEjecucion === 'diseno_construccion' && ejec?.finDiseno){
+    return `${f} → Ejecución (30% Diseño + 70% Construcción)`;
+  }
+  return `${f} → Ejecución (auto)`;
 }
 function getTerrenosFundArrowLabel(){
   return 'Fondos Propios → Terrenos (auto)';
@@ -1428,9 +1498,6 @@ function getAvanceGlobal(p){
   return totalW > 0 ? weighted / totalW : 0;
 }
 
-// ─── NUEVO: Avance desde Perfil hasta Envío a UEN AP (fin de Diseño Final) ───
-// Solo considera etapas activas con peso dentro del rango: perfil → diseno.
-// Si una etapa del rango no está activa, cuenta como 0% (aún no iniciada).
 function getAvancePerfilToDiseno(p){
   let totalW = 0, weighted = 0;
   for (const fase in STAGES) for (const et of STAGES[fase]){
@@ -1478,7 +1545,6 @@ function getAllTeamEmails(){
   return [...set].sort((a,b) => a.localeCompare(b, 'es'));
 }
 
-// ─── NUEVO: estructura con proyectos por responsable (para expandir) ───
 function countProjectsByResponsable(projects){
   const data = {};
   projects.forEach(p => {
@@ -1503,7 +1569,6 @@ function countProjectsByResponsable(projects){
   return out;
 }
 
-// ─── NUEVO: lista de responsables con filas expandibles y proyectos clickeables ───
 function buildResponsablesListHTML(data){
   const entries = Object.entries(data).sort((a, b) => b[1].count - a[1].count);
   if (entries.length === 0) return '<div class="alert-empty">Sin responsables registrados</div>';
@@ -1513,12 +1578,8 @@ function buildResponsablesListHTML(data){
     total += d.count;
     const isExpanded = state.expandedResponsables.has(name);
     const respTxt = d.responsabilidades.length > 0 ? d.responsabilidades.join(', ') : '—';
-    const safeNameHtml = escapeHtml(name);
     html += `<tr class="resp-row${isExpanded ? ' expanded' : ''}" data-resp-key="${idx}" style="cursor:pointer;user-select:none;">
-      <td style="font-weight:600">
-        <span class="resp-toggle">▸</span>
-        ${safeNameHtml}
-      </td>
+      <td style="font-weight:600"><span class="resp-toggle">▸</span> ${escapeHtml(name)}</td>
       <td style="font-size:11px;color:#555">${escapeHtml(respTxt)}</td>
       <td style="text-align:right"><span class="count-badge">${d.count}</span></td>
     </tr>
@@ -1596,6 +1657,8 @@ function computeDiff(viewed, newer) {
     if (_normNum(a.progress) !== _normNum(b.progress)) sub.progress = true;
     if (_normNum(a.montoEjecucion) !== _normNum(b.montoEjecucion)) sub.montoEjecucion = true;
     if (_normStr(a.fondoEjecucion) !== _normStr(b.fondoEjecucion)) sub.fondoEjecucion = true;
+    if (_normStr(a.tipoEjecucion) !== _normStr(b.tipoEjecucion)) sub.tipoEjecucion = true;
+    if (_normDate(a.finDiseno) !== _normDate(b.finDiseno)) sub.finDiseno = true;
     if (Object.keys(sub).length) diff.etapas[et.key] = sub;
   }
   const sortByPrio = (x, y) => { const o = { Alta: 0, Media: 1, Baja: 2 }; return (o[x.priority] ?? 3) - (o[y.priority] ?? 3); };
@@ -1728,24 +1791,52 @@ function populateFilterOptions(){
   leaderSel.innerHTML = '<option value="">Todos los líderes</option>' + leaders.map(l => `<option value="${escapeHtml(l)}">${escapeHtml(l)}</option>`).join('');
   leaderSel.value = curL;
 }
+
 function countProjectsByLeader(projects){
   const counts = {};
   projects.forEach(p => {
     const leader = (p.leader || '').trim() || '(Sin líder)';
-    if (!counts[leader]) counts[leader] = { count: 0, total: 0 };
+    if (!counts[leader]) counts[leader] = { count: 0, total: 0, projects: [] };
     counts[leader].count++;
     counts[leader].total += getMontoGlobal(p);
+    counts[leader].projects.push(p);
   });
   return counts;
 }
+
 function buildLeadersListHTML(counts){
   const entries = Object.entries(counts).sort((a, b) => b[1].count - a[1].count);
   if (entries.length === 0) return '<div class="alert-empty">Sin líderes registrados</div>';
   let totalProjects = 0, totalAmount = 0;
   let html = '<div class="leaders-table-wrap"><table class="leaders-table"><thead><tr><th>Líder de Proyecto</th><th style="text-align:right">Proyectos</th><th style="text-align:right">Monto</th></tr></thead><tbody>';
-  entries.forEach(([name, data]) => {
+  entries.forEach(([name, data], idx) => {
     totalProjects += data.count; totalAmount += data.total;
-    html += `<tr><td>${escapeHtml(name)}</td><td style="text-align:right"><span class="count-badge">${data.count}</span></td><td style="text-align:right;font-weight:600;color:var(--aya-azul)">${fmtCRC(data.total)}</td></tr>`;
+    const isExpanded = state.expandedLeaders.has(name);
+    html += `<tr class="leader-row${isExpanded ? ' expanded' : ''}" data-leader-key="${idx}" style="cursor:pointer;user-select:none;">
+      <td style="font-weight:600"><span class="resp-toggle">▸</span> ${escapeHtml(name)}</td>
+      <td style="text-align:right"><span class="count-badge">${data.count}</span></td>
+      <td style="text-align:right;font-weight:600;color:var(--aya-azul)">${fmtCRC(data.total)}</td>
+    </tr>
+    <tr class="leader-projects-row" data-leader-parent-key="${idx}" style="display:${isExpanded?'table-row':'none'}">
+      <td colspan="3" style="padding:0;background:#f0f4fa;border-bottom:1px solid var(--aya-gris)">
+        <div style="padding:6px 10px 8px 26px;">
+          ${data.projects.length === 0
+            ? '<div style="font-size:11px;color:#999;font-style:italic;padding:6px">Sin proyectos</div>'
+            : data.projects.map(proj => {
+                const spi = calcSPI(proj);
+                const cls = spiClass(spi);
+                const spText = spi === null ? 'N/D' : spi.toFixed(2);
+                const bpip = (proj.bpip || '').trim();
+                return `<div class="resp-project-item" data-proj-id="${proj.id}" style="display:flex;align-items:center;gap:10px;padding:6px 10px;border-radius:4px;cursor:pointer;font-size:12px;border-bottom:1px solid #e0e3eb;transition:background .1s;">
+                  <span style="font-family:'Courier New',monospace;font-size:11px;color:var(--aya-dorado);font-weight:700;min-width:75px;${bpip?'':'font-style:italic;color:#aaa;'}">${bpip || 'Sin BPIP'}</span>
+                  <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--aya-azul);font-weight:600;">${escapeHtml(proj.name) || '(Sin nombre)'}</span>
+                  <span class="${cls}" style="font-size:10.5px;padding:2px 8px;border-radius:10px;font-weight:700;white-space:nowrap;">${spText}</span>
+                </div>`;
+              }).join('')
+          }
+        </div>
+      </td>
+    </tr>`;
   });
   html += `</tbody><tfoot><tr><td>TOTAL</td><td style="text-align:right">${totalProjects}</td><td style="text-align:right;color:var(--aya-azul)">${fmtCRC(totalAmount)}</td></tr></tfoot></table></div>`;
   return html;
@@ -1790,7 +1881,6 @@ function renderProjectList(){
   });
 }
 
-// ─── NUEVO helper: clase CSS del número según longitud para que quepa en la celda ───
 function statNumClass(val){
   const len = String(val).length;
   if (len > 20) return ' num-xs';
@@ -1798,8 +1888,6 @@ function statNumClass(val){
   if (len > 10) return ' num-md';
   return '';
 }
-
-// ─── NUEVO helper: construye una celda del primer segmento del dashboard ───
 function statCardHTML(num, lbl, title){
   const cls = statNumClass(num);
   const titleAttr = title ? ` title="${escapeHtml(title)}"` : '';
@@ -1821,7 +1909,6 @@ function renderDashboard(){
   const totalObras = filtered.reduce((s,p) => s + getMontoObras(p), 0);
   const totalTerr = filtered.reduce((s,p) => s + getLandTotal(p), 0);
 
-  // ─── NUEVO: promedio usa Perfil → fin de Diseño ───
   const avgAvance = filtered.length > 0
     ? filtered.reduce((s,p) => s + getAvancePerfilToDiseno(p), 0) / filtered.length
     : 0;
@@ -1855,26 +1942,44 @@ function renderDashboard(){
     </div>
   `;
 
-  // ─── Bind eventos de responsables expandibles ───
+  body.querySelectorAll('.leader-row').forEach(row => {
+    row.addEventListener('click', () => {
+      const key = row.dataset.leaderKey;
+      const projRow = body.querySelector(`.leader-projects-row[data-leader-parent-key="${key}"]`);
+      if (!projRow) return;
+      const isExpanded = row.classList.contains('expanded');
+      const nameTxt = row.querySelector('td').textContent.replace('▸', '').trim();
+      if (isExpanded){
+        row.classList.remove('expanded');
+        projRow.style.display = 'none';
+        state.expandedLeaders.delete(nameTxt);
+      } else {
+        row.classList.add('expanded');
+        projRow.style.display = 'table-row';
+        state.expandedLeaders.add(nameTxt);
+      }
+    });
+  });
+
   body.querySelectorAll('.resp-row').forEach(row => {
     row.addEventListener('click', () => {
       const key = row.dataset.respKey;
       const projRow = body.querySelector(`.resp-projects-row[data-resp-parent-key="${key}"]`);
       if (!projRow) return;
       const isExpanded = row.classList.contains('expanded');
+      const nameTxt = row.querySelector('td').textContent.replace('▸', '').trim();
       if (isExpanded){
         row.classList.remove('expanded');
         projRow.style.display = 'none';
-        const nameTxt = row.querySelector('td').textContent.replace('▸', '').trim();
         state.expandedResponsables.delete(nameTxt);
       } else {
         row.classList.add('expanded');
         projRow.style.display = 'table-row';
-        const nameTxt = row.querySelector('td').textContent.replace('▸', '').trim();
         state.expandedResponsables.add(nameTxt);
       }
     });
   });
+
   body.querySelectorAll('.resp-project-item').forEach(item => {
     item.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -1943,7 +2048,6 @@ function renderDashboard(){
     options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true, ticks: { stepSize: 1 } } } }
   });
 
-  // ─── NUEVO: chart de Avance Global por proyecto, TODOS los proyectos, tope 100% y etiqueta "Envío a UEN AP" ───
   const avanceEntries = filtered
     .map(p => ({
       bpip: (p.bpip || '').trim() || '(Sin BPIP)',
@@ -2060,7 +2164,7 @@ function createCard(p){
   const spText = sp === null ? 'SPI: N/D' : 'SPI: ' + sp.toFixed(2);
   const currents = getCurrentEtapas(p);
   const etapaTxt = currents.length > 0 ? currents.map(c => `${FASE_LABEL[c.fase]} / ${c.label}`).join(' + ') : 'Sin etapas en curso';
-  const avance = getAvanceGlobal(p).toFixed(1);
+  const avance = getAvanceGlobal(p).toFixed(2);
   const loc = locationsToString(p);
   const bpipClean = (p.bpip || '').trim();
   const bpipDisplay = bpipClean ? `BPIP: ${escapeHtml(bpipClean)}` : 'Sin BPIP';
@@ -2076,6 +2180,14 @@ function createCard(p){
         <strong>Requiere actualización:</strong>
         ${stale.progressStale ? ` % avance${stale.daysSinceProgress!==null?` (${stale.daysSinceProgress} d)`:''}` : ''}${stale.progressStale && stale.activitiesStale ? ' · ' : ''}${stale.activitiesStale ? ` actividades programadas${stale.daysSinceActivities!==null?` (${stale.daysSinceActivities} d)`:''}` : ''}
       </div>
+    </div>
+  ` : '';
+
+  // NUEVO: notificación Requiere Actualizar Delphos (solo MIDEPLAN rojo)
+  const delphosAlertHtml = midStatus === 'red' ? `
+    <div class="card-delphos-alert">
+      <span class="alert-icon">⚠️</span>
+      <span>Requiere Actualizar Delphos</span>
     </div>
   ` : '';
 
@@ -2095,7 +2207,7 @@ function createCard(p){
     <div class="card-delayed-stages">
       <div class="cds-title">⏱ Etapas con retraso</div>
       ${delayed.map(ds => `
-        <div class="cds-item">
+        <div class="cds-item" title="Puntos Porcentuales (pp) pendiente entre lo planificado a hoy.">
           <span class="cds-label">${FASE_LABEL[ds.fase]} / ${ds.label}</span>
           <span class="cds-info">${ds.progress}%${ds.daysLate > 0 ? ` · ${ds.daysLate}d` : ''}${ds.gap > 0 ? ` · −${ds.gap}pp` : ''}</span>
         </div>
@@ -2123,6 +2235,7 @@ function createCard(p){
       <div class="card-row"><span class="lbl">Etapa actual:</span><span class="val" style="max-width:60%;font-size:11.5px">${etapaTxt}</span></div>
       <div class="card-row"><span class="lbl">Avance global:</span><span class="val">${avance}%</span></div>
       <div class="card-row"><span class="lbl">Monto global:</span><span class="val">${fmtCRC(getMontoGlobal(p))}</span></div>
+      ${delphosAlertHtml}
       ${scIndicatorHtml}
       <div class="card-spi ${spClass}">${spText}</div>
       ${delayedHtml}
@@ -2167,9 +2280,10 @@ function createCard(p){
   return el;
 }
 
+// NUEVA: Etapas table con columna "Peso Actual" calculada como weight × progress/100
 function buildEtapasTableHTML(p, diff){
   let html = `<div class="view-table-wrap"><table class="view-table"><thead><tr>
-      <th>Fase</th><th>Etapa</th><th>Peso</th><th>Inicio Prog.</th><th>Fin Prog.</th><th>Inicio Real</th><th>Fin Real</th><th style="text-align:right">% Avance</th>
+      <th>Fase</th><th>Etapa</th><th>Peso</th><th class="col-peso-actual">Peso Actual</th><th>Inicio Prog.</th><th>Fin Prog.</th><th>Inicio Real</th><th>Fin Real</th><th style="text-align:right">% Avance</th>
     </tr></thead><tbody>`;
   let has = false;
   for (const fase in STAGES) for (const et of STAGES[fase]){
@@ -2177,21 +2291,26 @@ function buildEtapasTableHTML(p, diff){
     const d = p.etapas?.[et.key];
     if (!d?.active) continue;
     has = true;
+    const progress = Number(d.progress)||0;
+    const pesoActualNum = et.weight > 0 ? (et.weight * progress / 100) : 0;
+    const pesoActual = et.weight > 0 ? pesoActualNum.toFixed(2) : '—';
     const sub = (diff && diff.etapas[et.key]) || {};
     const whole = !!sub.active;
     const cell = (flag) => (whole || flag) ? ' class="diff-changed-cell"' : '';
+    const pesoActualCls = (whole || sub.progress) ? 'diff-changed-cell' : '';
     html += `<tr>
       <td>${FASE_LABEL[fase]}</td>
       <td style="font-weight:600">${et.label}</td>
       <td>${et.weight > 0 ? et.weight + '%' : '—'}</td>
+      <td class="col-peso-actual ${pesoActualCls}">${pesoActual}</td>
       <td${cell(sub.inicioProg)}>${fmtDate(d.inicioProg)}</td>
       <td${cell(sub.finProg)}>${fmtDate(d.finProg)}</td>
       <td${cell(sub.inicioReal)}>${fmtDate(d.inicioReal)}</td>
       <td${cell(sub.finReal)}>${fmtDate(d.finReal)}</td>
-      <td${cell(sub.progress)} style="text-align:right;font-weight:700">${Number(d.progress)||0}%</td>
+      <td${cell(sub.progress)} style="text-align:right;font-weight:700">${progress}%</td>
     </tr>`;
   }
-  if (!has) html += `<tr><td colspan="8" style="text-align:center;color:#888;padding:20px">Sin etapas activas</td></tr>`;
+  if (!has) html += `<tr><td colspan="9" style="text-align:center;color:#888;padding:20px">Sin etapas activas</td></tr>`;
   html += `</tbody></table></div>`;
   return html;
 }
@@ -2492,7 +2611,7 @@ function openViewModal(id, versionIndex = 0){
       </div>
       <div class="kpi-card">
         <div class="kpi-label">Avance Global</div>
-        <div class="kpi-value">${avance.toFixed(1)}%</div>
+        <div class="kpi-value">${avance.toFixed(2)}%</div>
         <div class="progress-bar"><div style="width:${avance}%"></div></div>
       </div>
       <div class="kpi-card">
@@ -3177,16 +3296,29 @@ function renderEtapasTab(p){
   }
   return wrap;
 }
+
 function renderEtapaCard(p, fase, et){
   const d = p.etapas[et.key];
   const isEjecucion = et.key === 'ejecucion';
   const card = document.createElement('div');
   card.className = 'etapa-card' + (d.active ? ' active' : '');
 
+  const tipoEjecucion = d.tipoEjecucion || 'construccion';
+  const showFinDiseno = tipoEjecucion === 'diseno_construccion';
+  const finDisenoVal = d.finDiseno || '';
+
   let distTxt = '—';
   if (isEjecucion){
     const dist = getEjecucionDistribution(p);
-    if (dist) distTxt = `${dist.months} mes(es) × ${fmtCRC(dist.monthly)}`;
+    if (dist){
+      if (dist.tipoEjecucion === 'diseno_construccion'){
+        distTxt = `Diseño: ${dist.designMonths} mes(es) × ${fmtCRC(dist.designMonthly)}<br>Construcción: ${dist.constructionMonths} mes(es) × ${fmtCRC(dist.constructionMonthly)}`;
+      } else {
+        distTxt = `${dist.months} mes(es) × ${fmtCRC(dist.monthly)}`;
+      }
+    } else if (showFinDiseno){
+      distTxt = 'Complete las fechas para calcular';
+    }
   }
 
   card.innerHTML = `
@@ -3201,6 +3333,26 @@ function renderEtapaCard(p, fase, et){
         <div><label style="font-size:11px;font-weight:700;color:#1B294E;text-transform:uppercase">Fin Programado</label>${dateInputHTML('fp-'+et.key, d.finProg||'')}</div>
         <div><label style="font-size:11px;font-weight:700;color:#1B294E;text-transform:uppercase">% Avance</label><input type="number" min="0" max="100" class="form-control" id="pr-${et.key}" value="${d.progress||0}"></div>
       </div>
+      ${isEjecucion ? `
+        <div class="etapa-tipo-ejecucion-row">
+          <div class="row" style="margin-bottom:0">
+            <div>
+              <label style="font-size:11px;font-weight:700;color:#1B294E;text-transform:uppercase">Tipo de Ejecución</label>
+              <select class="form-control" id="tipo-ejecucion">
+                ${TIPOS_EJECUCION.map(t => `<option value="${t.key}" ${tipoEjecucion===t.key?'selected':''}>${t.label}</option>`).join('')}
+              </select>
+            </div>
+            <div id="fin-diseno-wrap" style="display:${showFinDiseno?'block':'none'}">
+              <label style="font-size:11px;font-weight:700;color:#1B294E;text-transform:uppercase">Fecha Fin de Diseño</label>
+              ${dateInputHTML('fd-ejecucion', finDisenoVal)}
+            </div>
+          </div>
+          <div class="hint" style="margin-top:6px">
+            <strong>Construcción:</strong> el monto se reparte linealmente entre Inicio y Fin programados.<br>
+            <strong>Diseño + Construcción:</strong> 30% del monto se distribuye entre Inicio y Fin de Diseño, y 70% entre el mes siguiente al Fin de Diseño y el Fin programado.
+          </div>
+        </div>
+      ` : ''}
       <div class="row-3">
         <div><label style="font-size:11px;font-weight:700;color:#1B294E;text-transform:uppercase">Inicio Real</label>${dateInputHTML('ir-'+et.key, d.inicioReal||'')}</div>
         <div><label style="font-size:11px;font-weight:700;color:#1B294E;text-transform:uppercase">Fin Real</label>${dateInputHTML('fr-'+et.key, d.finReal||'')}</div>
@@ -3210,9 +3362,9 @@ function renderEtapaCard(p, fase, et){
           <div class="row-3">
             <div><label>Monto de Ejecución</label><div class="money-input"><input type="text" class="form-control" id="monto-ejecucion" value="${d.montoEjecucion ? fmtNumber(d.montoEjecucion) : ''}" placeholder="0.00"></div></div>
             <div><label>Tipo de Fondo</label><select class="form-control" id="fondo-ejecucion">${FUNDS.map(f => `<option value="${f.key}" ${(d.fondoEjecucion||'propios')===f.key?'selected':''}>${f.label}</option>`).join('')}</select></div>
-            <div><label>Distribución mensual</label><div class="form-control" style="background:#fffbe6;color:#856404;font-style:italic;text-align:right;padding-right:10px" id="dist-mensual">${distTxt}</div></div>
+            <div><label>Distribución mensual</label><div class="form-control" style="background:#fffbe6;color:#856404;font-style:italic;text-align:left;padding:8px 10px;height:auto;min-height:38px;line-height:1.4;font-size:11.5px" id="dist-mensual">${distTxt}</div></div>
           </div>
-          <div class="hint" style="margin-top:8px">El monto se reparte proporcionalmente entre cada mes entre el inicio y el fin programado, y se suma automáticamente por año en la Programación Financiera.</div>
+          <div class="hint" style="margin-top:8px">El monto se reparte automáticamente por año en la Programación Financiera.</div>
         </div>
       ` : ''}
     </div>
@@ -3229,7 +3381,15 @@ function renderEtapaCard(p, fase, et){
           const distEl = card.querySelector('#dist-mensual');
           if (distEl){
             const dist = getEjecucionDistribution(p);
-            distEl.textContent = dist ? `${dist.months} mes(es) × ${fmtCRC(dist.monthly)}` : '—';
+            if (dist){
+              if (dist.tipoEjecucion === 'diseno_construccion'){
+                distEl.innerHTML = `Diseño: ${dist.designMonths} mes(es) × ${fmtCRC(dist.designMonthly)}<br>Construcción: ${dist.constructionMonths} mes(es) × ${fmtCRC(dist.constructionMonthly)}`;
+              } else {
+                distEl.textContent = `${dist.months} mes(es) × ${fmtCRC(dist.monthly)}`;
+              }
+            } else {
+              distEl.textContent = '—';
+            }
           }
         }
         persist();
@@ -3248,12 +3408,47 @@ function renderEtapaCard(p, fase, et){
     });
 
     if (isEjecucion){
+      const tipoEl = card.querySelector('#tipo-ejecucion');
+      if (tipoEl){
+        tipoEl.addEventListener('change', e => {
+          d.tipoEjecucion = e.target.value;
+          if (d.tipoEjecucion !== 'diseno_construccion') d.finDiseno = '';
+          persist();
+          renderTab();
+        });
+      }
+
+      const fdEl = card.querySelector('#fd-ejecucion');
+      if (fdEl){
+        fdEl.addEventListener('datechange', () => {
+          d.finDiseno = fdEl.dataset.iso || '';
+          const distEl = card.querySelector('#dist-mensual');
+          if (distEl){
+            const dist = getEjecucionDistribution(p);
+            if (dist && dist.tipoEjecucion === 'diseno_construccion'){
+              distEl.innerHTML = `Diseño: ${dist.designMonths} mes(es) × ${fmtCRC(dist.designMonthly)}<br>Construcción: ${dist.constructionMonths} mes(es) × ${fmtCRC(dist.constructionMonthly)}`;
+            } else {
+              distEl.textContent = 'Complete las fechas para calcular';
+            }
+          }
+          persist();
+        });
+      }
+
       const montoEl = card.querySelector('#monto-ejecucion');
       const fondoEl = card.querySelector('#fondo-ejecucion');
       const distEl  = card.querySelector('#dist-mensual');
       const refreshDist = () => {
         const dist = getEjecucionDistribution(p);
-        if (distEl) distEl.textContent = dist ? `${dist.months} mes(es) × ${fmtCRC(dist.monthly)}` : '—';
+        if (distEl){
+          if (dist && dist.tipoEjecucion === 'diseno_construccion'){
+            distEl.innerHTML = `Diseño: ${dist.designMonths} mes(es) × ${fmtCRC(dist.designMonthly)}<br>Construcción: ${dist.constructionMonths} mes(es) × ${fmtCRC(dist.constructionMonthly)}`;
+          } else if (dist){
+            distEl.textContent = `${dist.months} mes(es) × ${fmtCRC(dist.monthly)}`;
+          } else {
+            distEl.textContent = '—';
+          }
+        }
       };
       montoEl.addEventListener('change', () => {
         const v = parseNum(montoEl.value);
@@ -3607,7 +3802,7 @@ function renderProjectHTML(p, forPrint, options = {}){
   const global = obrasTotal + landTotal;
   const spi = calcSPI(p);
   const spiTxt = spi === null ? 'N/D' : spi.toFixed(2);
-  const avance = getAvanceGlobal(p).toFixed(1);
+  const avance = getAvanceGlobal(p).toFixed(2);
   const currents = getCurrentEtapas(p);
   const currentsTxt = currents.length > 0 ? currents.map(c => FASE_LABEL[c.fase]+' / '+c.label+' ('+c.progress+'%)').join(', ') : 'Sin etapas en curso';
   const info = getFinancialViewInfo(p);
@@ -3676,16 +3871,18 @@ function renderProjectHTML(p, forPrint, options = {}){
   html += p.metaAnual ? `<p style="font-size:11pt;margin:3px 0;white-space:pre-wrap;">${escapeHtml(p.metaAnual)}</p>` : `<p style="font-size:11pt;margin:3px 0;color:#888;font-style:italic;">Sin meta registrada</p>`;
 
   html += subtitle('Etapas y Cronograma');
-  html += `<table style="${styleTable}"><thead><tr><th style="${styleTh}">Fase</th><th style="${styleTh}">Etapa</th><th style="${styleTh}">Peso</th><th style="${styleTh}">Inicio Prog.</th><th style="${styleTh}">Fin Prog.</th><th style="${styleTh}">Inicio Real</th><th style="${styleTh}">Fin Real</th><th style="${styleTh}">% Avance</th></tr></thead><tbody>`;
+  html += `<table style="${styleTable}"><thead><tr><th style="${styleTh}">Fase</th><th style="${styleTh}">Etapa</th><th style="${styleTh}">Peso</th><th style="${styleTh}">Peso Actual</th><th style="${styleTh}">Inicio Prog.</th><th style="${styleTh}">Fin Prog.</th><th style="${styleTh}">Inicio Real</th><th style="${styleTh}">Fin Real</th><th style="${styleTh}">% Avance</th></tr></thead><tbody>`;
   let hasEtapa = false;
   for (const fase in STAGES) for (const et of STAGES[fase]){
     if (!p.fases?.[fase]) continue;
     const d = p.etapas?.[et.key];
     if (!d?.active) continue;
     hasEtapa = true;
-    html += `<tr><td style="${styleTd}">${FASE_LABEL[fase]}</td><td style="${styleTd}">${et.label}</td><td style="${styleTd}">${et.weight}%</td><td style="${styleTd}">${fmtDate(d.inicioProg)}</td><td style="${styleTd}">${fmtDate(d.finProg)}</td><td style="${styleTd}">${fmtDate(d.inicioReal)}</td><td style="${styleTd}">${fmtDate(d.finReal)}</td><td style="${styleTd}">${Number(d.progress)||0}%</td></tr>`;
+    const progress = Number(d.progress)||0;
+    const pesoActual = et.weight > 0 ? (et.weight * progress / 100).toFixed(2) : '—';
+    html += `<tr><td style="${styleTd}">${FASE_LABEL[fase]}</td><td style="${styleTd}">${et.label}</td><td style="${styleTd}">${et.weight}%</td><td style="${styleTd};text-align:right;font-weight:700;color:#a8843e">${pesoActual}</td><td style="${styleTd}">${fmtDate(d.inicioProg)}</td><td style="${styleTd}">${fmtDate(d.finProg)}</td><td style="${styleTd}">${fmtDate(d.inicioReal)}</td><td style="${styleTd}">${fmtDate(d.finReal)}</td><td style="${styleTd}">${progress}%</td></tr>`;
   }
-  if (!hasEtapa) html += `<tr><td colspan="8" style="${styleTd};text-align:center;color:#888">Sin etapas activas</td></tr>`;
+  if (!hasEtapa) html += `<tr><td colspan="9" style="${styleTd};text-align:center;color:#888">Sin etapas activas</td></tr>`;
   html += `</tbody></table>`;
 
   html += subtitle('Dificultades');
@@ -3942,8 +4139,8 @@ function addProjectConsolidatedSheet(wb, project, prefix=''){
   rows.push([]);
   rows.push(['INDICADORES']);
   rows.push(['SPI', spi === null ? 'N/D' : spi.toFixed(2)]);
-  rows.push(['Avance Global (%)', getAvanceGlobal(project).toFixed(1)]);
-  rows.push(['Avance ' + AVANCE_HITOS_LABEL + ' (%)', getAvancePerfilToDiseno(project).toFixed(1)]);
+  rows.push(['Avance Global (%)', getAvanceGlobal(project).toFixed(2)]);
+  rows.push(['Avance ' + AVANCE_HITOS_LABEL + ' (%)', getAvancePerfilToDiseno(project).toFixed(2)]);
   rows.push(['Monto Obras', getMontoObras(project)]);
   rows.push(['Monto Terrenos (computable)', landTotal]);
   rows.push(['Monto Global', getMontoGlobal(project)]);
@@ -3955,16 +4152,18 @@ function addProjectConsolidatedSheet(wb, project, prefix=''){
   rows.push(['Meta Anual', project.metaAnual || '—']);
   rows.push([]);
   rows.push(['ETAPAS Y CRONOGRAMA']);
-  rows.push(['Fase','Etapa','Peso (%)','Inicio Prog.','Fin Prog.','Inicio Real','Fin Real','% Avance']);
+  rows.push(['Fase','Etapa','Peso (%)','Peso Actual','Inicio Prog.','Fin Prog.','Inicio Real','Fin Real','% Avance']);
   let hasEtapa = false;
   for (const fase in STAGES) for (const et of STAGES[fase]){
     if (!project.fases?.[fase]) continue;
     const d = project.etapas?.[et.key];
     if (!d?.active) continue;
     hasEtapa = true;
-    rows.push([FASE_LABEL[fase], et.label, et.weight, fmtDate(d.inicioProg), fmtDate(d.finProg), fmtDate(d.inicioReal), fmtDate(d.finReal), Number(d.progress)||0]);
+    const progress = Number(d.progress)||0;
+    const pesoActual = et.weight > 0 ? (et.weight * progress / 100).toFixed(2) : '—';
+    rows.push([FASE_LABEL[fase], et.label, et.weight, pesoActual, fmtDate(d.inicioProg), fmtDate(d.finProg), fmtDate(d.inicioReal), fmtDate(d.finReal), progress]);
   }
-  if (!hasEtapa) rows.push(['Sin etapas activas','','','','','','','']);
+  if (!hasEtapa) rows.push(['Sin etapas activas','','','','','','','','']);
   rows.push([]);
   rows.push(['DIFICULTADES']); rows.push(['Descripción','Prioridad']);
   if (!project.difficulties?.length) rows.push(['Sin registros','']); else project.difficulties.forEach(d => rows.push([d.desc||'—', d.priority||'—']));
@@ -4016,7 +4215,7 @@ function addProjectConsolidatedSheet(wb, project, prefix=''){
     if (info.hasAggregation){ rows.push([`* El año ${info.cutoff} incluye montos de años anteriores: ${info.aggregated.join(', ')}`]); }
   }
   const ws = XLSX.utils.aoa_to_sheet(rows);
-  ws['!cols'] = [{wch:28},{wch:24},{wch:14},{wch:14},{wch:14},{wch:14},{wch:14},{wch:12}];
+  ws['!cols'] = [{wch:28},{wch:24},{wch:14},{wch:14},{wch:14},{wch:14},{wch:14},{wch:14},{wch:12}];
   const base = (prefix ? prefix + ' - ' : '') + (project.name || 'Proyecto');
   XLSX.utils.book_append_sheet(wb, ws, safeSheet(base));
 }
@@ -4037,7 +4236,7 @@ async function exportXLSBulk(projects){
     const spi = calcSPI(p);
     resumen.push([p.name, p.bpip, p.categoria||'', p.codigoSistema||'', Number(p.poblacionBeneficiada)||0, p.leader, locationsToString(p),
       currents.map(c => FASE_LABEL[c.fase]+'/'+c.label).join(' + ') || '—',
-      getAvanceGlobal(p).toFixed(1), spi===null?'N/D':spi.toFixed(2),
+      getAvanceGlobal(p).toFixed(2), spi===null?'N/D':spi.toFixed(2),
       getMontoObras(p), getLandTotal(p), getMontoGlobal(p),
       p.requiereSC ? (p.scEstado||'Requiere SC') : '',
       (p.scRegistros||[]).map(r => r.consecutivo).join(', '),
@@ -4082,6 +4281,7 @@ function buildEtapasTableForPPTX(project, BLUE, WHITE){
     { text:'Fase', options:{bold:true, fill:BLUE, color:WHITE, align:'center'} },
     { text:'Etapa', options:{bold:true, fill:BLUE, color:WHITE, align:'center'} },
     { text:'Peso', options:{bold:true, fill:BLUE, color:WHITE, align:'center'} },
+    { text:'Peso Actual', options:{bold:true, fill:BLUE, color:WHITE, align:'center'} },
     { text:'Inicio Prog.', options:{bold:true, fill:BLUE, color:WHITE, align:'center'} },
     { text:'Fin Prog.', options:{bold:true, fill:BLUE, color:WHITE, align:'center'} },
     { text:'Inicio Real', options:{bold:true, fill:BLUE, color:WHITE, align:'center'} },
@@ -4094,9 +4294,11 @@ function buildEtapasTableForPPTX(project, BLUE, WHITE){
     const d = project.etapas?.[et.key];
     if (!d?.active) continue;
     has = true;
-    rows.push([FASE_LABEL[fase], et.label, et.weight > 0 ? et.weight+'%' : '—', fmtDate(d.inicioProg), fmtDate(d.finProg), fmtDate(d.inicioReal), fmtDate(d.finReal), (Number(d.progress)||0)+'%']);
+    const progress = Number(d.progress)||0;
+    const pesoActual = et.weight > 0 ? (et.weight * progress / 100).toFixed(2) : '—';
+    rows.push([FASE_LABEL[fase], et.label, et.weight > 0 ? et.weight+'%' : '—', pesoActual, fmtDate(d.inicioProg), fmtDate(d.finProg), fmtDate(d.inicioReal), fmtDate(d.finReal), progress+'%']);
   }
-  if (!has) rows.push([{text:'Sin etapas activas', options:{colspan:8, align:'center', italic:true, color:'888888'}},{},{},{},{},{},{},{}]);
+  if (!has) rows.push([{text:'Sin etapas activas', options:{colspan:9, align:'center', italic:true, color:'888888'}},{},{},{},{},{},{},{},{}]);
   return rows;
 }
 function buildFinancieroTableForPPTX(project, BLUE, WHITE, tot, landTotal, global, info){
@@ -4220,7 +4422,7 @@ async function addProjectSlidesToPPTX(pptx, project){
   s1.addText(`${getSpanishMonth(now)} ${now.getFullYear()}`, { x:0.5, y:4.15, w:12.33, h:0.4, fontSize:16, color:WHITE, align:'center' });
   const kpis = [
     { label:'SPI', value: spi === null ? 'N/D' : spi.toFixed(2), sub: spiLabel(spi), color: spiColor },
-    { label:'AVANCE GLOBAL', value: avance.toFixed(1)+'%', sub:'Ponderado por peso de etapa', color: GOLD },
+    { label:'AVANCE GLOBAL', value: avance.toFixed(2)+'%', sub:'Ponderado por peso de etapa', color: GOLD },
     { label:'MONTO GLOBAL', value: fmtCRC(global), sub:`Obras: ${fmtCRC(obrasTotal)}  |  Terr.: ${fmtCRC(landTotal)}${landNC>0?` (exc. ${fmtCRC(landNC)})`:''}`, color: GOLD }
   ];
   kpis.forEach((k,i)=>{
@@ -4293,7 +4495,7 @@ async function addProjectSlidesToPPTX(pptx, project){
   s4.addShape(pptx.ShapeType.rect, { x:0.5, y:1.55, w:3, h:0.06, fill:{color:GOLD}, line:{color:GOLD} });
   const etRows = buildEtapasTableForPPTX(project, BLUE, WHITE);
   const etY = computeCenteredY(etRows.length, 12, 1.85, 7.3);
-  s4.addTable(etRows, { x: 0.4, y: etY, w: 12.53, colW: [1.7, 2.3, 0.9, 1.5, 1.5, 1.5, 1.5, 1.63], fontSize: 12, border: { pt:1, color:'CCCCCC' }, valign: 'middle' });
+  s4.addTable(etRows, { x: 0.4, y: etY, w: 12.53, colW: [1.55, 2.1, 0.85, 1.1, 1.45, 1.45, 1.45, 1.45, 1.13], fontSize: 11, border: { pt:1, color:'CCCCCC' }, valign: 'middle' });
 
   let s5 = pptx.addSlide();
   s5.background = { color: WHITE };
@@ -4500,7 +4702,7 @@ function renderArchiveList(){
             ${p.lastModifiedBy ? `<div><strong>Última modificación:</strong> ${escapeHtml(p.lastModifiedBy)}</div>` : ''}
           </div>
           <div class="card-row" style="margin-top:8px"><span class="lbl">SPI:</span><span class="val">${spText}</span></div>
-          <div class="card-row"><span class="lbl">Avance:</span><span class="val">${getAvanceGlobal(p).toFixed(1)}%</span></div>
+          <div class="card-row"><span class="lbl">Avance:</span><span class="val">${getAvanceGlobal(p).toFixed(2)}%</span></div>
           <div class="card-row"><span class="lbl">Monto global:</span><span class="val">${fmtCRC(getMontoGlobal(p))}</span></div>
           <div class="card-actions">
             <button class="btn btn-sm btn-view" data-arch-act="view" data-id="${p.id}">Ver</button>
