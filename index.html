@@ -64,8 +64,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-s
 .project-list-dropdown[open] summary::before,.dashboard-dropdown[open] summary::before{transform:rotate(90deg)}
 .project-list-dropdown summary:hover,.dashboard-dropdown summary:hover{background:#ebeef5}
 .summary-count{background:var(--aya-dorado);color:#fff;padding:2px 10px;border-radius:12px;font-size:11px;font-weight:700;margin-left:auto}
-
-/* ─── LISTA PROYECTOS: 5 columnas con MIDEPLAN ─── */
 .project-list-body{max-height:45vh;overflow-y:auto;overflow-x:hidden;padding:4px}
 .project-list-header-row{display:grid;grid-template-columns:130px 1fr 160px 70px 80px;gap:10px;padding:8px 12px;font-size:10.5px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.4px;border-bottom:1px solid var(--aya-gris);position:sticky;top:0;background:white;z-index:1}
 .project-list-item{display:grid;grid-template-columns:130px 1fr 160px 70px 80px;gap:10px;padding:9px 12px;border-radius:5px;align-items:center;font-size:13px;cursor:pointer;transition:background .1s;border-bottom:1px solid #f5f5f5}
@@ -126,22 +124,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-s
 .spi-warn{background:#fff3cd;color:#856404}
 .spi-bad{background:#f8d7da;color:#721c24}
 .spi-na{background:#e9ecef;color:#6c757d}
-
-/* ─── SC INDICATOR en tarjeta ─── */
 .card-sc-indicator{display:flex;align-items:center;gap:6px;padding:6px 10px;border-radius:6px;font-size:11.5px;font-weight:700;margin-top:4px}
 .card-sc-indicator .sc-consec{margin-left:auto;font-family:'Courier New',monospace;font-size:11px;opacity:.85}
 .card-sc-indicator.sc-requiere{background:#fff3cd;color:#856404;border-left:3px solid #f39c12}
 .card-sc-indicator.sc-elaboracion{background:#ffeacc;color:#b86000;border-left:3px solid #e67e22}
 .card-sc-indicator.sc-enviada{background:#e3f0ff;color:#0c4a8a;border-left:3px solid #3498db}
 .card-sc-indicator.sc-aprobada{background:#d4edda;color:#155724;border-left:3px solid #27ae60}
-
-/* ─── ETAPAS CON RETRASO bajo SPI ─── */
 .card-delayed-stages{padding:8px 10px;border-radius:6px;background:#fef4f4;border-left:3px solid #e74c3c;margin-top:4px}
 .card-delayed-stages .cds-title{font-size:11px;font-weight:700;color:#721c24;text-transform:uppercase;letter-spacing:.3px;margin-bottom:5px}
 .card-delayed-stages .cds-item{display:flex;justify-content:space-between;font-size:11.5px;color:#333;padding:2px 0;gap:8px;align-items:center}
 .card-delayed-stages .cds-item .cds-label{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0}
 .card-delayed-stages .cds-item .cds-info{color:#721c24;font-weight:700;flex-shrink:0;font-size:11px}
-
 .card-actions{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
 .export-menu{position:relative;display:inline-block}
 .export-dropdown{display:none;position:absolute;right:0;top:100%;background:#fff;border-radius:6px;box-shadow:0 4px 16px rgba(0,0,0,.18);min-width:170px;z-index:50;overflow:hidden;border:1px solid var(--aya-gris)}
@@ -347,8 +340,6 @@ td input::placeholder{color:#bbb;font-style:italic}
 .mideplan-circle .circle.zero{opacity:.35;filter:grayscale(0.7)}
 .mideplan-circle .lbl{font-size:11px;color:#666;font-weight:700;text-transform:uppercase;letter-spacing:.3px;text-align:center;max-width:110px;line-height:1.3}
 .mideplan-na-note{font-size:11px;color:#999;text-align:center;width:100%;margin-top:6px;font-style:italic}
-
-/* ─── SC BADGE en VER ─── */
 .sc-badge-view{display:inline-block;padding:6px 14px;border-radius:16px;font-size:12.5px;font-weight:700;border:2px solid}
 .sc-badge-view.sc-requiere{background:#fff3cd;color:#856404;border-color:#f39c12}
 .sc-badge-view.sc-elaboracion{background:#ffeacc;color:#b86000;border-color:#e67e22}
@@ -673,7 +664,6 @@ const FUNDS = [
 const FIGURAS_NO_COMPUTABLES = ['Convenio', 'Donación'];
 const AUTO_GOLD_COLOR = '#a8843e';
 
-// Helper para clase CSS del estado SC
 function scClass(estado){
   if (estado === 'SC Aprobada') return 'aprobada';
   if (estado === 'SC Enviada') return 'enviada';
@@ -1049,7 +1039,6 @@ function migrateProject(p){
   if (p.archivedBy === undefined) p.archivedBy = '';
   if (p.createdBy === undefined) p.createdBy = '';
   if (p.lastModifiedBy === undefined) p.lastModifiedBy = '';
-  // SC fields (nuevos)
   if (p.requiereSC === undefined) p.requiereSC = false;
   if (p.scEstado === undefined) p.scEstado = '';
   if (p.requiereSC && !p.scEstado) p.scEstado = 'Requiere SC';
@@ -1110,21 +1099,54 @@ function getCurrentEtapas(p){
   return out;
 }
 
-// NUEVA: Etapas con retraso (fin programado ya pasó y avance < 100%)
+// ─── NUEVA: Etapas con retraso (solo se activa cuando SPI < 0.90) ───
+// Compara % planificado vs % real de cada etapa activa con peso > 0.
 function getDelayedEtapas(p){
+  const spi = calcSPI(p);
+  if (spi === null || spi >= 0.90) return [];
+
   const today = new Date(); today.setHours(0,0,0,0);
   const out = [];
   for (const fase in STAGES) for (const et of STAGES[fase]){
     if (!p.fases?.[fase]) continue;
     const d = p.etapas?.[et.key];
-    if (!d?.active) continue;
-    if (Number(d.progress) >= 100) continue;
-    if (!d.finProg) continue;
-    const fin = new Date(d.finProg + 'T00:00:00');
-    if (isNaN(fin)) continue;
-    if (today > fin){
-      const daysLate = Math.floor((today - fin) / 86400000);
-      out.push({ fase, label: et.label, key: et.key, progress: Number(d.progress)||0, daysLate });
+    if (!d?.active || et.weight <= 0) continue;
+
+    const progress = Number(d.progress) || 0;
+    if (progress >= 100) continue;
+
+    // Calcular % planificado a la fecha de hoy
+    let planned = 0;
+    if (d.inicioProg && d.finProg){
+      const s = new Date(d.inicioProg + 'T00:00:00');
+      const e = new Date(d.finProg + 'T00:00:00');
+      if (!isNaN(s) && !isNaN(e) && e > s){
+        if (today >= e) planned = 100;
+        else if (today > s) planned = ((today - s) / (e - s)) * 100;
+      } else if (!isNaN(s) && today >= s){
+        planned = 100;
+      }
+    } else if (d.inicioProg){
+      const s = new Date(d.inicioProg + 'T00:00:00');
+      if (!isNaN(s) && today >= s) planned = 100;
+    }
+
+    const gap = planned - progress;
+    const hasFinProg = d.finProg && /^\d{4}-\d{2}-\d{2}$/.test(d.finProg);
+    const pastDue = hasFinProg && new Date(d.finProg + 'T00:00:00') < today;
+
+    // Solo cuenta como retraso si hay brecha positiva o ya venció el fin programado
+    if (gap > 1 || pastDue){
+      let daysLate = 0;
+      if (hasFinProg){
+        const fin = new Date(d.finProg + 'T00:00:00');
+        if (!isNaN(fin) && today > fin) daysLate = Math.floor((today - fin) / 86400000);
+      }
+      out.push({
+        fase, label: et.label, key: et.key,
+        progress, planned: Math.round(planned),
+        daysLate, gap: Math.max(0, Math.round(gap))
+      });
     }
   }
   return out;
@@ -1651,7 +1673,6 @@ function renderProjectList(){
     body.innerHTML = '<div style="text-align:center;padding:20px;color:#888;font-size:13px">No hay proyectos registrados</div>';
     return;
   }
-  // NUEVA estructura: 5 columnas (BPIP | Nombre | Líder | SPI | Semáforo MIDEPLAN)
   let html = `<div class="project-list-header-row"><span>BPIP</span><span>Nombre del Proyecto</span><span class="leader-col">Líder</span><span style="text-align:center">SPI</span><span style="text-align:center">Semáforo</span></div>`;
   html += sorted.map(p => {
     const spi = calcSPI(p);
@@ -1852,6 +1873,13 @@ function renderGrid(){
   if (document.getElementById('dashboardDropdown')?.open){ setTimeout(renderDashboard, 30); }
 }
 
+// Helper: indica si se debe sugerir SC por condición (para mostrar en card sin editar aún)
+function shouldSuggestSC(p){
+  const spi = calcSPI(p);
+  const midStatus = getMideplanStatus(p);
+  return (spi !== null && spi < 0.65) || midStatus === 'red';
+}
+
 function createCard(p){
   const el = document.createElement('div');
   el.className = 'card' + (state.selected.has(p.id) ? ' selected' : '');
@@ -1879,16 +1907,19 @@ function createCard(p){
     </div>
   ` : '';
 
-  // SC indicator (sobre SPI, solo si requiereSC)
-  const scIndicatorHtml = p.requiereSC ? `
-    <div class="card-sc-indicator sc-${scClass(p.scEstado)}">
+  // SC indicator: se muestra si requiereSC o si las condiciones lo sugieren
+  const autoSuggest = !p.requiereSC && shouldSuggestSC(p);
+  const showSC = p.requiereSC || autoSuggest;
+  const scDisplayState = p.requiereSC ? (p.scEstado || 'Requiere SC') : 'Requiere SC';
+  const scIndicatorHtml = showSC ? `
+    <div class="card-sc-indicator sc-${scClass(scDisplayState)}">
       <span>📋</span>
-      <span>${escapeHtml(p.scEstado || 'Requiere SC')}</span>
+      <span>${escapeHtml(scDisplayState)}</span>
       ${(p.scRegistros && p.scRegistros[0] && p.scRegistros[0].consecutivo) ? `<span class="sc-consec">#${escapeHtml(p.scRegistros[0].consecutivo)}</span>` : ''}
     </div>
   ` : '';
 
-  // Etapas con retraso (debajo de SPI)
+  // Etapas con retraso (nueva lógica: solo cuando SPI < 0.90)
   const delayed = getDelayedEtapas(p);
   const delayedHtml = delayed.length > 0 ? `
     <div class="card-delayed-stages">
@@ -1896,7 +1927,7 @@ function createCard(p){
       ${delayed.map(ds => `
         <div class="cds-item">
           <span class="cds-label">${FASE_LABEL[ds.fase]} / ${ds.label}</span>
-          <span class="cds-info">${ds.progress}% · ${ds.daysLate}d</span>
+          <span class="cds-info">${ds.progress}%${ds.daysLate > 0 ? ` · ${ds.daysLate}d` : ''}${ds.gap > 0 ? ` · −${ds.gap}pp` : ''}</span>
         </div>
       `).join('')}
     </div>
@@ -2129,7 +2160,6 @@ function buildTeamViewHTML(team, diff){
   return html;
 }
 
-// NUEVA: HTML de la sección SC en la ventana VER
 function buildSCViewHTML(p, diff){
   if (!p.requiereSC) return '';
   const scDiff = diff && diff.sc;
@@ -2149,7 +2179,7 @@ function buildSCViewHTML(p, diff){
       <thead><tr><th>Consecutivo</th><th>Fecha Aprobación</th><th>Registrado</th></tr></thead>
       <tbody>
         ${registros.map(r => `
-          <tr${scDiff && scDiff.registros ? ' class="diff-changed-cell-row"' : ''}>
+          <tr>
             <td style="font-family:'Courier New',monospace;font-weight:700">${escapeHtml(r.consecutivo||'—')}</td>
             <td>${fmtDate(r.fecha) || '—'}</td>
             <td style="font-size:11px;color:#888">${fmtDateTime(r.fechaRegistro) || '—'}</td>
@@ -2486,18 +2516,38 @@ function closeConfirm(){
 }
 
 let currentTab = 'general';
+
 function openEditor(id, isNew = false){
   state.editingId = id;
   state.isNewProject = !!isNew;
   currentTab = 'general';
   state.dirty = false;
   const p = getEditingProject();
-  if (p){ const snap = JSON.parse(JSON.stringify(p)); delete snap.history; state.editorSnapshot = snap; }
-  else { state.editorSnapshot = null; }
+  if (p){
+    // ─── Auto-check "Requiere SC" si SPI < 0.65 o MIDEPLAN rojo ───
+    // Se hace ANTES del snapshot para que sea parte del estado base del editor.
+    if (!isNew){
+      const spi = calcSPI(p);
+      const midStatus = getMideplanStatus(p);
+      const shouldAutoSC = (spi !== null && spi < 0.65) || midStatus === 'red';
+      if (shouldAutoSC && !p.requiereSC){
+        p.requiereSC = true;
+        if (!p.scEstado) p.scEstado = 'Requiere SC';
+        save(); // persistir el auto-check (queda como parte del estado del proyecto)
+      }
+    }
+    // Snapshot DESPUÉS del auto-check
+    const snap = JSON.parse(JSON.stringify(p));
+    delete snap.history;
+    state.editorSnapshot = snap;
+  } else {
+    state.editorSnapshot = null;
+  }
   $('#editorModal').classList.add('open');
   updateArchiveButton();
   renderTab();
 }
+
 function closeEditor(){
   state.editingId = null; state.dirty = false; state.editorSnapshot = null; state.isNewProject = false;
   $('#editorModal').classList.remove('open');
@@ -2546,6 +2596,9 @@ function renderGeneralTab(p){
   const wrap = document.createElement('div');
   const allLeaders = getAllLeaders();
   const midStatus = getMideplanStatus(p);
+  const spiNow = calcSPI(p);
+  const autoSCTxt = (spiNow !== null && spiNow < 0.65) ? 'SPI < 0.65' : (midStatus === 'red' ? 'MIDEPLAN en rojo' : '');
+  const showAutoSCHint = !!autoSCTxt && p.requiereSC;
   wrap.innerHTML = `
     <div class="row">
       <div class="form-group"><label>Nombre del Proyecto</label><input class="form-control" id="f-name" value="${escapeHtml(p.name)}" placeholder="Ej: Construcción de tanque de almacenamiento"></div>
@@ -2571,7 +2624,6 @@ function renderGeneralTab(p){
       </div>
     </div>
 
-    <!-- NUEVA SECCIÓN: SOLICITUD DE CAMBIO -->
     <div class="section-title" style="font-size:13px;margin-top:8px">Solicitud de Cambio (SC)</div>
     <div class="row">
       <div class="form-group" style="margin-bottom:8px">
@@ -2579,6 +2631,7 @@ function renderGeneralTab(p){
           <input type="checkbox" id="f-requiere-sc" ${p.requiereSC?'checked':''}>
           Requiere Solicitud de Cambio
         </label>
+        ${showAutoSCHint ? `<div class="hint" style="color:#c0392b;font-weight:700;margin-top:4px">⚠️ Activo automáticamente por: ${escapeHtml(autoSCTxt)}</div>` : ''}
       </div>
       <div class="form-group" id="sc-estado-group" style="margin-bottom:8px;display:${p.requiereSC?'block':'none'}">
         <label>Estado de la Solicitud</label>
@@ -2772,7 +2825,6 @@ function renderGeneralTab(p){
   const rm = wrap.querySelector('#mapRemove');
   if (rm) rm.addEventListener('click', () => { p.mapImage = ''; persist(); renderTab(); });
 
-  // ─── SC: Checkbox "Requiere SC" ───
   const reqEl = wrap.querySelector('#f-requiere-sc');
   if (reqEl){
     reqEl.addEventListener('change', e => {
@@ -2783,7 +2835,6 @@ function renderGeneralTab(p){
     });
   }
 
-  // ─── SC: Selector de estado ───
   const estadoEl = wrap.querySelector('#f-sc-estado');
   if (estadoEl){
     estadoEl.addEventListener('change', e => {
@@ -2793,7 +2844,6 @@ function renderGeneralTab(p){
     });
   }
 
-  // ─── SC: Consecutivo (input, sin re-render) ───
   const consecEl = wrap.querySelector('#f-sc-consec');
   if (consecEl){
     consecEl.addEventListener('input', e => {
@@ -2803,7 +2853,6 @@ function renderGeneralTab(p){
     });
   }
 
-  // ─── SC: Fecha (datechange, sin re-render) ───
   const fechaEl = wrap.querySelector('#f-sc-fecha');
   if (fechaEl){
     fechaEl.addEventListener('datechange', () => {
@@ -2813,7 +2862,6 @@ function renderGeneralTab(p){
     });
   }
 
-  // ─── SC: Registrar aprobación ───
   const btnReg = wrap.querySelector('#btnRegistrarSC');
   if (btnReg){
     btnReg.addEventListener('click', () => {
@@ -2822,7 +2870,6 @@ function renderGeneralTab(p){
       if (!consec){ alert('Ingrese el consecutivo de aprobación antes de registrar.'); return; }
       if (!fecha){ alert('Ingrese la fecha de aprobación antes de registrar.'); return; }
       p.scRegistros = p.scRegistros || [];
-      // Evitar duplicado exacto del consecutivo
       if (p.scRegistros.some(r => (r.consecutivo||'').trim().toLowerCase() === consec.toLowerCase())){
         if (!confirm('Ya existe un registro con el consecutivo "' + consec + '". ¿Desea agregarlo de nuevo?')) return;
       }
@@ -2838,7 +2885,6 @@ function renderGeneralTab(p){
     });
   }
 
-  // ─── SC: Eliminar registro del historial ───
   wrap.querySelectorAll('[data-del-sc]').forEach(btn => {
     btn.addEventListener('click', () => {
       const idx = Number(btn.dataset.delSc);
@@ -4179,7 +4225,6 @@ async function addProjectSlidesToPPTX(pptx, project){
     }
   }
 
-  // Slide SC si aplica
   if (project.requiereSC){
     let sSC = pptx.addSlide();
     sSC.background = { color: WHITE };
@@ -4389,6 +4434,14 @@ function handleEditorClose(){
         renderGrid();
       },
       onCancel: () => {
+        // ─── REVERTIR al estado del snapshot (descartar cambios de esta apertura) ───
+        if (state.editorSnapshot){
+          const preservedHistory = p.history;
+          Object.keys(p).forEach(k => { delete p[k]; });
+          Object.assign(p, JSON.parse(JSON.stringify(state.editorSnapshot)));
+          p.history = preservedHistory;
+          save();
+        }
         closeEditor();
         renderGrid();
       }
