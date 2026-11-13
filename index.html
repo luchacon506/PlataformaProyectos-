@@ -1245,18 +1245,38 @@ function getDelayedEtapas(p){
 
     if (gap > 1 || pastDue){
       let daysLate = 0;
-      let businessDaysLate = 0;
-      if (hasFinProg){
+      let businessDaysLate = null;
+      let delayType = 'none';
+
+      if (d.inicioProg && d.finProg){
+        const s = new Date(d.inicioProg + 'T00:00:00');
+        const e = new Date(d.finProg + 'T00:00:00');
+        if (!isNaN(s) && !isNaN(e) && e > s){
+          if (today > e){
+            daysLate = Math.floor((today - e) / 86400000);
+            businessDaysLate = businessDaysBetween(e, today);
+            delayType = 'pastdue';
+          } else if (gap > 0){
+            const totalBD = businessDaysBetween(s, e);
+            if (totalBD > 0){
+              businessDaysLate = Math.max(1, Math.round((gap / 100) * totalBD));
+              delayType = 'equivalent';
+            }
+          }
+        }
+      } else if (hasFinProg){
         const fin = new Date(d.finProg + 'T00:00:00');
         if (!isNaN(fin) && today > fin){
           daysLate = Math.floor((today - fin) / 86400000);
           businessDaysLate = businessDaysBetween(fin, today);
+          delayType = 'pastdue';
         }
       }
+
       out.push({
         fase, label: et.label, key: et.key,
         progress, planned: Math.round(planned),
-        daysLate, businessDaysLate,
+        daysLate, businessDaysLate, delayType,
         gap: Math.max(0, Math.round(gap))
       });
     }
@@ -2263,18 +2283,31 @@ function createCard(p){
   const delayedHtml = delayed.length > 0 ? `
     <div class="card-delayed-stages">
       <div class="cds-title">⏱ Etapas con retraso</div>
-      ${delayed.map(ds => `
-        <div class="cds-item">
-          <span class="cds-label" title="${FASE_LABEL[ds.fase]} / ${ds.label}">${FASE_LABEL[ds.fase]} / ${ds.label}</span>
-          <span class="cds-info">
-            <span class="cds-chip" title="Avance actual: porcentaje de ejecución de la etapa.">${ds.progress}%</span>
-            <span class="cds-sep">|</span>
-            <span class="cds-chip" title="pp = Puntos porcentuales pendientes entre lo planificado a hoy y lo realmente ejecutado.">${ds.gap}pp</span>
-            <span class="cds-sep">|</span>
-            <span class="cds-chip" title="d = Días hábiles de retraso desde el fin programado (excluye fines de semana y feriados de Costa Rica).">${ds.businessDaysLate}d</span>
-          </span>
-        </div>
-      `).join('')}
+      ${delayed.map(ds => {
+        const hasDays = ds.businessDaysLate !== null && ds.businessDaysLate !== undefined;
+        const dDisplay = !hasDays
+          ? '—'
+          : ds.delayType === 'equivalent'
+            ? `≈${ds.businessDaysLate}d`
+            : `${ds.businessDaysLate}d`;
+        const dTooltip = !hasDays
+          ? 'No se puede calcular: la etapa no tiene fechas de inicio y fin programadas para determinar la duración.'
+          : ds.delayType === 'equivalent'
+            ? `Días hábiles equivalentes al atraso: ${ds.gap}pp ÷ 100 × duración planificada de la etapa (en días hábiles). Aún no se alcanza la fecha fin programada, pero el avance real ya está por debajo del planificado.`
+            : `Días hábiles transcurridos desde la fecha fin programada (excluye fines de semana y feriados de Costa Rica).`;
+        return `
+          <div class="cds-item">
+            <span class="cds-label" title="${FASE_LABEL[ds.fase]} / ${ds.label}">${FASE_LABEL[ds.fase]} / ${ds.label}</span>
+            <span class="cds-info">
+              <span class="cds-chip" title="Avance actual: porcentaje de ejecución de la etapa.">${ds.progress}%</span>
+              <span class="cds-sep">|</span>
+              <span class="cds-chip" title="pp = Puntos porcentuales pendientes entre lo planificado a hoy y lo realmente ejecutado.">${ds.gap}pp</span>
+              <span class="cds-sep">|</span>
+              <span class="cds-chip" title="${dTooltip}">${dDisplay}</span>
+            </span>
+          </div>
+        `;
+      }).join('')}
     </div>
   ` : '';
 
