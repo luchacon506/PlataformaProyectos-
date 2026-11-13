@@ -160,9 +160,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-s
 .card-delphos-alert .alert-icon{font-size:15px;line-height:1}
 .card-delayed-stages{padding:8px 10px;border-radius:6px;background:#fef4f4;border-left:3px solid #e74c3c;margin-top:4px}
 .card-delayed-stages .cds-title{font-size:11px;font-weight:700;color:#721c24;text-transform:uppercase;letter-spacing:.3px;margin-bottom:5px}
-.card-delayed-stages .cds-item{display:flex;justify-content:space-between;font-size:11.5px;color:#333;padding:2px 0;gap:8px;align-items:center;cursor:help}
-.card-delayed-stages .cds-item .cds-label{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0}
-.card-delayed-stages .cds-item .cds-info{color:#721c24;font-weight:700;flex-shrink:0;font-size:11px}
+.card-delayed-stages .cds-item{display:flex;justify-content:space-between;font-size:11.5px;color:#333;padding:2px 0;gap:8px;align-items:center}
+.card-delayed-stages .cds-item .cds-label{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0;cursor:help}
+.card-delayed-stages .cds-item .cds-info{color:#721c24;font-weight:700;flex-shrink:0;font-size:11px;white-space:nowrap;display:inline-flex;align-items:center;gap:3px}
+.card-delayed-stages .cds-chip{cursor:help;padding:0 2px;border-bottom:1px dotted rgba(114,28,36,.45);transition:background .15s;border-radius:2px}
+.card-delayed-stages .cds-chip:hover{background:rgba(231,76,60,.18)}
+.card-delayed-stages .cds-sep{color:#c0392b;opacity:.55;font-weight:400}
 .card-actions{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
 .export-menu{position:relative;display:inline-block}
 .export-dropdown{display:none;position:absolute;right:0;top:100%;background:#fff;border-radius:6px;box-shadow:0 4px 16px rgba(0,0,0,.18);min-width:170px;z-index:50;overflow:hidden;border:1px solid var(--aya-gris)}
@@ -1154,6 +1157,59 @@ function getCurrentEtapas(p){
   return out;
 }
 
+/* ─── FERIADOS DE COSTA RICA Y DÍAS HÁBILES ─── */
+function getEasterDate(year){
+  const a = year % 19, b = Math.floor(year / 100), c = year % 100;
+  const d = Math.floor(b / 4), e = b % 4;
+  const f = Math.floor((b + 8) / 25), g = Math.floor((b - f + 1) / 3);
+  const h = (19 * a + b - d - g + 15) % 30;
+  const i = Math.floor(c / 4), k = c % 4;
+  const l = (32 + 2 * e + 2 * i - h - k) % 7;
+  const m = Math.floor((a + 11 * h + 22 * l) / 451);
+  const month = Math.floor((h + l - 7 * m + 114) / 31);
+  const day = ((h + l - 7 * m + 114) % 31) + 1;
+  return new Date(year, month - 1, day);
+}
+function movedToMonday(year, month, day){
+  const d = new Date(year, month - 1, day);
+  const dow = d.getDay();
+  if (dow === 1) return d;
+  if (dow >= 2 && dow <= 4) d.setDate(d.getDate() + (8 - dow));
+  else d.setDate(d.getDate() - ((dow + 6) % 7));
+  return d;
+}
+const CR_FIXED_HOLIDAYS = [[1,1],[5,1],[9,15],[12,25]];
+const CR_MOVED_HOLIDAYS = [[4,11],[7,25],[8,2],[8,15],[10,12],[12,1]];
+function isCRHoliday(date){
+  const y = date.getFullYear(), m = date.getMonth() + 1, d = date.getDate();
+  for (const [hm, hd] of CR_FIXED_HOLIDAYS) if (m === hm && d === hd) return true;
+  for (const [hm, hd] of CR_MOVED_HOLIDAYS){
+    const mv = movedToMonday(y, hm, hd);
+    if (mv.getFullYear() === y && mv.getMonth() + 1 === m && mv.getDate() === d) return true;
+  }
+  const easter = getEasterDate(y);
+  const js = new Date(easter); js.setDate(js.getDate() - 3);
+  const vs = new Date(easter); vs.setDate(vs.getDate() - 2);
+  if (m === js.getMonth() + 1 && d === js.getDate()) return true;
+  if (m === vs.getMonth() + 1 && d === vs.getDate()) return true;
+  return false;
+}
+function businessDaysBetween(startDate, endDate){
+  if (!startDate || !endDate) return 0;
+  const start = new Date(startDate); start.setHours(0,0,0,0);
+  const end = new Date(endDate); end.setHours(0,0,0,0);
+  if (isNaN(start) || isNaN(end) || end <= start) return 0;
+  let count = 0;
+  const cur = new Date(start);
+  cur.setDate(cur.getDate() + 1);
+  while (cur <= end){
+    const dow = cur.getDay();
+    if (dow !== 0 && dow !== 6 && !isCRHoliday(cur)) count++;
+    cur.setDate(cur.getDate() + 1);
+  }
+  return count;
+}
+
 function getDelayedEtapas(p){
   const spi = calcSPI(p);
   if (spi === null || spi >= 0.90) return [];
@@ -1189,14 +1245,19 @@ function getDelayedEtapas(p){
 
     if (gap > 1 || pastDue){
       let daysLate = 0;
+      let businessDaysLate = 0;
       if (hasFinProg){
         const fin = new Date(d.finProg + 'T00:00:00');
-        if (!isNaN(fin) && today > fin) daysLate = Math.floor((today - fin) / 86400000);
+        if (!isNaN(fin) && today > fin){
+          daysLate = Math.floor((today - fin) / 86400000);
+          businessDaysLate = businessDaysBetween(fin, today);
+        }
       }
       out.push({
         fase, label: et.label, key: et.key,
         progress, planned: Math.round(planned),
-        daysLate, gap: Math.max(0, Math.round(gap))
+        daysLate, businessDaysLate,
+        gap: Math.max(0, Math.round(gap))
       });
     }
   }
@@ -2147,7 +2208,6 @@ function renderGrid(){
   if (document.getElementById('dashboardDropdown')?.open){ setTimeout(renderDashboard, 30); }
 }
 
-// ─── CAMBIO: umbral de auto-SC ahora es SPI < 0.70 ───
 function shouldSuggestSC(p){
   const spi = calcSPI(p);
   const midStatus = getMideplanStatus(p);
@@ -2204,9 +2264,15 @@ function createCard(p){
     <div class="card-delayed-stages">
       <div class="cds-title">⏱ Etapas con retraso</div>
       ${delayed.map(ds => `
-        <div class="cds-item" title="Puntos Porcentuales (pp) pendiente entre lo planificado a hoy.">
-          <span class="cds-label">${FASE_LABEL[ds.fase]} / ${ds.label}</span>
-          <span class="cds-info">${ds.progress}%${ds.daysLate > 0 ? ` · ${ds.daysLate}d` : ''}${ds.gap > 0 ? ` · −${ds.gap}pp` : ''}</span>
+        <div class="cds-item">
+          <span class="cds-label" title="${FASE_LABEL[ds.fase]} / ${ds.label}">${FASE_LABEL[ds.fase]} / ${ds.label}</span>
+          <span class="cds-info">
+            <span class="cds-chip" title="Avance actual: porcentaje de ejecución de la etapa.">${ds.progress}%</span>
+            <span class="cds-sep">|</span>
+            <span class="cds-chip" title="pp = Puntos porcentuales pendientes entre lo planificado a hoy y lo realmente ejecutado.">${ds.gap}pp</span>
+            <span class="cds-sep">|</span>
+            <span class="cds-chip" title="d = Días hábiles de retraso desde el fin programado (excluye fines de semana y feriados de Costa Rica).">${ds.businessDaysLate}d</span>
+          </span>
         </div>
       `).join('')}
     </div>
@@ -2802,7 +2868,6 @@ function closeConfirm(){
 
 let currentTab = 'general';
 
-// ─── CAMBIO: auto-SC ahora dispara con SPI < 0.70 ───
 function openEditor(id, isNew = false){
   state.editingId = id;
   state.isNewProject = !!isNew;
@@ -2880,7 +2945,6 @@ function renderGeneralTab(p){
   const allLeaders = getAllLeaders();
   const midStatus = getMideplanStatus(p);
   const spiNow = calcSPI(p);
-  // ─── CAMBIO: texto de la pista ahora dice "SPI < 0.70" ───
   const autoSCTxt = (spiNow !== null && spiNow < 0.70) ? 'SPI < 0.70' : (midStatus === 'red' ? 'MIDEPLAN en rojo' : '');
   const showAutoSCHint = !!autoSCTxt && p.requiereSC;
   wrap.innerHTML = `
