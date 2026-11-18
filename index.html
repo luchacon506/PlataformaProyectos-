@@ -414,7 +414,6 @@ td input::placeholder{color:#bbb;font-style:italic}
         <button data-fmt="pdf">PDF (con ajuste de página)</button>
         <button data-fmt="doc">DOC</button>
         <button data-fmt="xls">XLS</button>
-        <button data-fmt="pptx">PPTX</button>
       </div>
     </div>
     <button class="btn btn-archive" id="btnArchived" style="margin-left:auto" title="Ver proyectos archivados">📁 Archivado</button>
@@ -1671,10 +1670,13 @@ function buildResponsablesListHTML(data){
                 const cls = spiClass(spi);
                 const spText = spi === null ? 'N/D' : spi.toFixed(2);
                 const bpip = (proj.bpip || '').trim();
+                const avance = getAvanceGlobal(proj).toFixed(1) + '%';
+                const monto = fmtCRC(getMontoGlobal(proj));
                 return `<div class="resp-project-item" data-proj-id="${proj.id}" style="display:flex;align-items:center;gap:10px;padding:6px 10px;border-radius:4px;cursor:pointer;font-size:12px;border-bottom:1px solid #e0e3eb;transition:background .1s;">
                   <span style="font-family:'Courier New',monospace;font-size:11px;color:var(--aya-dorado);font-weight:700;min-width:75px;${bpip?'':'font-style:italic;color:#aaa;'}">${bpip || 'Sin BPIP'}</span>
-                  <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--aya-azul);font-weight:600;">${escapeHtml(proj.name) || '(Sin nombre)'}</span>
-                  <span class="${cls}" style="font-size:10.5px;padding:2px 8px;border-radius:10px;font-weight:700;white-space:nowrap;">${spText}</span>
+                  <span style="font-size:11px;color:#555;font-weight:600;min-width:70px;text-align:right">${avance}</span>
+                  <span class="${cls}" style="font-size:10.5px;padding:2px 8px;border-radius:10px;font-weight:700;white-space:nowrap;">SPI ${spText}</span>
+                  <span style="margin-left:auto;font-size:11px;font-weight:700;color:var(--aya-azul);white-space:nowrap">${monto}</span>
                 </div>`;
               }).join('')
           }
@@ -1905,10 +1907,13 @@ function buildLeadersListHTML(counts){
                 const cls = spiClass(spi);
                 const spText = spi === null ? 'N/D' : spi.toFixed(2);
                 const bpip = (proj.bpip || '').trim();
+                const avance = getAvanceGlobal(proj).toFixed(1) + '%';
+                const monto = fmtCRC(getMontoGlobal(proj));
                 return `<div class="resp-project-item" data-proj-id="${proj.id}" style="display:flex;align-items:center;gap:10px;padding:6px 10px;border-radius:4px;cursor:pointer;font-size:12px;border-bottom:1px solid #e0e3eb;transition:background .1s;">
                   <span style="font-family:'Courier New',monospace;font-size:11px;color:var(--aya-dorado);font-weight:700;min-width:75px;${bpip?'':'font-style:italic;color:#aaa;'}">${bpip || 'Sin BPIP'}</span>
-                  <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--aya-azul);font-weight:600;">${escapeHtml(proj.name) || '(Sin nombre)'}</span>
-                  <span class="${cls}" style="font-size:10.5px;padding:2px 8px;border-radius:10px;font-weight:700;white-space:nowrap;">${spText}</span>
+                  <span style="font-size:11px;color:#555;font-weight:600;min-width:70px;text-align:right">${avance}</span>
+                  <span class="${cls}" style="font-size:10.5px;padding:2px 8px;border-radius:10px;font-weight:700;white-space:nowrap;">SPI ${spText}</span>
+                  <span style="margin-left:auto;font-size:11px;font-weight:700;color:var(--aya-azul);white-space:nowrap">${monto}</span>
                 </div>`;
               }).join('')
           }
@@ -4458,18 +4463,17 @@ function computeCenteredY(numRows, fontSize, availableTop, availableBottom){
 }
 
 function addPPTXStandardHeader(slide, project, pptx, BLUE, GOLD, WHITE){
-  slide.addShape(pptx.ShapeType.rect, { x:0, y:0, w:13.333, h:0.75, fill:{color:BLUE}, line:{color:BLUE} });
-  slide.addShape(pptx.ShapeType.rect, { x:0, y:0.75, w:13.333, h:0.05, fill:{color:GOLD}, line:{color:GOLD} });
+  slide.addShape(pptx.ShapeType.rect, { x:0, y:0, w:13.333, h:0.55, fill:{color:BLUE}, line:{color:BLUE} });
+  slide.addShape(pptx.ShapeType.rect, { x:0, y:0.55, w:13.333, h:0.05, fill:{color:GOLD}, line:{color:GOLD} });
   const bpip = (project.bpip || '').trim();
-  slide.addText(`BPIP: ${bpip || 'Sin BPIP'}`, { x:0.4, y:0.08, w:6, h:0.28, fontSize:11, color:GOLD, bold:true, align:'left', valign:'middle' });
-  slide.addText(project.name || 'Sin nombre', { x:0.4, y:0.4, w:8.5, h:0.3, fontSize:14, color:WHITE, bold:false, align:'left', valign:'middle' });
+  slide.addText(`BPIP: ${bpip || 'Sin BPIP'}`, { x:0.4, y:0.12, w:8.5, h:0.32, fontSize:13, color:GOLD, bold:true, align:'left', valign:'middle' });
   const midStatus = getMideplanStatus(project);
-  slide.addShape(pptx.ShapeType.rect, { x:10.3, y:0.12, w:2.8, h:0.52, fill:{color:'0a0a0a'}, line:{color:'1a1a1a'} });
-  slide.addText('MIDEPLAN', { x:10.35, y:0.2, w:1.0, h:0.35, fontSize:7, color:'cccccc', bold:true, align:'center', valign:'middle' });
+  slide.addShape(pptx.ShapeType.rect, { x:10.3, y:0.08, w:2.8, h:0.4, fill:{color:'0a0a0a'}, line:{color:'1a1a1a'} });
+  slide.addText('MIDEPLAN', { x:10.35, y:0.12, w:1.0, h:0.32, fontSize:7, color:'cccccc', bold:true, align:'center', valign:'middle' });
   const lightColors = { red:'e74c3c', orange:'f39c12', green:'27ae60' };
   ['red','orange','green'].forEach((key, i) => {
     const active = midStatus === key;
-    slide.addShape(pptx.ShapeType.ellipse, { x: 11.35 + i*0.55, y: 0.21, w: 0.34, h: 0.34, fill: { color: active ? lightColors[key] : '252525' }, line: { color: active ? lightColors[key] : '1a1a1a', width: 0.5 } });
+    slide.addShape(pptx.ShapeType.ellipse, { x: 11.35 + i*0.55, y: 0.12, w: 0.28, h: 0.28, fill: { color: active ? lightColors[key] : '252525' }, line: { color: active ? lightColors[key] : '1a1a1a', width: 0.5 } });
   });
 }
 
